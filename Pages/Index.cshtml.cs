@@ -16,7 +16,7 @@ public string? username {get;set;}
         _logger = logger;
         // OnGetAsync();
         // GetUsers();
-        username = Convert.ToString(GetUsers().FirstOrDefault().username);
+        // username = Convert.ToString(GetUsers().FirstOrDefault().username);
     }
     public List<User>  GetUsers()
     {
