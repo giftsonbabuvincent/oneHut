@@ -1,1 +1,43 @@
 @page
+@model BookingModel
+@{
+    ViewData["Title"] = "Booking page";
+}
+
+<div style="width:100%; text-align: center;"> 
+    <div>
+<table>
+    <tr>
+        <td class="width-100 text-left grid-header"><label>Bookings</label></td>
+        <td><button class="button-blue">Book</button></td>
+    </tr>
+</table>
+    </div>
+       <table class="table table-bordered table-responsive table-hover">  
+    <tr class="grid-background">  
+        <th>No.</th>  
+        <th>Guest Name</th>  
+        <th>Phone</th>  
+        <th>Check-In</th>  
+        <th>Check-Out</th>  
+        <th>Rooms</th>  
+        <th>Status</th>  
+        <th></th>  
+
+    </tr>  
+    @foreach (var usr in @Model.Bookings)  
+    {  
+        <tr>  
+            <td>@usr.No</td>  
+            <td>@usr.GuestName</td>   
+            <td><a href="">@usr.Phone</a></td>   
+            <td>@usr.CheckIn</td>   
+            <td>@usr.CheckOut</td>   
+            <td>@usr.Rooms</td>   
+            <td>@usr.Status</td>   
+            <td><a href="">Cancel</a></td>   
+  
+        </tr>  
+    }  
+</table>
+    </div> 

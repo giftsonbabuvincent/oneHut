@@ -108,3 +108,41 @@ body {
 .text-center {
   text-align: left!important; 
 }
+
+.grid-background {
+background-color: cornflowerblue;
+}
+
+.grid-header {
+  padding: 10px;
+  text-align: left;
+  background: white;
+  color: black;
+  font-size: 30px;
+}
+
+.button-blue {
+  background-color: darkblue; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 25px;
+  text-align: right;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.width-80 {
+  width: 80%;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.text-left {
+  text-align: left!important; 
+}
