@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using System.Security.Authentication;
 
 namespace oneHut.Pages;
 
@@ -15,14 +16,24 @@ public string? username {get;set;}
     {
         _logger = logger;
         // OnGetAsync();
-        // GetUsers();
-        // username = Convert.ToString(GetUsers().FirstOrDefault().username);
+         GetUsers();
+         username = Convert.ToString(GetUsers().FirstOrDefault().username);
     }
     public List<User>  GetUsers()
     {
-        string connectionString = "mongodb+srv://giftson01:Wpg5mFxVOJyhs3sq@giftson-01.fpd9fbi.mongodb.net/";  
-        MongoClient client = new MongoClient(connectionString);  
-        var database = client.GetDatabase("GiftsonDB"); 
+        //string connectionStringMongoDB = "mongodb+srv://giftson01:Wpg5mFxVOJyhs3sq@giftson-01.fpd9fbi.mongodb.net/";  
+        // New instance of CosmosClient class
+        // MongoClient client = new MongoClient(connectionString); 
+            string connectionString = 
+            @"mongodb://one-hut:ClX8trwKuFjdO9MUlfvk14bjzuPlbuG9M9SA86hWv5NKzV39kmbpr4bxZZ5OXgraRekSYarBCm1N3FMw5fTFzw==@one-hut.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@one-hut@";
+            MongoClientSettings settings = MongoClientSettings.FromUrl(
+            new MongoUrl(connectionString)
+            );
+            settings.SslSettings = 
+            new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
+            MongoClient client = new MongoClient(settings);
+        //MongoClient client = new MongoClient(connectionString,);
+        var database = client.GetDatabase("OneHutDB"); 
         var collection = database.GetCollection<User>("user");
         // Console.Write("HI");
         List<User> collections = new List<User>();
