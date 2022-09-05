@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "90IKpGlmwYn1YxB3w9VLseJ1fVuCD8BDK131jhtk6Xs=",
+  "Hash": "WLsnBfEswMtIzcrPiv/Qn1rETxvxezFwih326dhHGxU=",
   "Source": "oneHut",
   "BasePath": "_content/oneHut",
   "Mode": "Default",
@@ -83,6 +83,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\GiftsonClientWork\\SourceCode\\oneHut\\wwwroot\\Images\\blizzhomestay.jpeg",
+      "SourceId": "oneHut",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\GiftsonClientWork\\SourceCode\\oneHut\\wwwroot\\",
+      "BasePath": "_content/oneHut",
+      "RelativePath": "Images/blizzhomestay.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\blizzhomestay.jpeg"
+    },
+    {
+      "Identity": "C:\\GiftsonClientWork\\SourceCode\\oneHut\\wwwroot\\Images\\blizzhomestayadd.jpeg",
+      "SourceId": "oneHut",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\GiftsonClientWork\\SourceCode\\oneHut\\wwwroot\\",
+      "BasePath": "_content/oneHut",
+      "RelativePath": "Images/blizzhomestayadd.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\blizzhomestayadd.jpeg"
     },
     {
       "Identity": "C:\\GiftsonClientWork\\SourceCode\\oneHut\\wwwroot\\js\\site.js",
