@@ -23,6 +23,26 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Login()
+    {
+        return View(new LoginModel());
+    }
+
+    [HttpPost]
+     public IActionResult Login(LoginModel loginModel) 
+    {
+        if(String.IsNullOrEmpty(loginModel.userName) || String.IsNullOrEmpty(loginModel.password)){
+        loginModel.message = "Please enter login details!";
+        return View(loginModel);
+        }
+        // return RedirectToAction("Booking","Booking");
+        if(loginModel.userName.Equals("giftson") && loginModel.password.Equals("password1")) {
+                return RedirectToAction("Booking","Booking");
+        }
+        loginModel.message = "Login failed!";
+        return View(loginModel);
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
