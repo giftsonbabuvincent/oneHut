@@ -33,9 +33,26 @@
             <td><a href="">@usr.Phone</a></td>   
             <td>@usr.CheckIn</td>   
             <td>@usr.CheckOut</td>   
-            <td>@usr.Rooms</td>   
-            <td>@usr.Status</td>   
-            <td><a href="">Cancel</a></td>   
+            <td>@usr.Rooms</td> 
+            @if (@usr.Status.Equals("Cancelled"))
+            {
+                <td class="font-color-red">@usr.Status</td> 
+            } 
+             @if (@usr.Status.Equals("Stayed"))
+            {
+                <td class="font-color-green">@usr.Status</td> 
+            } 
+             @if (@usr.Status.Equals("Booked"))
+            {
+                <td class="font-color-darkblue">@usr.Status</td> 
+            }  
+              
+            <td>
+            @if (@usr.Status.Equals("Booked"))
+            {
+                <a href="">Cancel</a><label> / </label><a href="">Stayed</a>
+            }
+            </td>   
   
         </tr>  
     }  
