@@ -1,3 +1,12 @@
 ﻿@{
-    Layout = "_Layout";
+    //you can put pages' name into pages
+    //if routeUrl contains any of pages,the page will use _Layout as Layout page,the other pages will use _Layout1 ad Layout page
+    if (ViewBag.pageName != null && ViewBag.pageName.Contains("Booking"))
+    {
+        Layout = "_LayoutClient";
+    }
+    else {
+        Layout = "_Layout";
+    }
+
 }

@@ -49,8 +49,12 @@ public class BookingController : Controller
         bookingModel.Bookings = new List<Booking>();
         foreach (var book in collection.AsQueryable())
         {
+            book.CheckIn = Convert.ToDateTime(book.CheckIn).ToString("dd/MM/yyyy hh:mm tt");
+            book.CheckOut = Convert.ToDateTime(book.CheckOut).ToString("dd/MM/yyyy hh:mm tt");
+            
             bookingModel.Bookings.Add(book);
         }
+        ViewBag.pageName = "Booking";
         return bookingModel;
     }
     public IActionResult AddBooking()

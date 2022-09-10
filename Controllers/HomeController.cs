@@ -37,6 +37,7 @@ public class HomeController : Controller
         }
         // return RedirectToAction("Booking","Booking");
         if(loginModel.userName.Equals("giftson") && loginModel.password.Equals("password1")) {
+                
                 return RedirectToAction("Booking","Booking");
         }
         loginModel.message = "Login failed!";
@@ -47,5 +48,10 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    public IActionResult Logout()
+    {
+       return RedirectToAction("Login","Home");
     }
 }
