@@ -4,8 +4,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 public class BookingModel
 {
-    public Booking Book {get;set;}
-    public List<Booking> Bookings { get; set; }
+    public Booking Book {get;set;} = new Booking();
+    public List<Booking> Bookings { get; set; } = new List<Booking>();
 
 }
 public class Booking

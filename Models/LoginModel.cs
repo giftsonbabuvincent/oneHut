@@ -4,8 +4,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 public class LoginModel
 {
-   public string userName {get;set;}
-   public string password {get;set;}
-   public string message {get;set;}
+   public string userName {get;set;} = string.Empty;
+   public string password {get;set;} = string.Empty;
+   public string message {get;set;} = string.Empty;
 
 }
