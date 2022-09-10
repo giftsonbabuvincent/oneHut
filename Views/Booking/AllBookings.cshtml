@@ -27,7 +27,8 @@
             <td class="text-align-left">@usr.GuestName</td>   
             <td><a href="">@usr.Phone</a></td>   
             <td>@usr.CheckIn</td>   
-            <td>@usr.CheckOut</td>   
+            <td> @if (!@usr.Status.Equals("Booked"))
+            {@usr.CheckOut}</td>   
             <td>@usr.Rooms</td> 
             @if (@usr.Status.Equals("Cancelled"))
             {
