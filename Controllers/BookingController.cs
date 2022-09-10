@@ -53,4 +53,15 @@ public class BookingController : Controller
         }
         return bookingModel;
     }
+    public IActionResult AddBooking()
+    {
+        BookingModel bookingModel = new BookingModel();
+        bookingModel.Book = new Booking(){GuestName="giftson"};
+        return PartialView("AddBooking",bookingModel);
+    }
+    public IActionResult AllBookings()
+    {
+        return PartialView("AllBookings",GetBookings(new BookingModel()));
+    }
+
 }

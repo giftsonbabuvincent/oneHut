@@ -4,20 +4,21 @@ using MongoDB.Bson.Serialization.Attributes;
 
 public class BookingModel
 {
+    public Booking Book {get;set;}
     public List<Booking> Bookings { get; set; }
 
 }
 public class Booking
 {
     [BsonRepresentation(BsonType.ObjectId)] 
-    public string _id { get; set; } = null!;
-    public string No { get; set; } = null!;
-    public string GuestName { get; set; } = null!;
+    public string _id { get; set; } = string.Empty;
+    public string No { get; set; } = string.Empty;
+    public string GuestName { get; set; } = string.Empty;
 
-    public string Phone { get; set; } = null!;
-    public string CheckIn { get; set; } = null!;
-    public string CheckOut { get; set; } = null!;
-    public string Rooms { get; set; } = null!;
-    public string Status { get; set; } = null!;
+    public string Phone { get; set; } = string.Empty;
+    public string CheckIn { get; set; } = string.Empty;
+    public string CheckOut { get; set; } = string.Empty;
+    public string Rooms { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
 
 }
