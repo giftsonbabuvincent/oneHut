@@ -400,6 +400,14 @@ background-color: cornflowerblue;
 	width: 10%;
   }
 
+  .width-50px {
+	width: 50px;
+  }
+  
+  .width-70px {
+	width: 70px;
+  }
+
   .width-80px {
 	width: 80px;
   }
@@ -416,20 +424,13 @@ background-color: cornflowerblue;
 	width: 155px;
   }
 
-  .width-165px {
-	width: 165px;
+  .width-160px {
+	width: 160px;
   }
 
-  .width-70px {
-	width: 70px;
-  }
 
-  .width-50px {
-	width: 50px;
-  }
-
-  .width-190px {
-	width: 190px;
+  .width-185px {
+	width: 185px;
   }
 
   .width-200px {
