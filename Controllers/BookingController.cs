@@ -44,7 +44,7 @@ public class BookingController : Controller
         
         //MongoClient client = new MongoClient(connectionString,);
         var database = client.GetDatabase("OneHutDB"); 
-        var collection = database.GetCollection<Booking>("Booking");
+        var collection = database.GetCollection<Booking>("Booking").Find(it=>it.UserID.Equals(HttpContext.Session.GetString("_UserID"))).ToList();
         // Console.Write("HI");
         bookingModel.Bookings = new List<Booking>();
         foreach (var book in collection.AsQueryable())

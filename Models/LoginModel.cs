@@ -9,3 +9,12 @@ public class LoginModel
    public string message {get;set;} = string.Empty;
 
 }
+public class User
+{
+    [BsonRepresentation(BsonType.ObjectId)] 
+    public string _id { get; set; } = string.Empty;
+    public string UserID { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+
+}
