@@ -17,6 +17,11 @@ public class BookingController : Controller
 
     public IActionResult Booking()
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+            return RedirectToAction("Index","Home");
+        }
         return View(GetBookings(new BookingModel()));
     }
 

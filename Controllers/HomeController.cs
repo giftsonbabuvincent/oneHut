@@ -17,11 +17,23 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUserID)))
+        {
+            ViewBag.pageName = "Booking";
+        }
         return View();
     }
 
     public IActionResult Privacy()
     {
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "Booking";
+        }
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID"))) { 
+            ViewBag.pageName = "";
+            return RedirectToAction("Index","Home");}
+
         return View();
     }
 
@@ -71,6 +83,7 @@ public class HomeController : Controller
 
     public IActionResult Logout()
     {
+        HttpContext.Session.Remove(SessionUserID);
        return RedirectToAction("Login","Home");
     }
 }
