@@ -7,6 +7,8 @@ public class BookingModel
     public Booking Book {get;set;} = new Booking();
     public List<Booking> Bookings { get; set; } = new List<Booking>();
 
+    public string Message {get;set;} = string.Empty;
+
 }
 public class Booking
 {

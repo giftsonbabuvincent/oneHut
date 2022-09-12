@@ -29,11 +29,12 @@ public class OneHutData
         
         var collection = database.GetCollection<Booking>("Booking").Find(it=>it.UserID.Equals(user.UserID)).ToList();
         bookingModel.Bookings = new List<Booking>();
-        foreach (var book in collection.AsQueryable())
+        int rowNo = 0;
+        foreach (var book in collection.AsQueryable().OrderBy(it=>it._id))
         {
             book.CheckIn = Convert.ToDateTime(book.CheckIn).ToString("dd/MM/yyyy hh:mm tt");
             book.CheckOut = Convert.ToDateTime(book.CheckOut).ToString("dd/MM/yyyy hh:mm tt");
-            
+            book.No = Convert.ToString(rowNo += 1);
             bookingModel.Bookings.Add(book);
         }
         return bookingModel;
@@ -43,5 +44,21 @@ public class OneHutData
     {
         var collection = database.GetCollection<User>("User").Find(it=>it.Username.Equals(user.Username) && it.Password.Equals(user.Password)).ToList();
         return collection.FirstOrDefault();
+    }
+    
+    // insert booking
+    public BookingModel AddBooking(BookingModel bookingModel, User user)
+    {
+        database.GetCollection<Booking>("Booking").InsertOne(new Booking()
+        {
+            UserID = bookingModel.Book.UserID,
+            GuestName = bookingModel.Book.GuestName.Trim(),
+            Phone = bookingModel.Book.Phone.Trim(),
+            CheckIn = bookingModel.Book.CheckIn.Trim(),
+            CheckOut = bookingModel.Book.CheckOut.Trim(),
+            Rooms = bookingModel.Book.Rooms.Trim(),
+            Status = bookingModel.Book.Status.Trim(),
+        });
+        return bookingModel;
     }
 } 

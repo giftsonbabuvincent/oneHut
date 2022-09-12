@@ -34,4 +34,49 @@ public class BookingController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    [HttpPost]
+    public IActionResult Booking(BookingModel bookingModel) 
+    {
+        // add booking
+        OneHutData oneHutData = new OneHutData();
+
+        if(String.IsNullOrEmpty(bookingModel.Book._id))
+        {
+            bookingModel.Book.UserID = HttpContext.Session.GetString("_UserID");
+            bookingModel.Book.Status = "Booked";
+        }
+        oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        ModelState.Clear();
+
+        //Retrive Booking
+        bookingModel = oneHutData.GetBookings(
+            new BookingModel(),
+            new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        bookingModel.Book = new Booking();
+        bookingModel.Message = "Booking Successful!";
+        ViewBag.pageName = "Booking";
+
+        return View(bookingModel);
+
+    }
+
+    [HttpGet]
+    public IActionResult CheckinBooking(string id) 
+    {
+        return RedirectToAction("Booking","Booking");
+    }
+
+   [HttpGet]
+    public IActionResult CheckoutBooking(string id) 
+    {
+        return RedirectToAction("Booking","Booking");
+    }
+
+    [HttpGet]
+    public IActionResult CancelBooking(string id) 
+    {
+        return RedirectToAction("Booking","Booking");
+    }
+
 }

@@ -1,6 +1,11 @@
 @model oneHut.Models.BookingModel
 <div style="width:100%; text-align: center;"> 
     <div style="width:100%; text-align: center;">
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            @if (Model.Message.ToLower().Contains("success"))
+                     {<div class="bar success text-align-center">@Html.Label(Model.Message)</div>}
+        }
 <table>
     <tr>
         <td class="width-100 text-left grid-header"><label>Bookings</label></td>
@@ -8,6 +13,7 @@
 </table>
     </div>
     <div style="width:100%; text-align: center;">
+        
        <table class="table table-bordered table-responsive table-hover">  
     <tr class="grid-background">  
         <th>No.</th>  
@@ -47,9 +53,16 @@
             @if (@usr.Status.Equals("Booked"))
             {
                 <div class="width-120px">
-                <img src="~/Images/CheckinBlue2.jpg" style="width:32%" title="Check in">
-                <img src="~/Images/CheckOutGreen1.jpg" style="width:28%" title="Check out">
-                <img src="~/Images/Cancel.jpg" style="width:28%" title="Cancel Booking">
+
+                <a href="/Booking/CheckinBooking?id=@usr._id.Trim()">
+                <img src="~/Images/CheckinBlue2.jpg"  style="width:32%" title="Check in"></a>
+
+                <a href="/Booking/CheckoutBooking?id=@usr._id.Trim()">
+                <img src="~/Images/CheckOutGreen1.jpg" style="width:28%" title="Check out"></a>
+
+                <a href="/Booking/CancelBooking?id=@usr._id.Trim()">
+                <img src="~/Images/Cancel.jpg" style="width:28%" title="Cancel Booking"></a>
+
                 </div>
             }
             </td>   
@@ -57,5 +70,6 @@
         </tr>  
     }  
 </table>
+
 </div>
     </div> 

@@ -46,6 +46,10 @@ public class HomeController : Controller
     [HttpPost]
      public IActionResult Login(LoginModel loginModel) 
     {
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUserID)))
+        {
+             HttpContext.Session.Remove(SessionUserID);
+        }
         if(String.IsNullOrEmpty(loginModel.userName) || String.IsNullOrEmpty(loginModel.password)){
             loginModel.message = "Please enter login details!";
             return View(loginModel);
@@ -54,7 +58,7 @@ public class HomeController : Controller
         User user = new OneHutData().GetUser(
             new User() {Username = loginModel.userName, Password = loginModel.password});
 
-        if(!string.IsNullOrEmpty(user.UserID)) {
+        if(user != null) {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUserID)))
             {
                 HttpContext.Session.SetString(SessionUserID, user.UserID.ToString());
