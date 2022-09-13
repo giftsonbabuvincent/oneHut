@@ -30,11 +30,10 @@
     {  
         <tr>  
             <td>@usr.No</td>  
-            <td class="text-align-left">@usr.GuestName</td>   
+            <td class="text-align-left"><a href="/Booking/EditBooking?id=@usr._id.Trim()">@usr.GuestName</a></td>   
             <td><a href="">@usr.Phone</a></td>   
             <td>@usr.CheckIn</td>   
-            <td> @if (!@usr.Status.Equals("Booked"))
-            {@usr.CheckOut}</td>   
+            <td>@usr.CheckOut</td>   
             <td>@usr.Rooms</td> 
             @if (@usr.Status.Equals("Cancelled"))
             {
@@ -44,23 +43,23 @@
             {
                 <td class="font-color-green">@usr.Status</td> 
             } 
-             @if (@usr.Status.Equals("Booked"))
+             @if (@usr.Status.Equals("Booked")|| @usr.Status.Equals("CheckedIn"))
             {
                 <td class="font-color-darkblue">@usr.Status</td> 
             }  
               
             <td>
-            @if (@usr.Status.Equals("Booked"))
+            @if (@usr.Status.Equals("Booked") || @usr.Status.Equals("CheckedIn"))
             {
                 <div class="width-120px">
 
-                <a href="/Booking/CheckinBooking?id=@usr._id.Trim()">
+                <a href="/Booking/UpdateBooking?useraction=checkin&id=@usr._id.Trim()">
                 <img src="~/Images/CheckinBlue2.jpg"  style="width:32%" title="Check in"></a>
 
-                <a href="/Booking/CheckoutBooking?id=@usr._id.Trim()">
+                <a href="/Booking/UpdateBooking?useraction=checkout&id=@usr._id.Trim()">
                 <img src="~/Images/CheckOutGreen1.jpg" style="width:28%" title="Check out"></a>
 
-                <a href="/Booking/CancelBooking?id=@usr._id.Trim()">
+                <a href="/Booking/UpdateBooking?useraction=cancel&id=@usr._id.Trim()">
                 <img src="~/Images/Cancel.jpg" style="width:28%" title="Cancel Booking"></a>
 
                 </div>

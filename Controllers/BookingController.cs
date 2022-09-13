@@ -40,8 +40,8 @@ public class BookingController : Controller
     {
         // add booking
         OneHutData oneHutData = new OneHutData();
-
-        if(String.IsNullOrEmpty(bookingModel.Book._id))
+        String id = bookingModel.Book._id;
+        if(String.IsNullOrEmpty(id))
         {
             bookingModel.Book.UserID = HttpContext.Session.GetString("_UserID");
             bookingModel.Book.Status = "Booked";
@@ -54,7 +54,8 @@ public class BookingController : Controller
             new BookingModel(),
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
         bookingModel.Book = new Booking();
-        bookingModel.Message = "Booking Successful!";
+        if(!String.IsNullOrEmpty(id)) { bookingModel.Message = "Booking updated successfully!"; }
+        else{ bookingModel.Message = "Booking successful!"; }
         ViewBag.pageName = "Booking";
 
         return View(bookingModel);
@@ -62,21 +63,21 @@ public class BookingController : Controller
     }
 
     [HttpGet]
-    public IActionResult CheckinBooking(string id) 
+    public IActionResult UpdateBooking(string useraction, string id) 
     {
-        return RedirectToAction("Booking","Booking");
-    }
-
-   [HttpGet]
-    public IActionResult CheckoutBooking(string id) 
-    {
+        new OneHutData().UpdateBooking(useraction,id,new Models.User());
         return RedirectToAction("Booking","Booking");
     }
 
     [HttpGet]
-    public IActionResult CancelBooking(string id) 
+    public IActionResult EditBooking(string id) 
     {
-        return RedirectToAction("Booking","Booking");
+        OneHutData oneHutData = new OneHutData();
+        //new OneHutData().UpdateBooking(useraction,id,new Models.User());
+        BookingModel bookingModel = oneHutData.GetBookings(
+            new BookingModel(),
+            new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        bookingModel.Book = bookingModel.Bookings.Find(it=>it._id.Equals(id));
+        return View("Booking", bookingModel);
     }
-
 }
