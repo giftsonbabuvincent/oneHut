@@ -10,7 +10,7 @@
         @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-120px" }) 
         <a href="">
                 <img src="~/Images/Search.jpg" style="width:6%" title="Cancel Booking"></a></td>
-        <td class="width-15"><input type="checkbox" id="todaybk" name="todaybk" value="Today" checked> Today 
+        <td class="width-10"><input type="checkbox" id="todaybk" name="todaybk" value="Today" checked> Today 
         </td>
         
     </tr>
@@ -38,7 +38,7 @@
             <td><a href="">@usr.Phone</a></td>   
             <td>@usr.CheckIn</td>   
             <td>@usr.CheckOut</td>   
-            <td class="text-center">@usr.Rooms</td> 
+            <td class="text-align-center">@usr.Rooms</td> 
             @if (@usr.Status.Equals("Cancelled"))
             {
                 <td class="font-color-red">@usr.Status</td> 
