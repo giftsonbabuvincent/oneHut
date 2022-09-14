@@ -1,14 +1,16 @@
 @model oneHut.Models.BookingModel
 <div style="width:100%; text-align: center;"> 
     <div style="width:100%; text-align: center;">
-        @if (!string.IsNullOrEmpty(Model.Message))
-        {
-            @if (Model.Message.ToLower().Contains("success"))
-                     {<div class="bar success text-align-center">@Html.Label(Model.Message)</div>}
-        }
+       
 <table>
     <tr>
-        <td class="width-100 text-left grid-header"><label>Bookings</label></td>
+        <td class="text-left grid-header"><label>Bookings</label></td>
+        <td class="width-70"><input type="text" id="search" name="search" value="Guest Name / Phone">
+        <input type="text" id="checkin" name="checkin" value="Check in">
+        <input type="text" id="checkout" name="checkout" value="Check out"></td>
+        <td class="width-15"><input type="checkbox" id="todaybk" name="todaybk" value="Today" checked> Today 
+        <input type="checkbox" id="weekbk" name="weekbk" value="Week" checked> Week</td>
+        
     </tr>
 </table>
     </div>
@@ -34,7 +36,7 @@
             <td><a href="">@usr.Phone</a></td>   
             <td>@usr.CheckIn</td>   
             <td>@usr.CheckOut</td>   
-            <td>@usr.Rooms</td> 
+            <td class="text-center">@usr.Rooms</td> 
             @if (@usr.Status.Equals("Cancelled"))
             {
                 <td class="font-color-red">@usr.Status</td> 

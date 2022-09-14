@@ -1,16 +1,27 @@
 @model oneHut.Models.BookingModel
 <div style="width:100%; text-align: center;"> 
+     <form class="Booking" action="/Booking/Booking" method="post">
     <div style="width:100%; text-align: center;">
 <table>
     <tr>
-        <td class="width-95 text-left grid-header"><label>New Booking</label></td>
-        <td><a href="/Booking/ClearBooking">
+        <td class="text-left grid-header"><label>New Booking</label>
+        </td>
+        <td  class="width-65"> @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            @if (Model.Message.ToLower().Contains("success"))
+                     {<div class="bar success text-align-center">@Html.Label(Model.Message)</div>}
+        }</td>
+        <td class="width-5"><a href="/Booking/ClearBooking">
             <img src="~/Images/Clean.jpg"  class="width-60" title="Clear"></a></td>
+            <td class="width-5">
+                <button type="submit" class="style-all-unset">
+                <img src="~/Images/book1.jpg" style="width:30px" title="Save"></button></td> 
        
     </tr>
 </table>
+
     </div>
-    <form class="Booking" action="/Booking/Booking" method="post">
+   
     <div style="width:100%; text-align: center;">
        <table class="table table-bordered table-responsive table-hover">  
     <tr class="grid-background">  
@@ -19,9 +30,7 @@
         <th class="text-align-left">Check-In </th>  
         <th class="text-align-left">Check-Out</th>  
         <th class="text-align-right">Rooms</th>  
-        <th>
-            
-        </th>  
+        
 
     </tr>  
   
@@ -42,11 +51,35 @@
             else    
             { @Html.TextBoxFor(m => m.Book.CheckOut, new { @class = "width-160px" })  }</td>    
             <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px"})</td> 
-            <td class="width-5">
-                <button type="submit" class="style-all-unset">
-                <img src="~/Images/book1.jpg" style="width:30px" title="Save"></button></td> 
+            
 
         </tr>  
+</table>
+
+</div>
+<div>
+    <table>
+    <tr>
+        <td class="text-left grid-header width-80"><label>Additional Infomation</label></td>
+        <td><div class="rate">
+    <input type="radio" id="star5" name="rate" value="5" />
+    <label for="star5" title="text">5 stars</label>
+    <input type="radio" id="star4" name="rate" value="4" />
+    <label for="star4" title="text">4 stars</label>
+    <input type="radio" id="star3" name="rate" value="3" />
+    <label for="star3" title="text">3 stars</label>
+    <input type="radio" id="star2" name="rate" value="2" />
+    <label for="star2" title="text">2 stars</label>
+    <input type="radio" id="star1" name="rate" value="1" />
+    <label for="star1" title="text">1 star</label>
+  </div></td>
+       
+    </tr>
+    <tr>
+        <td colspan="2" class="width-100 text-left"><textarea name="addtionalInfo" class="text-area"></textarea></td>
+       
+       
+    </tr>
 </table>
 </div>
 </form>

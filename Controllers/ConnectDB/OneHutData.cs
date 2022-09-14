@@ -72,8 +72,8 @@ public class OneHutData
                 UserID = bookingModel.Book.UserID,
                 GuestName = bookingModel.Book.GuestName.Trim(),
                 Phone = bookingModel.Book.Phone.Trim(),
-                CheckIn = Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("dd-MM-yyyy")+DateTime.Now.ToString(" hh:mm tt"),
-                CheckOut = Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("dd-MM-yyyy")+DateTime.Now.ToString(" hh:mm tt"),
+                CheckIn = Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("dd-MM-yyyy")+" 00:00 00",
+                CheckOut = Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("dd-MM-yyyy")+" 00:00 00",
                 Rooms = bookingModel.Book.Rooms.Trim(),
                 Status = bookingModel.Book.Status.Trim(),
             });
