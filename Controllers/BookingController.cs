@@ -46,7 +46,17 @@ public class BookingController : Controller
             bookingModel.Book.UserID = HttpContext.Session.GetString("_UserID");
             bookingModel.Book.Status = "Booked";
         }
-        oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        try {
+            oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        } catch (Exception e) {
+            
+             //Retrive Booking
+            bookingModel = oneHutData.GetBookings(
+                new BookingModel(),
+                new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+                bookingModel.Message = "Error saving data!";
+            return View(bookingModel);
+        }
         ModelState.Clear();
 
         //Retrive Booking

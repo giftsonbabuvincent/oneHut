@@ -10,6 +10,8 @@
         {
             @if (Model.Message.ToLower().Contains("success"))
                      {<div class="bar success text-align-center">@Html.Label(Model.Message)</div>}
+            @if (Model.Message.ToLower().Contains("error"))
+                     {<div class="bar error text-align-center">@Html.Label(Model.Message)</div>}
         }</td>
         <td class="width-5"><a href="/Booking/ClearBooking">
             <img src="~/Images/Clean.jpg"  class="width-60" title="Clear"></a></td>
@@ -38,13 +40,13 @@
             
             <td>@Html.TextBoxFor(m=>m.Book._id, new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName, new{@class="width-225px"})</td> 
             <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px"})</td>   
-            <td>@if (String.IsNullOrEmpty(Model.Book._id))
+            <td>@if (String.IsNullOrEmpty(Model.Book._id) && !Model.Message.ToLower().Contains("error"))
             {
                 @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-160px" })  
             }
             else    
             { @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px" })  }</td> 
-            <td>@if (String.IsNullOrEmpty(Model.Book._id))
+            <td>@if (String.IsNullOrEmpty(Model.Book._id) && !Model.Message.ToLower().Contains("error"))
             {
                 @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-160px" })  
             }
