@@ -6,7 +6,7 @@
     <tr>
         <td class="text-left grid-header"><label>New Booking</label>
         </td>
-        <td  class="width-65"> @if (!string.IsNullOrEmpty(Model.Message))
+        <td  class="width-60"> @if (!string.IsNullOrEmpty(Model.Message))
         {
             @if (Model.Message.ToLower().Contains("success"))
                      {<div class="bar success text-align-center">@Html.Label(Model.Message)</div>}
