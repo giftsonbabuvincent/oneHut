@@ -449,6 +449,10 @@ background-color: cornflowerblue;
 	width: 5%;
   }
 
+  .width-6 {
+    width: 6%;
+    }
+
   .width-10 {
 	width: 10%;
   }
@@ -460,6 +464,10 @@ background-color: cornflowerblue;
   .width-25 {
 	width: 25%;
   }
+
+  .width-40 {
+    width: 40%;
+    }
 
   .width-65 {
 	width: 65%;
@@ -517,6 +525,6 @@ background-color: cornflowerblue;
 .text-area {
 	overflow-y: scroll;
     resize: none;
-    width: 800px;
+    width: 100%;
     height: 80px;
 }
