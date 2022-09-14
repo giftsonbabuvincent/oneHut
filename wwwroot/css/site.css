@@ -3,7 +3,7 @@
     padding: 0;
 }
 .rate {
-    float: left;
+    float: right;
     height: 46px;
     padding: 0 10px;
 }
@@ -469,9 +469,17 @@ background-color: cornflowerblue;
     width: 40%;
     }
 
+  .width-45 {
+    width: 45%;
+    }
+
   .width-60 {
 	width: 60%;
   }
+
+  .width-75 {
+    width: 75%;
+    }
 
   .width-50px {
 	width: 50px;
@@ -509,13 +517,16 @@ background-color: cornflowerblue;
   .width-200px {
 	width: 200px;
   }
+
+  .width-225px {
+    width: 225px;
+  }
+
   .width-70px {
 	width: 70px;
   }
 
-  .width-45 {
-	width: 45%;
-  }
+
 
   .display-none {
 	display: none;

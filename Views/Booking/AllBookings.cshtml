@@ -5,12 +5,24 @@
 <table>
     <tr>
         <td class="text-left grid-header width-15"><label>Bookings</label></td>
-        <td class="text-align-left"><input type="text" id="search" name="search" value="Guest Name / Phone">
-        @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-120px" })
-        @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-120px" }) 
-        <a href="">
-                <img src="~/Images/Search.jpg" style="width:6%" title="Cancel Booking"></a></td>
-        <td class="width-10"><input type="checkbox" id="todaybk" name="todaybk" value="Today" checked> Today 
+        <td class="text-align-left">
+            <table>
+                <tr>
+                    <td>
+                        @Html.TextBoxFor(m => m.Book.GuestName, new { @class = "width-160px" })
+                        @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-120px" })
+                        @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-120px" }) 
+                <a href="">
+                <img src="~/Images/Search.jpg" style="width:6%" title="Search Booking"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td class="width-10"><input type="checkbox" id="todaybk" name="todaybk" value="Today"> Today 
         </td>
         
     </tr>
