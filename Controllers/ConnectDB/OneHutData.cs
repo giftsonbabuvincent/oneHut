@@ -32,8 +32,8 @@ public class OneHutData
         int rowNo = 0;
         foreach (var book in collection.AsQueryable().OrderBy(it=>it._id))
         {
-            book.CheckIn = Convert.ToDateTime(book.CheckIn).ToString("dd/MM/yyyy hh:mm tt");
-            book.CheckOut = Convert.ToDateTime(book.CheckOut).ToString("dd/MM/yyyy hh:mm tt");
+            // book.CheckIn = DateTime.ParseExact(book.CheckIn, "dd-MM-yyyy hh:mm tt", null).ToString();
+            // book.CheckOut = DateTime.ParseExact(book.CheckOut, "dd-MM-yyyy hh:mm tt", null).ToString();
             book.No = Convert.ToString(rowNo += 1);
             bookingModel.Bookings.Add(book);
         }
@@ -57,8 +57,8 @@ public class OneHutData
             var update = Builders<Booking>.Update
                 .Set("GuestName", bookingModel.Book.GuestName)
                 .Set("Phone", bookingModel.Book.Phone)
-                .Set("CheckIn", Convert.ToDateTime(bookingModel.Book.CheckIn).ToString("yyyy-MM-dd HH:mm:ss"))
-                .Set("CheckOut", Convert.ToDateTime(bookingModel.Book.CheckOut).ToString("yyyy-MM-dd HH:mm:ss"))
+                .Set("CheckIn", bookingModel.Book.CheckIn.Trim())
+                .Set("CheckOut", bookingModel.Book.CheckOut.Trim())
                 .Set("Rooms", bookingModel.Book.Rooms);
         
             var result = database.GetCollection<Booking>("Booking").UpdateOne(filter, update, null);
@@ -72,8 +72,8 @@ public class OneHutData
                 UserID = bookingModel.Book.UserID,
                 GuestName = bookingModel.Book.GuestName.Trim(),
                 Phone = bookingModel.Book.Phone.Trim(),
-                CheckIn = bookingModel.Book.CheckIn.Trim(),
-                CheckOut = bookingModel.Book.CheckOut.Trim(),
+                CheckIn = Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("dd-MM-yyyy")+DateTime.Now.ToString(" hh:mm tt"),
+                CheckOut = Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("dd-MM-yyyy")+DateTime.Now.ToString(" hh:mm tt"),
                 Rooms = bookingModel.Book.Rooms.Trim(),
                 Status = bookingModel.Book.Status.Trim(),
             });
@@ -91,12 +91,12 @@ public class OneHutData
         var update = Builders<Booking>.Update.Set("_id", _id.ToString());
         if(useraction.Equals("checkin")){ 
             update = Builders<Booking>.Update
-            .Set("CheckIn", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+            .Set("CheckIn", DateTime.Now.ToString("dd-MM-yyyy hh:mm tt"))
             .Set("Status", "CheckedIn");}
 
         else if(useraction.Equals("checkout")){ 
             update = Builders<Booking>.Update
-            .Set("CheckOut", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))
+            .Set("CheckOut", DateTime.Now.ToString("dd-MM-yyyy hh:mm tt"))
             .Set("Status", "Stayed"); }
 
         else if(useraction.Equals("cancel")){ 

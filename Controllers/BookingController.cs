@@ -73,11 +73,23 @@ public class BookingController : Controller
     public IActionResult EditBooking(string id) 
     {
         OneHutData oneHutData = new OneHutData();
-        //new OneHutData().UpdateBooking(useraction,id,new Models.User());
         BookingModel bookingModel = oneHutData.GetBookings(
             new BookingModel(),
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
         bookingModel.Book = bookingModel.Bookings.Find(it=>it._id.Equals(id));
+        ViewBag.pageName = "Booking";
+        return View("Booking", bookingModel);
+    }
+
+     [HttpGet]
+    public IActionResult ClearBooking() 
+    {
+        ModelState.Clear();
+        OneHutData oneHutData = new OneHutData();
+        BookingModel bookingModel = oneHutData.GetBookings(
+            new BookingModel(),
+            new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
 }

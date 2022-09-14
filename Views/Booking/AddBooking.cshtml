@@ -3,7 +3,9 @@
     <div style="width:100%; text-align: center;">
 <table>
     <tr>
-        <td class="width-100 text-left grid-header"><label>New Booking</label></td>
+        <td class="width-95 text-left grid-header"><label>New Booking</label></td>
+        <td><a href="/Booking/ClearBooking">
+            <img src="~/Images/Clean.jpg"  class="width-60" title="Clear"></a></td>
        
     </tr>
 </table>
@@ -17,7 +19,9 @@
         <th class="text-align-left">Check-In </th>  
         <th class="text-align-left">Check-Out</th>  
         <th class="text-align-right">Rooms</th>  
-        <th></th>  
+        <th>
+            
+        </th>  
 
     </tr>  
   
@@ -25,15 +29,24 @@
             
             <td>@Html.TextBoxFor(m=>m.Book._id, new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName, new{@class="width-182px"})</td> 
             <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px"})</td>   
-            <td>@Html.TextBoxFor(m=>m.Book.CheckIn, new{@class="width-160px datepicker"})</td>   
-            <td>@Html.TextBoxFor(m=>m.Book.CheckOut,new{@class="width-160px"})</td>   
+            <td>@if (String.IsNullOrEmpty(Model.Book._id))
+            {
+                @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-160px" })  
+            }
+            else    
+            { @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px" })  }</td> 
+            <td>@if (String.IsNullOrEmpty(Model.Book._id))
+            {
+                @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-160px" })  
+            }
+            else    
+            { @Html.TextBoxFor(m => m.Book.CheckOut, new { @class = "width-160px" })  }</td>    
             <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px"})</td> 
             <td class="width-5">
                 <button type="submit" class="style-all-unset">
                 <img src="~/Images/book1.jpg" style="width:30px" title="Save"></button></td> 
 
         </tr>  
-
 </table>
 </div>
 </form>
