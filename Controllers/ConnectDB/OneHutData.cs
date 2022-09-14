@@ -57,8 +57,8 @@ public class OneHutData
             var update = Builders<Booking>.Update
                 .Set("GuestName", bookingModel.Book.GuestName)
                 .Set("Phone", bookingModel.Book.Phone)
-                .Set("CheckIn", Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("dd-MM-yyyy hh:mm tt"))
-                .Set("CheckOut", Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("dd-MM-yyyy hh:mm tt"))
+                .Set("CheckIn", bookingModel.Book.CheckIn.Trim())
+                .Set("CheckOut", bookingModel.Book.CheckOut.Trim())
                 .Set("Rooms", bookingModel.Book.Rooms);
         
             var result = database.GetCollection<Booking>("Booking").UpdateOne(filter, update, null);
