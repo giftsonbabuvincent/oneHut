@@ -517,6 +517,6 @@ background-color: cornflowerblue;
 .text-area {
 	overflow-y: scroll;
     resize: none;
-    width: 775px;
+    width: 800px;
     height: 80px;
 }
