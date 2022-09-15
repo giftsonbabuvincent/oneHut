@@ -27,13 +27,45 @@ public class OneHutData
     public BookingModel GetBookings(BookingModel bookingModel, User user)
     {
         
-        var collection = database.GetCollection<Booking>("Booking").Find(it=>it.UserID.Equals(user.UserID)).ToList();
-        bookingModel.Bookings = new List<Booking>();
-        int rowNo = 0;
-        foreach (var book in collection.AsQueryable().OrderBy(it=>it._id))
+        List<Booking> collection = database.GetCollection<Booking>("Booking").Find(it=>it.UserID.Equals(user.UserID)).ToList();
+        
+        if(!bookingModel.IsToday)
         {
-            // book.CheckIn = DateTime.ParseExact(book.CheckIn, "dd-MM-yyyy hh:mm tt", null).ToString();
-            // book.CheckOut = DateTime.ParseExact(book.CheckOut, "dd-MM-yyyy hh:mm tt", null).ToString();
+            //filter guestname & phone
+            if(!string.IsNullOrEmpty(bookingModel.Guest)){
+                collection = collection.Where(it=>it.GuestName.ToLower().Contains(bookingModel.Guest.ToLower()) || it.Phone.Contains(bookingModel.Guest)).ToList();
+            }
+            
+            //filter checkin & checkout
+            if(!string.IsNullOrEmpty(bookingModel.CheckIn) && !string.IsNullOrEmpty(bookingModel.CheckOut)){
+                collection = collection.Where(it=>Convert.ToDateTime(it.CheckIn.Trim().Substring(0,10)).Date >= Convert.ToDateTime((bookingModel.CheckIn)).Date
+                && Convert.ToDateTime(it.CheckOut.Trim().Substring(0,10)).Date <= Convert.ToDateTime((bookingModel.CheckOut)).Date).ToList();
+            }
+            else
+            {
+                //filter checkin
+                if(!string.IsNullOrEmpty(bookingModel.CheckIn)){
+                    collection = collection.Where(it=>it.CheckIn.Contains(bookingModel.CheckIn)).ToList();
+                }
+
+                //filter checkout
+                if(!string.IsNullOrEmpty(bookingModel.CheckOut)){
+                    collection = collection.Where(it=>it.CheckOut.Contains(bookingModel.CheckOut)).ToList();
+                }
+
+            }
+        }
+        else {
+            collection = collection.Where(it=>Convert.ToDateTime(it.CheckIn.Trim().Substring(0,10)).Date == DateTime.Now.Date
+                || Convert.ToDateTime(it.CheckOut.Trim().Substring(0,10)).Date == DateTime.Now.Date).ToList();
+        }
+
+
+        bookingModel.Bookings = new List<Booking>();
+       
+        int rowNo = 0;
+        foreach (var book in collection.AsQueryable().OrderBy(it=>it._id).Take(100))
+        {
             book.No = Convert.ToString(rowNo += 1);
             bookingModel.Bookings.Add(book);
         }

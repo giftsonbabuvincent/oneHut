@@ -8,6 +8,12 @@ public class BookingModel
     public List<Booking> Bookings { get; set; } = new List<Booking>();
 
     public string Message {get;set;} = string.Empty;
+    public bool IsToday {get;set;} = true;
+    public string CheckIn {get;set;} = string.Empty;
+    public string CheckOut {get;set;} = string.Empty;
+    public string Guest {get;set;} = string.Empty;
+
+
 
 }
 public class Booking

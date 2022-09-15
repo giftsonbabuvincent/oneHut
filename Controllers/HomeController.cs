@@ -62,6 +62,9 @@ public class HomeController : Controller
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUserID)))
             {
                 HttpContext.Session.SetString(SessionUserID, user.UserID.ToString());
+                HttpContext.Session.SetString("_CheckIn", string.Empty);
+                HttpContext.Session.SetString("_CheckOut", string.Empty);
+                HttpContext.Session.SetString("_IsToday", "true");
             }
             var name = HttpContext.Session.GetString(SessionUserID);
             return RedirectToAction("Booking","Booking");
@@ -81,5 +84,20 @@ public class HomeController : Controller
     {
         HttpContext.Session.Remove(SessionUserID);
        return RedirectToAction("Login","Home");
+    }
+
+    public IActionResult Employee()
+    {
+        return View();
+    }
+
+    public IActionResult Report()
+    {
+        return View();
+    }
+
+    public IActionResult Feature()
+    {
+        return View();
     }
 }

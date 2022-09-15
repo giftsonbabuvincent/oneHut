@@ -25,7 +25,7 @@ public class BookingController : Controller
         }
         ViewBag.pageName = "Booking";
         return View(new OneHutData().GetBookings(
-            new BookingModel(),
+             new BookingModel(){ CheckIn = HttpContext.Session.GetString("_CheckIn"), CheckOut = HttpContext.Session.GetString("_CheckOut"), IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday")) },
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID")}));
     }
 
@@ -50,18 +50,33 @@ public class BookingController : Controller
             oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
         } catch (Exception e) {
             
-             //Retrive Booking
+                //Retrive Booking
+            BookingModel _exbookingModel = new BookingModel();
+           
+            _exbookingModel.CheckIn = HttpContext.Session.GetString("_CheckIn"); 
+            _exbookingModel.CheckOut = HttpContext.Session.GetString("_CheckOut");
+            _exbookingModel.IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday")); 
+
+            //Retrive Booking
             bookingModel = oneHutData.GetBookings(
-                new BookingModel(),
+            _exbookingModel,
                 new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
-                bookingModel.Message = "Error saving data!";
-            return View(bookingModel);
+            bookingModel.Book = new Booking();
+                    bookingModel.Message = "Error saving data!";
+                return View(bookingModel);
+
         }
         ModelState.Clear();
-
+        
+        BookingModel _bookingModel = new BookingModel();
+      
+        _bookingModel.CheckIn = HttpContext.Session.GetString("_CheckIn"); 
+        _bookingModel.CheckOut = HttpContext.Session.GetString("_CheckOut");
+        _bookingModel.IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday")); 
+    
         //Retrive Booking
         bookingModel = oneHutData.GetBookings(
-            new BookingModel(),
+           _bookingModel,
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
         bookingModel.Book = new Booking();
         if(!String.IsNullOrEmpty(id)) { bookingModel.Message = "Booking updated successfully!"; }
@@ -75,8 +90,16 @@ public class BookingController : Controller
     [HttpGet]
     public IActionResult UpdateBooking(string useraction, string id) 
     {
-        new OneHutData().UpdateBooking(useraction,id,new Models.User());
-        return RedirectToAction("Booking","Booking");
+        OneHutData oneHutData = new OneHutData();
+
+        oneHutData.UpdateBooking(useraction,id,new Models.User());
+
+        BookingModel bookingModel = oneHutData.GetBookings(
+            new BookingModel(){ CheckIn = HttpContext.Session.GetString("_CheckIn"), CheckOut = HttpContext.Session.GetString("_CheckOut"), IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday")) },
+            new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        bookingModel.Book = bookingModel.Bookings.Find(it=>it._id.Equals(id));
+        ViewBag.pageName = "Booking";
+        return View("Booking", bookingModel);
     }
 
     [HttpGet]
@@ -84,22 +107,74 @@ public class BookingController : Controller
     {
         OneHutData oneHutData = new OneHutData();
         BookingModel bookingModel = oneHutData.GetBookings(
-            new BookingModel(),
+            new BookingModel(){ CheckIn = HttpContext.Session.GetString("_CheckIn"), CheckOut = HttpContext.Session.GetString("_CheckOut"), IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday")) },
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
         bookingModel.Book = bookingModel.Bookings.Find(it=>it._id.Equals(id));
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
 
-     [HttpGet]
+    [HttpGet]
     public IActionResult ClearBooking() 
     {
         ModelState.Clear();
         OneHutData oneHutData = new OneHutData();
         BookingModel bookingModel = oneHutData.GetBookings(
-            new BookingModel(),
+            new BookingModel(){ CheckIn = HttpContext.Session.GetString("_CheckIn"), 
+                                CheckOut = HttpContext.Session.GetString("_CheckOut"), 
+                                IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))},
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
+
+    [HttpPost]
+    public IActionResult SearchBooking(BookingModel bookingModel) 
+    {
+        if(!string.IsNullOrEmpty(bookingModel.CheckIn))
+        { 
+            bookingModel.CheckIn = Convert.ToDateTime(bookingModel.CheckIn.Trim()).ToString("dd-MM-yyyy"); 
+            HttpContext.Session.SetString("_CheckIn", bookingModel.CheckIn.ToString());
+        }
+
+        if(!string.IsNullOrEmpty(bookingModel.CheckOut))
+        { 
+            bookingModel.CheckOut = Convert.ToDateTime(bookingModel.CheckOut.Trim()).ToString("dd-MM-yyyy"); 
+            HttpContext.Session.SetString("_CheckOut", bookingModel.CheckOut);
+        }
+        HttpContext.Session.SetString("_IsToday", "false");
+        bookingModel.IsToday = false;
+
+        OneHutData oneHutData = new OneHutData();
+        BookingModel _bookingModel = new BookingModel();
+        _bookingModel = oneHutData.GetBookings(
+            bookingModel,
+            new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        ViewBag.pageName = "Booking";
+        return View("Booking", _bookingModel);
+    }
+
+    [HttpGet]
+    public IActionResult TodayBooking() 
+    {
+        if(HttpContext.Session.GetString("_IsToday") == "true")
+        {
+            HttpContext.Session.SetString("_IsToday", "false"); 
+        } 
+        else
+        {
+            HttpContext.Session.SetString("_IsToday", "true"); 
+        }
+    
+       ModelState.Clear();
+        OneHutData oneHutData = new OneHutData();
+        BookingModel bookingModel = oneHutData.GetBookings(
+            new BookingModel(){ CheckIn = HttpContext.Session.GetString("_CheckIn"), 
+                                CheckOut = HttpContext.Session.GetString("_CheckOut"), 
+                                IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))},
+            new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
+        ViewBag.pageName = "Booking";
+        return View("Booking", bookingModel);
+    }
+
 }
