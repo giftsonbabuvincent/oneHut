@@ -133,13 +133,13 @@ public class BookingController : Controller
     {
         if(!string.IsNullOrEmpty(bookingModel.CheckIn))
         { 
-            bookingModel.CheckIn = Convert.ToDateTime(bookingModel.CheckIn.Trim()).ToString("dd-MM-yyyy"); 
+            bookingModel.CheckIn = Convert.ToDateTime(bookingModel.CheckIn.Trim()).ToString("MM/dd/yyyy"); 
             HttpContext.Session.SetString("_CheckIn", bookingModel.CheckIn.ToString());
         }
 
         if(!string.IsNullOrEmpty(bookingModel.CheckOut))
         { 
-            bookingModel.CheckOut = Convert.ToDateTime(bookingModel.CheckOut.Trim()).ToString("dd-MM-yyyy"); 
+            bookingModel.CheckOut = Convert.ToDateTime(bookingModel.CheckOut.Trim()).ToString("MM/dd/yyyy"); 
             HttpContext.Session.SetString("_CheckOut", bookingModel.CheckOut);
         }
         HttpContext.Session.SetString("_IsToday", "false");

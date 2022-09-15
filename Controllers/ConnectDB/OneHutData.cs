@@ -104,8 +104,8 @@ public class OneHutData
                 UserID = bookingModel.Book.UserID,
                 GuestName = bookingModel.Book.GuestName.Trim(),
                 Phone = bookingModel.Book.Phone.Trim(),
-                CheckIn = Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("dd-MM-yyyy")+" 00:00 00",
-                CheckOut = Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("dd-MM-yyyy")+" 00:00 00",
+                CheckIn = Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("MM/dd/yyyy")+" 00:00 00",
+                CheckOut = Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("MM/dd/yyyy")+" 00:00 00",
                 Rooms = bookingModel.Book.Rooms.Trim(),
                 Status = bookingModel.Book.Status.Trim(),
             });
@@ -123,12 +123,12 @@ public class OneHutData
         var update = Builders<Booking>.Update.Set("_id", _id.ToString());
         if(useraction.Equals("checkin")){ 
             update = Builders<Booking>.Update
-            .Set("CheckIn", DateTime.Now.ToString("dd-MM-yyyy hh:mm tt"))
+            .Set("CheckIn", DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"))
             .Set("Status", "CheckedIn");}
 
         else if(useraction.Equals("checkout")){ 
             update = Builders<Booking>.Update
-            .Set("CheckOut", DateTime.Now.ToString("dd-MM-yyyy hh:mm tt"))
+            .Set("CheckOut", DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"))
             .Set("Status", "Stayed"); }
 
         else if(useraction.Equals("cancel")){ 
