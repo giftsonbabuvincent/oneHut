@@ -38,21 +38,21 @@
   
         <tr>  
             
-            <td>@Html.TextBoxFor(m=>m.Book._id, new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName, new{@class="width-225px"})</td> 
-            <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px"})</td>   
-            <td>@if (String.IsNullOrEmpty(Model.Book._id) && !Model.Message.ToLower().Contains("error"))
+            <td>@Html.TextBoxFor(m=>m.Book._id, new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName, new{@class="width-225px",@required  = "required"} )</td> 
+            <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px", @required  = "required"})</td>   
+            <td>@if (String.IsNullOrEmpty(Model.Book._id))
             {
-                @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-160px" })  
+                @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-160px",@required  = "required" })  
             }
             else    
-            { @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px" })  }</td> 
-            <td>@if (String.IsNullOrEmpty(Model.Book._id) && !Model.Message.ToLower().Contains("error"))
+            { @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px", @required  = "required" })  }</td> 
+            <td>@if (String.IsNullOrEmpty(Model.Book._id))
             {
-                @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-160px" })  
+                @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-160px",@required  = "required" })  
             }
             else    
-            { @Html.TextBoxFor(m => m.Book.CheckOut, new { @class = "width-160px" })  }</td>    
-            <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px"})</td> 
+            { @Html.TextBoxFor(m => m.Book.CheckOut, new { @class = "width-160px",@required  = "required" })  }</td>    
+            <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px", @required  = "required"})</td> 
             
 
         </tr>  

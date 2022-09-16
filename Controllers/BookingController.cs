@@ -62,8 +62,9 @@ public class BookingController : Controller
             _exbookingModel,
                 new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
             bookingModel.Book = new Booking();
-                    bookingModel.Message = "Error saving data!";
-                return View(bookingModel);
+            bookingModel.Message = "Error saving data!";
+            ViewBag.pageName = "Booking";
+            return View(bookingModel);
 
         }
         ModelState.Clear();
