@@ -2,7 +2,7 @@
 <div style="width:100%; text-align: center;"> 
     <div style="width:100%; text-align: center;">
 <form action="/Booking/SearchBooking" method="post">     
-<table>
+<table  class="width-99">
     <tr>
         <td class="text-left grid-header width-15"><label>Bookings</label></td>
         <td class="text-align-left">
@@ -22,8 +22,8 @@
                 </tr>
             </table>
         </td>
-        <td class="width-10">
-            <a href="/Booking/TodayBooking" class="style-all-unset">
+        <td class="text-align-right">
+            <a href="/Booking/TodayBooking" class="style-all-unset cursor-pointer">
             @if (Model.IsToday) { <i class="fa fa-check-square-o" style="font-size:24px"></i>}
             else {<i style="font-size:24px" class="fa">&#xf096;</i>} Today</a>
         </td>
@@ -69,25 +69,37 @@
             }  
               
             <td>
-            @if (@usr.Status.Equals("Booked") || @usr.Status.Equals("CheckedIn"))
+            @if (@usr.Status.Equals("Booked"))
             {
                 <div class="width-120px">
 
                 <a href="/Booking/UpdateBooking?useraction=checkin&id=@usr._id.Trim()">
                 <img src="~/Images/CheckinBlue2.jpg"  style="width:32%" title="Check in"></a>
 
-                <a href="/Booking/UpdateBooking?useraction=checkout&id=@usr._id.Trim()">
-                <img src="~/Images/CheckOutGreen1.jpg" style="width:28%" title="Check out"></a>
+                <img src="~/Images/CheckOutDisabled.jpg" style="width:28%" title="Check out">
 
                 <a href="/Booking/UpdateBooking?useraction=cancel&id=@usr._id.Trim()">
                 <img src="~/Images/Cancel.jpg" style="width:28%" title="Cancel Booking"></a>
 
                 </div>
             }
+            @if (@usr.Status.Equals("CheckedIn"))
+            {
+                <div class="width-120px">
+
+                <img src="~/Images/CheckinDisabled.jpg"  style="width:32%" title="Check in">
+
+                <a href="/Booking/UpdateBooking?useraction=checkout&id=@usr._id.Trim()">
+                <img src="~/Images/CheckOutGreen1.jpg" style="width:28%" title="Check out"></a>
+                
+                <img src="~/Images/CancelDisabled.jpg" style="width:28%" title="Cancel Booking">
+
+                </div>
+            }
             </td>   
   
         </tr>  
-    }  
+    }   
 </table>
 
 </div>
