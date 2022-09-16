@@ -31,7 +31,8 @@ public class HomeController : Controller
         {
             ViewBag.pageName = "Booking";
         }
-        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID"))) { 
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
             ViewBag.pageName = "";
         }
 
@@ -44,32 +45,35 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-     public IActionResult Login(LoginModel loginModel) 
+    public IActionResult Login(LoginModel loginModel)
     {
         if (!string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUserID)))
         {
-             HttpContext.Session.Remove(SessionUserID);
+            HttpContext.Session.Remove(SessionUserID);
         }
-        if(String.IsNullOrEmpty(loginModel.userName) || String.IsNullOrEmpty(loginModel.password)){
+        if (String.IsNullOrEmpty(loginModel.userName) || String.IsNullOrEmpty(loginModel.password))
+        {
             loginModel.message = "Please enter login details!";
             return View(loginModel);
         }
 
         User user = new OneHutData().GetUser(
-            new User() {Username = loginModel.userName, Password = loginModel.password});
+            new User() { Username = loginModel.userName, Password = loginModel.password });
 
-        if(user != null) {
+        if (user != null)
+        {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUserID)))
             {
                 HttpContext.Session.SetString(SessionUserID, user.UserID.ToString());
+                HttpContext.Session.SetString("_Guest", string.Empty);
                 HttpContext.Session.SetString("_CheckIn", string.Empty);
                 HttpContext.Session.SetString("_CheckOut", string.Empty);
                 HttpContext.Session.SetString("_IsToday", "true");
             }
             var name = HttpContext.Session.GetString(SessionUserID);
-            return RedirectToAction("Booking","Booking");
+            return RedirectToAction("Booking", "Booking");
         }
-        
+
         loginModel.message = "Login failed!";
         return View(loginModel);
     }
@@ -83,7 +87,7 @@ public class HomeController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Remove(SessionUserID);
-       return RedirectToAction("Login","Home");
+        return RedirectToAction("Login", "Home");
     }
 
     public IActionResult Employee()

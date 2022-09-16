@@ -45,7 +45,7 @@
                 @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-160px",@required  = "required" })  
             }
             else    
-            { @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px", @required  = "required" })  }</td> 
+            { @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px", @required  = "required"})  }</td> 
             <td>@if (String.IsNullOrEmpty(Model.Book._id))
             {
                 @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-160px",@required  = "required" })  
