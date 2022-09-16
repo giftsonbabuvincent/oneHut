@@ -98,7 +98,6 @@ public class BookingController : Controller
         BookingModel bookingModel = oneHutData.GetBookings(
             new BookingModel(){ CheckIn = HttpContext.Session.GetString("_CheckIn"), CheckOut = HttpContext.Session.GetString("_CheckOut"), IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday")) },
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID")});
-        bookingModel.Book = bookingModel.Bookings.Find(it=>it._id.Equals(id));
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
@@ -106,6 +105,7 @@ public class BookingController : Controller
     [HttpGet]
     public IActionResult EditBooking(string id) 
     {
+        ModelState.Clear();
         OneHutData oneHutData = new OneHutData();
         BookingModel bookingModel = oneHutData.GetBookings(
             new BookingModel(){ CheckIn = HttpContext.Session.GetString("_CheckIn"), CheckOut = HttpContext.Session.GetString("_CheckOut"), IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday")) },

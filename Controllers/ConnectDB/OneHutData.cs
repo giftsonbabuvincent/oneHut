@@ -64,7 +64,7 @@ public class OneHutData
         bookingModel.Bookings = new List<Booking>();
        
         int rowNo = 0;
-        foreach (var book in collection.AsQueryable().OrderBy(it=>it._id).Take(100))
+        foreach (var book in collection.AsQueryable().OrderBy(it=>it._id).TakeLast(100))
         {
             book.No = Convert.ToString(rowNo += 1);
             bookingModel.Bookings.Add(book);
