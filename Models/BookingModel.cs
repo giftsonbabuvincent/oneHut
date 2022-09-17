@@ -12,8 +12,10 @@ public class BookingModel
     public string CheckIn {get;set;} = string.Empty;
     public string CheckOut {get;set;} = string.Empty;
     public string Guest {get;set;} = string.Empty;
-
-
+    public int TotalPages {get;set;} = 1;
+    public int CurrentPage {get;set;} = 1;
+    public int TakeItem {get;set;} = 5;
+    public List<int> Pages {get; set;}
 
 }
 public class Booking

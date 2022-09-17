@@ -29,37 +29,35 @@ public class OneHutData
 
         List<Booking> collection = database.GetCollection<Booking>("Booking").Find(it => it.UserID.Equals(user.UserID)).ToList();
 
-        if (!bookingModel.IsToday)
+        //filter guestname & phone
+        if (!string.IsNullOrEmpty(bookingModel.Guest))
         {
-            //filter guestname & phone
-            if (!string.IsNullOrEmpty(bookingModel.Guest))
-            {
-                collection = collection.Where(it => it.GuestName.ToLower().Contains(bookingModel.Guest.ToLower()) || it.Phone.Contains(bookingModel.Guest)).ToList();
-            }
+            collection = collection.Where(it => it.GuestName.ToLower().Contains(bookingModel.Guest.ToLower()) || it.Phone.Contains(bookingModel.Guest)).ToList();
+        }
 
-            //filter checkin & checkout
-            if (!string.IsNullOrEmpty(bookingModel.CheckIn) && !string.IsNullOrEmpty(bookingModel.CheckOut))
-            {
-                collection = collection.Where(it => Convert.ToDateTime(it.CheckIn.Trim().Substring(0, 10)).Date >= Convert.ToDateTime((bookingModel.CheckIn)).Date
-                && Convert.ToDateTime(it.CheckOut.Trim().Substring(0, 10)).Date <= Convert.ToDateTime((bookingModel.CheckOut)).Date).ToList();
-            }
-            else
-            {
-                //filter checkin
-                if (!string.IsNullOrEmpty(bookingModel.CheckIn))
-                {
-                    collection = collection.Where(it => it.CheckIn.Contains(bookingModel.CheckIn)).ToList();
-                }
-
-                //filter checkout
-                if (!string.IsNullOrEmpty(bookingModel.CheckOut))
-                {
-                    collection = collection.Where(it => it.CheckOut.Contains(bookingModel.CheckOut)).ToList();
-                }
-
-            }
+        //filter checkin & checkout
+        if (!string.IsNullOrEmpty(bookingModel.CheckIn) && !string.IsNullOrEmpty(bookingModel.CheckOut))
+        {
+            collection = collection.Where(it => Convert.ToDateTime(it.CheckIn.Trim().Substring(0, 10)).Date >= Convert.ToDateTime((bookingModel.CheckIn)).Date
+            && Convert.ToDateTime(it.CheckOut.Trim().Substring(0, 10)).Date <= Convert.ToDateTime((bookingModel.CheckOut)).Date).ToList();
         }
         else
+        {
+            //filter checkin
+            if (!string.IsNullOrEmpty(bookingModel.CheckIn))
+            {
+                collection = collection.Where(it => it.CheckIn.Contains(bookingModel.CheckIn)).ToList();
+            }
+
+            //filter checkout
+            if (!string.IsNullOrEmpty(bookingModel.CheckOut))
+            {
+                collection = collection.Where(it => it.CheckOut.Contains(bookingModel.CheckOut)).ToList();
+            }
+
+        }
+
+        if (bookingModel.IsToday)
         {
             collection = collection.Where(it => Convert.ToDateTime(it.CheckIn.Trim().Substring(0, 10)).Date == DateTime.Now.Date
                 || Convert.ToDateTime(it.CheckOut.Trim().Substring(0, 10)).Date == DateTime.Now.Date).ToList();
@@ -67,9 +65,21 @@ public class OneHutData
 
 
         bookingModel.Bookings = new List<Booking>();
+        if (collection.Count > bookingModel.TakeItem)
+        {
+            int TotalItems = bookingModel.TotalPages = collection.Count;
+            bookingModel.Pages = new List<int>();
 
+            for (int i = 1; i <= Math.Round((TotalItems / Convert.ToDouble(bookingModel.TakeItem)), MidpointRounding.ToPositiveInfinity); i++)
+            {
+                bookingModel.Pages.Add(i);
+            }
+
+        }
         int rowNo = 0;
-        foreach (var book in collection.AsQueryable().OrderBy(it => it._id).TakeLast(100))
+        foreach (var book in collection.AsQueryable().OrderByDescending(it => it._id)
+        .Skip(bookingModel.TakeItem * (bookingModel.CurrentPage - 1))
+        .Take(bookingModel.TakeItem))
         {
             book.No = Convert.ToString(rowNo += 1);
             bookingModel.Bookings.Add(book);

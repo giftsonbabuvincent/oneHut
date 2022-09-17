@@ -16,7 +16,8 @@ public class BookingController : Controller
         _logger = logger;
     }
 
-    public IActionResult Booking()
+    [HttpGet]
+    public IActionResult Booking(string pageNo)
     {
         if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
         {
@@ -27,6 +28,7 @@ public class BookingController : Controller
         return View(new OneHutData().GetBookings(
              new BookingModel()
              {
+                 CurrentPage = string.IsNullOrEmpty(pageNo) ? 1 : Convert.ToInt32(pageNo),
                  Guest = HttpContext.Session.GetString("_Guest"),
                  CheckIn = HttpContext.Session.GetString("_CheckIn"),
                  CheckOut = HttpContext.Session.GetString("_CheckOut"),
@@ -52,7 +54,7 @@ public class BookingController : Controller
             HttpContext.Session.SetString("_Guest", string.Empty);
             HttpContext.Session.SetString("_CheckIn", string.Empty);
             HttpContext.Session.SetString("_CheckOut", string.Empty);
-            HttpContext.Session.SetString("_IsToday","false");
+            HttpContext.Session.SetString("_IsToday", "false");
             bookingModel.Book.UserID = HttpContext.Session.GetString("_UserID");
             bookingModel.Book.Status = "Booked";
         }
@@ -150,9 +152,6 @@ public class BookingController : Controller
         BookingModel bookingModel = oneHutData.GetBookings(
             new BookingModel()
             {
-                //Guest = HttpContext.Session.GetString("_Guest"),
-                //CheckIn = HttpContext.Session.GetString("_CheckIn"),
-                //CheckOut = HttpContext.Session.GetString("_CheckOut"),
                 IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))
             },
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
@@ -225,5 +224,7 @@ public class BookingController : Controller
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
+
+
 
 }
