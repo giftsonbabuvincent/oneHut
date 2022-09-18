@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Security.Authentication;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using oneHut.ConnectDB;
@@ -50,6 +51,8 @@ public class BookingController : Controller
         // add booking
         OneHutData oneHutData = new OneHutData();
         String id = bookingModel.Book._id;
+        Regex regex = new Regex(@"\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}\s+(AM|PM)");
+
         if (String.IsNullOrEmpty(id))
         {
             HttpContext.Session.SetString("_Guest", string.Empty);
@@ -71,7 +74,7 @@ public class BookingController : Controller
             styles = DateTimeStyles.None;
 
             if (bookingModel.Book.CheckIn.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckIn.Substring(0, 10), "MM/dd/yyyy", culture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
-            else { if (!DateTime.TryParse(bookingModel.Book.CheckIn, culture, styles, out dateResult)) { throw new Exception(); } }
+            else { if (!DateTime.TryParse(bookingModel.Book.CheckIn, culture, styles, out dateResult) && !regex.IsMatch(bookingModel.Book.CheckIn)) { throw new Exception(); } }
 
             if (bookingModel.Book.CheckOut.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckOut.Substring(0, 10), "MM/dd/yyyy", culture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
             else { if (!DateTime.TryParse(bookingModel.Book.CheckOut, culture, styles, out dateResult)) { throw new Exception(); } }
@@ -97,7 +100,7 @@ public class BookingController : Controller
             bookingModel = oneHutData.GetBookings(
             _exbookingModel,
                 new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
-            bookingModel.Book = new Booking();
+            bookingModel.Book._id = id;
             bookingModel.Message = "Error saving data!";
             ViewBag.pageName = "Booking";
             return View(bookingModel);
