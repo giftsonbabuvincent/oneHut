@@ -1,7 +1,13 @@
 @model oneHut.Models.BookingModel
+<script type="text/javascript">
+function changeSelect() {
+        document.getElementById("search").click();
+}
+</script>
+<form action="/Booking/SearchBooking" method="post" name="FormBooking">   
 <div style="width:100%; text-align: center;"> 
     <div style="width:100%; text-align: center;">
-<form action="/Booking/SearchBooking" method="post">     
+  
 <table  class="width-99">
     <tr>
         <td class="text-left grid-header width-15"><label>Bookings</label></td>
@@ -12,7 +18,7 @@
                         @Html.TextBoxFor(m => m.Guest, new { @class = "width-160px" })
                         @Html.TextBoxFor(m => m.CheckIn, "{0:d}", new { @type="date", @class = "datepicker width-120px" })
                         @Html.TextBoxFor(m => m.CheckOut, "{0:d}", new { @type="date", @class = "datepicker width-120px", @value="09/16/2022" }) 
-                <button type="submit" class="style-all-unset width-40px">
+                <button type="submit" class="style-all-unset width-40px" id="search">
                 <img src="~/Images/Search.jpg" style="width:100%" title="Search Booking"></button>
                     </td>
                 </tr>
@@ -26,7 +32,7 @@
         
     </tr>
 </table>
-</form>
+
     </div>
     <div style="width:100%; text-align: center;">
         
@@ -40,13 +46,10 @@
         <th>Rooms</th>  
         <th>Status</th>  
         <th>
-             <select name="dropDown" id="dropDown">
-                <option value="#heading1">1</option>
-                <option value="#heading2">2</option>
-                <option value="#heading3">3</option>
-                <option value="#heading3">4</option>
-                <option value="#heading3">5</option>
-            </select>
+            @if (Model.TotalPages > Model.TakeItem)
+            {
+                @Html.DropDownListFor(m => m.CurrentPage, new SelectList(Model.Pages), new {  onchange="changeSelect()"})
+            }
         </th>  
 
     </tr>  
@@ -108,3 +111,4 @@
 
 </div>
     </div> 
+    </form>
