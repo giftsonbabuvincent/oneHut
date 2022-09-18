@@ -106,7 +106,10 @@ public class OneHutData
                 .Set("Phone", bookingModel.Book.Phone)
                 .Set("CheckIn", bookingModel.Book.CheckIn.Trim())
                 .Set("CheckOut", bookingModel.Book.CheckOut.Trim())
-                .Set("Rooms", bookingModel.Book.Rooms);
+                .Set("Rooms", bookingModel.Book.Rooms)
+                .Set("Rating", bookingModel.Book.Rating)
+                .Set("AdditionalInfo", bookingModel.Book.AdditionalInfo);
+
 
             var result = database.GetCollection<Booking>("Booking").UpdateOne(filter, update, null);
 
@@ -123,9 +126,12 @@ public class OneHutData
                 CheckOut = Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("MM/dd/yyyy") + " 00:00 00",
                 Rooms = bookingModel.Book.Rooms.Trim(),
                 Status = bookingModel.Book.Status.Trim(),
+                Rating = bookingModel.Book.Rating,
+                AdditionalInfo = bookingModel.Book.AdditionalInfo,
             });
         }
         return bookingModel;
+
     }
 
 

@@ -39,7 +39,7 @@
         <tr>  
             
             <td>@Html.TextBoxFor(m=>m.Book._id, new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName, new{@class="width-225px",@required  = "required"} )</td> 
-            <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px", @required  = "required"})</td>   
+            <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px", @required  = "required", @type = "number",  @min = "1" })</td> 
             <td>@if (String.IsNullOrEmpty(Model.Book._id))
             {
                 @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-160px",@required  = "required" })  
@@ -52,7 +52,7 @@
             }
             else    
             { @Html.TextBoxFor(m => m.Book.CheckOut, new { @class = "width-160px",@required  = "required" })  }</td>    
-            <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px", @required  = "required"})</td> 
+            <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px", @required  = "required", @type = "number",  @min = "1", @max = "99"})</td> 
             
 
         </tr>  
@@ -64,23 +64,27 @@
     <tr>
         <td class="text-left grid-header"><label>Additional Infomation</label></td>
         <td><div class="rate">
-    <input type="radio" id="star5" name="rate" value="5" />
+    @Html.RadioButtonFor(model => model.Book.Rating, "5", new { @id = "star5"})  
     <label for="star5" title="">5 stars</label>
-    <input type="radio" id="star4" name="rate" value="4" />
+    @Html.RadioButtonFor(model => model.Book.Rating, "4", new { @id = "star4"})  
     <label for="star4" title="">4 stars</label>
-    <input type="radio" id="star3" name="rate" value="3" />
+    @Html.RadioButtonFor(model => model.Book.Rating, "3", new { @id = "star3"})  
     <label for="star3" title="">3 stars</label>
-    <input type="radio" id="star2" name="rate" value="2" />
+    @Html.RadioButtonFor(model => model.Book.Rating, "2", new { @id = "star2"})  
     <label for="star2" title="">2 stars</label>
-    <input type="radio" id="star1" name="rate" value="1" />
+    @Html.RadioButtonFor(model => model.Book.Rating, "1", new { @id = "star1"})  
     <label for="star1" title="">1 star</label>
   </div></td>
        
     </tr>
     <tr>
-        <td colspan="2" class="width-100 text-left"><textarea name="addtionalInfo" class="text-area"></textarea></td>
-       
-       
+        <td colspan="2" class="width-100 text-left">
+           @* 
+            <textarea name="addtionalInfo" class="text-area-book"></textarea><br> 
+            <textarea name="addtionalInfoHistory" class="text-area"></textarea>
+           *@
+           @Html.TextAreaFor(m => m.Book.AdditionalInfo, new {@class="text-area"})  
+        </td>
     </tr>
 </table>
 </div>

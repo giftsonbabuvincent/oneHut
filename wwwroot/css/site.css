@@ -575,6 +575,13 @@ body {
   height: 80px;
 }
 
+.text-area-book {
+  overflow-y: scroll;
+  resize: none;
+  width: 100%;
+  height: 40px;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }

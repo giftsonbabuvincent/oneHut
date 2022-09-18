@@ -15,7 +15,7 @@ function changeSelect() {
             <table>
                 <tr>
                     <td>
-                        @Html.TextBoxFor(m => m.Guest, new { @class = "width-160px" })
+                        @Html.TextBoxFor(m => m.Guest, new { @class = "width-160px", @placeholder="Guest Name/Phone" })
                         @Html.TextBoxFor(m => m.CheckIn, "{0:d}", new { @type="date", @class = "datepicker width-120px" })
                         @Html.TextBoxFor(m => m.CheckOut, "{0:d}", new { @type="date", @class = "datepicker width-120px", @value="09/16/2022" }) 
                 <button type="submit" class="style-all-unset width-40px" id="search">
@@ -49,7 +49,7 @@ function changeSelect() {
         <th>
             @if (Model.TotalPages > Model.TakeItem)
             {
-                @Html.DropDownListFor(m => m.CurrentPage, new SelectList(Model.Pages), new {  onchange="changeSelect()"})
+                <label>Page</label>@:&nbsp;@Html.DropDownListFor(m => m.CurrentPage, new SelectList(Model.Pages), new {  onchange="changeSelect()"})
                 <button type="submit" class="style-all-unset display-none" id="nextPage"></button>
             }
         </th>  
@@ -60,7 +60,7 @@ function changeSelect() {
         <tr>  
             <td>@usr.No</td>  
             <td class="text-align-left"><a href="/Booking/EditBooking?id=@usr._id.Trim()">@usr.GuestName</a></td>   
-            <td><a href="">@usr.Phone</a></td>   
+            <td><a href="tel:@usr.Phone">@usr.Phone</a></td>   
             <td>@usr.CheckIn</td>   
             <td>@usr.CheckOut</td>   
             <td class="text-align-center">@usr.Rooms</td> 
