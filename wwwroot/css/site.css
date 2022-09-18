@@ -1,41 +1,48 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
+
 .rate {
-    float: right;
-    height: 46px;
-    padding: 0 10px;
+  float: right;
+  height: 46px;
+  padding: 0 10px;
 }
-.rate:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
+
+.rate:not(:checked)>input {
+  position: absolute;
+  top: -9999px;
 }
-.rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:30px;
-    color:#ccc;
+
+.rate:not(:checked)>label {
+  float: right;
+  width: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 30px;
+  color: #ccc;
 }
-.rate:not(:checked) > label:before {
-    content: '★ ';
+
+.rate:not(:checked)>label:before {
+  content: '★ ';
 }
-.rate > input:checked ~ label {
-    color: #ffc700;    
+
+.rate>input:checked~label {
+  color: #ffc700;
 }
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) > label:hover ~ label {
-    color: #deb217;  
+
+.rate:not(:checked)>label:hover,
+.rate:not(:checked)>label:hover~label {
+  color: #deb217;
 }
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-    color: #c59b08;
+
+.rate>input:checked+label:hover,
+.rate>input:checked+label:hover~label,
+.rate>input:checked~label:hover,
+.rate>input:checked~label:hover~label,
+.rate>label:hover~input:checked~label {
+  color: #c59b08;
 }
 
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
@@ -57,7 +64,10 @@ html {
 body {
   margin-bottom: 60px;
 }
-* {box-sizing:border-box}
+
+* {
+  box-sizing: border-box
+}
 
 /* Slideshow container */
 .slideshow-container {
@@ -72,7 +82,8 @@ body {
 }
 
 /* Next & previous buttons */
-.prev, .next {
+.prev,
+.next {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -94,8 +105,9 @@ body {
 }
 
 /* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* Caption text */
@@ -130,7 +142,8 @@ body {
   transition: background-color 0.6s ease;
 }
 
-.active, .dot:hover {
+.active,
+.dot:hover {
   background-color: #717171;
 }
 
@@ -141,194 +154,200 @@ body {
 }
 
 @keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
+  from {
+    opacity: .4
+  }
+
+  to {
+    opacity: 1
+  }
 }
 
 /* login */
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
 
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;	
-	font-family: Raleway, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Raleway, sans-serif;
 }
 
 
 
 .container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.screen {		
-	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
-	position: relative;	
-	height: 500px;
-	width: 360px;	
-	box-shadow: 0px 0px 24px #5C5696;
+.screen {
+  background: linear-gradient(90deg, #5D54A4, #7C78B8);
+  position: relative;
+  height: 500px;
+  width: 360px;
+  box-shadow: 0px 0px 24px #5C5696;
 }
 
 .screen__content {
-	z-index: 1;
-	position: relative;	
-	height: 100%;
+  z-index: 1;
+  position: relative;
+  height: 100%;
 }
 
-.screen__background {		
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 0;
-	-webkit-clip-path: inset(0 0 0 0);
-	clip-path: inset(0 0 0 0);	
+.screen__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  -webkit-clip-path: inset(0 0 0 0);
+  clip-path: inset(0 0 0 0);
 }
 
 .screen__background__shape {
-	transform: rotate(45deg);
-	position: absolute;
+  transform: rotate(45deg);
+  position: absolute;
 }
 
 .screen__background__shape1 {
-	height: 520px;
-	width: 520px;
-	background: #FFF;	
-	top: -50px;
-	right: 120px;	
-	border-radius: 0 72px 0 0;
+  height: 520px;
+  width: 520px;
+  background: #FFF;
+  top: -50px;
+  right: 120px;
+  border-radius: 0 72px 0 0;
 }
 
 .screen__background__shape2 {
-	height: 220px;
-	width: 220px;
-	background: #6C63AC;	
-	top: -172px;
-	right: 0;	
-	border-radius: 32px;
+  height: 220px;
+  width: 220px;
+  background: #6C63AC;
+  top: -172px;
+  right: 0;
+  border-radius: 32px;
 }
 
 .screen__background__shape3 {
-	height: 540px;
-	width: 190px;
-	background: linear-gradient(270deg, #5D54A4, #6A679E);
-	top: -24px;
-	right: 0;	
-	border-radius: 32px;
+  height: 540px;
+  width: 190px;
+  background: linear-gradient(270deg, #5D54A4, #6A679E);
+  top: -24px;
+  right: 0;
+  border-radius: 32px;
 }
 
 .screen__background__shape4 {
-	height: 400px;
-	width: 200px;
-	background: #7E7BB9;	
-	top: 420px;
-	right: 50px;	
-	border-radius: 60px;
+  height: 400px;
+  width: 200px;
+  background: #7E7BB9;
+  top: 420px;
+  right: 50px;
+  border-radius: 60px;
 }
 
 .login {
-	width: 320px;
-	padding: 30px;
-	padding-top: 156px;
+  width: 320px;
+  padding: 30px;
+  padding-top: 156px;
 }
 
 .login__field {
-	padding: 20px 0px;	
-	position: relative;	
+  padding: 20px 0px;
+  position: relative;
 }
 
 .login__icon {
-	position: absolute;
-	top: 30px;
-	color: #7875B5;
+  position: absolute;
+  top: 30px;
+  color: #7875B5;
 }
 
 .login__input {
-	border: none;
-	border-bottom: 2px solid #D1D1D4;
-	background: none;
-	padding: 10px;
-	padding-left: 24px;
-	font-weight: 700;
-	width: 75%;
-	transition: .2s;
+  border: none;
+  border-bottom: 2px solid #D1D1D4;
+  background: none;
+  padding: 10px;
+  padding-left: 24px;
+  font-weight: 700;
+  width: 75%;
+  transition: .2s;
 }
 
 .login__input:active,
 .login__input:focus,
 .login__input:hover {
-	outline: none;
-	border-bottom-color: #6A679E;
+  outline: none;
+  border-bottom-color: #6A679E;
 }
 
 .login__submit {
-	background: #fff;
-	font-size: 14px;
-	margin-top: 30px;
-	padding: 16px 20px;
-	border-radius: 26px;
-	border: 1px solid #D4D3E8;
-	text-transform: uppercase;
-	font-weight: 700;
-	display: flex;
-	align-items: center;
-	width: 100%;
-	color: #4C489D;
-	box-shadow: 0px 2px 2px #5C5696;
-	cursor: pointer;
-	transition: .2s;
+  background: #fff;
+  font-size: 14px;
+  margin-top: 30px;
+  padding: 16px 20px;
+  border-radius: 26px;
+  border: 1px solid #D4D3E8;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: #4C489D;
+  box-shadow: 0px 2px 2px #5C5696;
+  cursor: pointer;
+  transition: .2s;
 }
 
 .login__submit:active,
 .login__submit:focus,
 .login__submit:hover {
-	border-color: #6A679E;
-	outline: none;
+  border-color: #6A679E;
+  outline: none;
 }
 
 .button__icon {
-	font-size: 24px;
-	margin-left: auto;
-	color: #7875B5;
+  font-size: 24px;
+  margin-left: auto;
+  color: #7875B5;
 }
 
-.social-login {	
-	position: absolute;
-	height: 140px;
-	width: 160px;
-	text-align: center;
-	bottom: 0px;
-	right: 0px;
-	color: #fff;
+.social-login {
+  position: absolute;
+  height: 140px;
+  width: 160px;
+  text-align: center;
+  bottom: 0px;
+  right: 0px;
+  color: #fff;
 }
 
 .social-icons {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .social-login__icon {
-	padding: 20px 10px;
-	color: #fff;
-	text-decoration: none;	
-	text-shadow: 0px 0px 8px #7875B5;
+  padding: 20px 10px;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0px 0px 8px #7875B5;
 }
 
 .social-login__icon:hover {
-	transform: scale(1.5);	
+  transform: scale(1.5);
 }
+
 /* login End*/
 
 .text-center {
-  text-align: left!important; 
+  text-align: left !important;
 }
 
 .grid-background {
-background-color: cornflowerblue;
+  background-color: cornflowerblue;
 }
 
 .grid-header {
@@ -341,7 +360,8 @@ background-color: cornflowerblue;
 }
 
 .button-blue {
-  background-color: darkblue; /* Green */
+  background-color: darkblue;
+  /* Green */
   border: none;
   color: white;
   padding: 5px 25px;
@@ -355,27 +375,27 @@ background-color: cornflowerblue;
 }
 
 .style-all-unset {
-	all: unset;
+  all: unset;
 }
 
 .width-15 {
-	width: 15%;
+  width: 15%;
 }
 
 .width-60 {
-	width: 60%;
+  width: 60%;
 }
 
 .width-70 {
-	width: 70%;
+  width: 70%;
 }
 
 .width-80 {
-	width: 80%;
-  }
+  width: 80%;
+}
 
 .width-95 {
-	width: 95%;
+  width: 95%;
 }
 
 .width-100 {
@@ -383,171 +403,189 @@ background-color: cornflowerblue;
 }
 
 .text-left {
-  text-align: left!important; 
+  text-align: left !important;
 }
+
 .text-align-right {
-  text-align: right!important; 
+  text-align: right !important;
 }
+
 .text-align-left {
-	text-align: left!important; 
-  }
+  text-align: left !important;
+}
+
 .text-align-center {
-	text-align: center!important; 
-  }
+  text-align: center !important;
+}
+
 /* (A) THE BASE */
 .bar {
-	padding: 10px;
-	margin: 10px;
-	color: #333;
-	background: #fafafa;
-	border: 1px solid #ccc;
-  }
-  
-  /* (B) THE VARIATIONS */
-  .info {
-	color: #204a8e;
-	background: #c9ddff;
-	border: 1px solid #4c699b;
-  }
-  .success {
-	color: #2b7515;
-	background: #ecffd6;
-	border: 1px solid #617c42;
-  }
-  .warn {
-	color: #756e15;
-	background: #fffbd1;
-	border: 1px solid #87803e;
-  }
-  .error {
-	color: #ba3939;
-	background: #ffe0e0;
-	border: 1px solid #a33a3a;
-  }
+  padding: 10px;
+  margin: 10px;
+  color: #333;
+  background: #fafafa;
+  border: 1px solid #ccc;
+}
 
-  .font-color-darkblue{
-	color : darkblue
-  }
+/* (B) THE VARIATIONS */
+.info {
+  color: #204a8e;
+  background: #c9ddff;
+  border: 1px solid #4c699b;
+}
 
-  .font-color-green{
-	color : green
-  }
+.success {
+  color: #2b7515;
+  background: #ecffd6;
+  border: 1px solid #617c42;
+}
 
-  .font-color-red{
-	color : red
-  }
+.warn {
+  color: #756e15;
+  background: #fffbd1;
+  border: 1px solid #87803e;
+}
 
-  .width-20px {
-	width: 20px;
-  }
+.error {
+  color: #ba3939;
+  background: #ffe0e0;
+  border: 1px solid #a33a3a;
+}
 
-  .width-40px {
-    width: 40px;
-    }
+.font-color-darkblue {
+  color: darkblue
+}
 
-  .width-20 {
-	width: 20%;
-  }
+.font-color-green {
+  color: green
+}
 
-  .width-5 {
-	width: 5%;
-  }
+.font-color-red {
+  color: red
+}
 
-  .width-6 {
-    width: 6%;
-    }
+.width-20px {
+  width: 20px;
+}
 
-  .width-10 {
-	width: 10%;
-  }
+.width-40px {
+  width: 40px;
+}
 
-  .width-15 {
-	width: 15%;
-  }
+.width-20 {
+  width: 20%;
+}
 
-  .width-25 {
-	width: 25%;
-  }
+.width-5 {
+  width: 5%;
+}
 
-  .width-40 {
-    width: 40%;
-    }
+.width-6 {
+  width: 6%;
+}
 
-  .width-45 {
-    width: 45%;
-    }
+.width-10 {
+  width: 10%;
+}
 
-  .width-60 {
-	width: 60%;
-  }
+.width-15 {
+  width: 15%;
+}
 
-  .width-75 {
-    width: 75%;
-    }
+.width-25 {
+  width: 25%;
+}
 
-    .width-99 {
-      width: 99%;
-      }
+.width-40 {
+  width: 40%;
+}
 
-  .width-50px {
-	width: 50px;
-  }
-  
-  .width-70px {
-	width: 70px;
-  }
+.width-45 {
+  width: 45%;
+}
 
-  .width-80px {
-	width: 80px;
-  }
+.width-60 {
+  width: 60%;
+}
 
-  .width-95px {
-	width: 95px;
-  }
+.width-75 {
+  width: 75%;
+}
 
-  .width-120px {
-	width: 120px;
-  }
+.width-99 {
+  width: 99%;
+}
 
-  .width-155px {
-	width: 155px;
-  }
+.width-50px {
+  width: 50px;
+}
 
-  .width-160px {
-	width: 160px;
-  }
+.width-70px {
+  width: 70px;
+}
 
+.width-80px {
+  width: 80px;
+}
 
-  .width-182px {
-	width: 182px;
-  }
+.width-95px {
+  width: 95px;
+}
 
-  .width-200px {
-	width: 200px;
-  }
+.width-120px {
+  width: 120px;
+}
 
-  .width-225px {
-    width: 225px;
-  }
+.width-155px {
+  width: 155px;
+}
 
-  .width-70px {
-	width: 70px;
-  }
+.width-160px {
+  width: 160px;
+}
 
 
+.width-182px {
+  width: 182px;
+}
 
-  .display-none {
-	display: none;
-  }
+.width-200px {
+  width: 200px;
+}
+
+.width-225px {
+  width: 225px;
+}
+
+.width-70px {
+  width: 70px;
+}
+
+
+
+.display-none {
+  display: none;
+}
 
 
 .text-area {
-	overflow-y: scroll;
-    resize: none;
-    width: 100%;
-    height: 80px;
+  overflow-y: scroll;
+  resize: none;
+  width: 100%;
+  height: 80px;
 }
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.webkit-appearance-none {
+  -webkit-appearance: none;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+  opacity: 1;
 }

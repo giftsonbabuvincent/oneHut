@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 using System.Security.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -55,11 +56,29 @@ public class BookingController : Controller
             HttpContext.Session.SetString("_CheckIn", string.Empty);
             HttpContext.Session.SetString("_CheckOut", string.Empty);
             HttpContext.Session.SetString("_IsToday", "false");
+            HttpContext.Session.SetString("_CurrentPage", "1");
             bookingModel.Book.UserID = HttpContext.Session.GetString("_UserID");
             bookingModel.Book.Status = "Booked";
         }
         try
         {
+            CultureInfo culture;
+            DateTimeStyles styles;
+            DateTime dateResult;
+
+            // Parse a date and time with no styles.
+            culture = CultureInfo.CreateSpecificCulture("en-US");
+            styles = DateTimeStyles.None;
+
+            if (bookingModel.Book.CheckIn.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckIn.Substring(0, 10), "MM/dd/yyyy", culture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
+            else { if (!DateTime.TryParse(bookingModel.Book.CheckIn, culture, styles, out dateResult)) { throw new Exception(); } }
+
+            if (bookingModel.Book.CheckOut.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckOut.Substring(0, 10), "MM/dd/yyyy", culture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
+            else { if (!DateTime.TryParse(bookingModel.Book.CheckOut, culture, styles, out dateResult)) { throw new Exception(); } }
+
+            bookingModel.CheckIn = bookingModel.CheckIn.ToUpper();
+            bookingModel.CheckOut = bookingModel.CheckOut.ToUpper();
+
             oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
         }
         catch (Exception e)
@@ -71,6 +90,7 @@ public class BookingController : Controller
             _exbookingModel.Guest = HttpContext.Session.GetString("_Guest");
             _exbookingModel.CheckIn = HttpContext.Session.GetString("_CheckIn");
             _exbookingModel.CheckOut = HttpContext.Session.GetString("_CheckOut");
+            _exbookingModel.CurrentPage = Convert.ToInt32(HttpContext.Session.GetString("_CurrentPage"));
             _exbookingModel.IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"));
 
             //Retrive Booking
@@ -90,6 +110,7 @@ public class BookingController : Controller
         _bookingModel.Guest = HttpContext.Session.GetString("_Guest");
         _bookingModel.CheckIn = HttpContext.Session.GetString("_CheckIn");
         _bookingModel.CheckOut = HttpContext.Session.GetString("_CheckOut");
+        _bookingModel.CurrentPage = Convert.ToInt32(HttpContext.Session.GetString("_CurrentPage"));
         _bookingModel.IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"));
 
         //Retrive Booking
@@ -118,6 +139,7 @@ public class BookingController : Controller
                 Guest = HttpContext.Session.GetString("_Guest"),
                 CheckIn = HttpContext.Session.GetString("_CheckIn"),
                 CheckOut = HttpContext.Session.GetString("_CheckOut"),
+                CurrentPage = Convert.ToInt32(HttpContext.Session.GetString("_CurrentPage")),
                 IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))
             },
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
@@ -136,6 +158,7 @@ public class BookingController : Controller
                 Guest = HttpContext.Session.GetString("_Guest"),
                 CheckIn = HttpContext.Session.GetString("_CheckIn"),
                 CheckOut = HttpContext.Session.GetString("_CheckOut"),
+                CurrentPage = Convert.ToInt32(HttpContext.Session.GetString("_CurrentPage")),
                 IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))
             },
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
@@ -148,6 +171,10 @@ public class BookingController : Controller
     public IActionResult ClearBooking()
     {
         ModelState.Clear();
+        HttpContext.Session.SetString("_Guest", string.Empty);
+        HttpContext.Session.SetString("_CheckIn", string.Empty);
+        HttpContext.Session.SetString("_CheckOut", string.Empty);
+        HttpContext.Session.SetString("_CurrentPage", "1");
         OneHutData oneHutData = new OneHutData();
         BookingModel bookingModel = oneHutData.GetBookings(
             new BookingModel()
@@ -165,7 +192,8 @@ public class BookingController : Controller
         HttpContext.Session.SetString("_Guest", string.Empty);
         HttpContext.Session.SetString("_CheckIn", string.Empty);
         HttpContext.Session.SetString("_CheckOut", string.Empty);
-
+        HttpContext.Session.SetString("_CurrentPage", "1");
+        bookingModel.CurrentPage = 1;
         if (!string.IsNullOrEmpty(bookingModel.CheckIn))
         {
             bookingModel.CheckIn = Convert.ToDateTime(bookingModel.CheckIn.Trim()).ToString("MM/dd/yyyy");
@@ -225,6 +253,23 @@ public class BookingController : Controller
         return View("Booking", bookingModel);
     }
 
+    [HttpPost]
+    public IActionResult NextPageBooking(BookingModel bookingModel)
+    {
 
+        HttpContext.Session.SetString("_CurrentPage", bookingModel.CurrentPage.ToString());
+        bookingModel.Guest = HttpContext.Session.GetString("_Guest");
+        bookingModel.CheckIn = HttpContext.Session.GetString("_CheckIn");
+        bookingModel.CheckOut = HttpContext.Session.GetString("_CheckOut");
+        bookingModel.IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"));
+
+        OneHutData oneHutData = new OneHutData();
+        BookingModel _bookingModel = new BookingModel();
+        bookingModel = oneHutData.GetBookings(
+            bookingModel,
+            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+        ViewBag.pageName = "Booking";
+        return View("Booking", bookingModel);
+    }
 
 }
