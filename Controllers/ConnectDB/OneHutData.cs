@@ -108,7 +108,8 @@ public class OneHutData
                 .Set("CheckOut", bookingModel.Book.CheckOut.Trim())
                 .Set("Rooms", bookingModel.Book.Rooms)
                 .Set("Rating", bookingModel.Book.Rating)
-                .Set("AdditionalInfo", bookingModel.Book.AdditionalInfo);
+                .Set("AdditionalInfo", bookingModel.Book.AdditionalInfo)
+                .Set("ActionDateTime", bookingModel.Book.ActionDateTime);
 
 
             var result = database.GetCollection<Booking>("Booking").UpdateOne(filter, update, null);
@@ -128,6 +129,7 @@ public class OneHutData
                 Status = bookingModel.Book.Status.Trim(),
                 Rating = bookingModel.Book.Rating,
                 AdditionalInfo = bookingModel.Book.AdditionalInfo,
+                ActionDateTime = bookingModel.Book.ActionDateTime,
             });
         }
         return bookingModel;

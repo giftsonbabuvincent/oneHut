@@ -17,8 +17,6 @@ public class BookingModel
     public int TakeItem {get;set;} = 5;
     public List<int> Pages {get; set;}
 
-
-
 }
 public class Booking
 {
@@ -35,5 +33,6 @@ public class Booking
     public string Status { get; set; } = string.Empty;
     public string Rating {get;set;} = string.Empty;
     public string AdditionalInfo {get;set;} = string.Empty;
+    public DateTime ActionDateTime {get; set;} = DateTime.Now;
 
 }
