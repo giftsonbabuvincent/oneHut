@@ -79,6 +79,7 @@ body {
 /* Hide the images by default */
 .mySlides {
   display: none;
+  text-decoration:none;
 }
 
 /* Next & previous buttons */
@@ -96,6 +97,7 @@ body {
   transition: 0.6s ease;
   border-radius: 0 3px 3px 0;
   user-select: none;
+  text-decoration: none;
 }
 
 /* Position the "next button" to the right */
@@ -107,6 +109,7 @@ body {
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover,
 .next:hover {
+  text-decoration: none;
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -596,3 +599,13 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
   opacity: 1;
 }
+
+.padding-top-10 {
+  padding-top: 10%;
+}
+
+.padding-top-9 {
+  padding-top: 9%;
+}
+
+
