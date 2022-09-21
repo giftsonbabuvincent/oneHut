@@ -48,6 +48,11 @@ public class BookingController : Controller
     [HttpPost]
     public IActionResult Booking(BookingModel bookingModel)
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+            return RedirectToAction("Index", "Home");
+        }
         // add booking
         OneHutData oneHutData = new OneHutData();
         String id = bookingModel.Book._id;
@@ -132,6 +137,12 @@ public class BookingController : Controller
     [HttpGet]
     public IActionResult UpdateBooking(string useraction, string id)
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+            return RedirectToAction("Index", "Home");
+        }
+
         OneHutData oneHutData = new OneHutData();
 
         oneHutData.UpdateBooking(useraction, id, new Models.User());
@@ -153,6 +164,12 @@ public class BookingController : Controller
     [HttpGet]
     public IActionResult EditBooking(string id)
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+            return RedirectToAction("Index", "Home");
+        }
+
         ModelState.Clear();
         OneHutData oneHutData = new OneHutData();
         BookingModel bookingModel = oneHutData.GetBookings(
@@ -173,6 +190,12 @@ public class BookingController : Controller
     [HttpGet]
     public IActionResult ClearBooking()
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+            return RedirectToAction("Index", "Home");
+        }
+
         ModelState.Clear();
         HttpContext.Session.SetString("_Guest", string.Empty);
         HttpContext.Session.SetString("_CheckIn", string.Empty);
@@ -192,6 +215,11 @@ public class BookingController : Controller
     [HttpPost]
     public IActionResult SearchBooking(BookingModel bookingModel)
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+            return RedirectToAction("Index", "Home");
+        }
         HttpContext.Session.SetString("_Guest", string.Empty);
         HttpContext.Session.SetString("_CheckIn", string.Empty);
         HttpContext.Session.SetString("_CheckOut", string.Empty);
@@ -228,6 +256,11 @@ public class BookingController : Controller
     [HttpGet]
     public IActionResult TodayBooking()
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+            return RedirectToAction("Index", "Home");
+        }
 
         if (HttpContext.Session.GetString("_IsToday") == "true")
         {
@@ -259,6 +292,11 @@ public class BookingController : Controller
     [HttpPost]
     public IActionResult NextPageBooking(BookingModel bookingModel)
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+            return RedirectToAction("Index", "Home");
+        }
 
         HttpContext.Session.SetString("_CurrentPage", bookingModel.CurrentPage.ToString());
         bookingModel.Guest = HttpContext.Session.GetString("_Guest");

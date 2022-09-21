@@ -81,6 +81,14 @@ public class HomeController : Controller
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
+        if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "Booking";
+        }
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+        }
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
@@ -92,16 +100,40 @@ public class HomeController : Controller
 
     public IActionResult Employee()
     {
+         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "Booking";
+        }
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+        }
         return View();
     }
 
     public IActionResult Report()
     {
+         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "Booking";
+        }
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+        }
         return View();
     }
 
     public IActionResult Feature()
     {
+         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "Booking";
+        }
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+        }
         return View();
     }
 }
