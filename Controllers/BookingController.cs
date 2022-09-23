@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using oneHut.ConnectDB;
 using oneHut.Models;
+using System.Threading;
 
 namespace oneHut.Controllers;
 
@@ -70,19 +71,18 @@ public class BookingController : Controller
         }
         try
         {
-            CultureInfo culture;
             DateTimeStyles styles;
             DateTime dateResult;
 
             // Parse a date and time with no styles.
-            culture = CultureInfo.CreateSpecificCulture("en-US");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
             styles = DateTimeStyles.None;
 
-            if (bookingModel.Book.CheckIn.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckIn.Substring(0, 10), "MM/dd/yyyy", culture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
-            else { if (!DateTime.TryParse(bookingModel.Book.CheckIn, culture, styles, out dateResult) && !regex.IsMatch(bookingModel.Book.CheckIn)) { throw new Exception(); } }
+            if (bookingModel.Book.CheckIn.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckIn.Substring(0, 10), "dd/MM/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
+            else { if (!DateTime.TryParse(bookingModel.Book.CheckIn, Thread.CurrentThread.CurrentCulture, styles, out dateResult) && !regex.IsMatch(bookingModel.Book.CheckIn)) { throw new Exception(); } }
 
-            if (bookingModel.Book.CheckOut.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckOut.Substring(0, 10), "MM/dd/yyyy", culture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
-            else { if (!DateTime.TryParse(bookingModel.Book.CheckOut, culture, styles, out dateResult)) { throw new Exception(); } }
+            if (bookingModel.Book.CheckOut.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckOut.Substring(0, 10), "dd/MM/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
+            else { if (!DateTime.TryParse(bookingModel.Book.CheckOut, Thread.CurrentThread.CurrentCulture, styles, out dateResult)) { throw new Exception(); } }
 
             bookingModel.CheckIn = bookingModel.CheckIn.ToUpper();
             bookingModel.CheckOut = bookingModel.CheckOut.ToUpper();
@@ -227,13 +227,15 @@ public class BookingController : Controller
         bookingModel.CurrentPage = 1;
         if (!string.IsNullOrEmpty(bookingModel.CheckIn))
         {
-            bookingModel.CheckIn = Convert.ToDateTime(bookingModel.CheckIn.Trim()).ToString("MM/dd/yyyy");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            bookingModel.CheckIn = Convert.ToDateTime(bookingModel.CheckIn.Trim()).ToString("dd/MM/yyyy");
             HttpContext.Session.SetString("_CheckIn", bookingModel.CheckIn.ToString());
         }
 
         if (!string.IsNullOrEmpty(bookingModel.CheckOut))
         {
-            bookingModel.CheckOut = Convert.ToDateTime(bookingModel.CheckOut.Trim()).ToString("MM/dd/yyyy");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            bookingModel.CheckOut = Convert.ToDateTime(bookingModel.CheckOut.Trim()).ToString("dd/MM/yyyy");
             HttpContext.Session.SetString("_CheckOut", bookingModel.CheckOut);
         }
 

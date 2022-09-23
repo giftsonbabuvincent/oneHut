@@ -1,9 +1,11 @@
 using System;
+using System.Globalization;
 using System.Security.Authentication;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using oneHut.Models;
+using System.Threading;
 
 namespace oneHut.ConnectDB;
 public class OneHutData
@@ -22,6 +24,8 @@ public class OneHutData
 
         client = new MongoClient(settings);
         database = client.GetDatabase("OneHutDB");
+
+        Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
     }
 
     public BookingModel GetBookings(BookingModel bookingModel, User user)
@@ -123,8 +127,8 @@ public class OneHutData
                 UserID = bookingModel.Book.UserID,
                 GuestName = bookingModel.Book.GuestName.Trim(),
                 Phone = bookingModel.Book.Phone.Trim(),
-                CheckIn = Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("MM/dd/yyyy") + " 00:00 00",
-                CheckOut = Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("MM/dd/yyyy") + " 00:00 00",
+                CheckIn = Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("dd/MM/yyyy") + " 00:00 00",
+                CheckOut = Convert.ToDateTime(bookingModel.Book.CheckOut.Trim()).ToString("dd/MM/yyyy") + " 00:00 00",
                 Rooms = bookingModel.Book.Rooms.Trim(),
                 Status = bookingModel.Book.Status.Trim(),
                 Rating = bookingModel.Book.Rating,
@@ -147,14 +151,14 @@ public class OneHutData
         if (useraction.Equals("checkin"))
         {
             update = Builders<Booking>.Update
-            .Set("CheckIn", DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"))
+            .Set("CheckIn", DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"))
             .Set("Status", "CheckedIn");
         }
 
         else if (useraction.Equals("checkout"))
         {
             update = Builders<Booking>.Update
-            .Set("CheckOut", DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"))
+            .Set("CheckOut", DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"))
             .Set("Status", "Stayed");
         }
 
