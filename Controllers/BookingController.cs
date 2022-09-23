@@ -75,7 +75,7 @@ public class BookingController : Controller
             DateTime dateResult;
 
             // Parse a date and time with no styles.
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             styles = DateTimeStyles.None;
 
             if (bookingModel.Book.CheckIn.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckIn.Substring(0, 10), "dd/MM/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
@@ -227,15 +227,15 @@ public class BookingController : Controller
         bookingModel.CurrentPage = 1;
         if (!string.IsNullOrEmpty(bookingModel.CheckIn))
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
-            bookingModel.CheckIn = Convert.ToDateTime(bookingModel.CheckIn.Trim()).ToString("dd/MM/yyyy");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            bookingModel.CheckIn = Convert.ToDateTime(bookingModel.CheckIn.Trim()).ToString("dd/MM/yyyy").ToUpper();
             HttpContext.Session.SetString("_CheckIn", bookingModel.CheckIn.ToString());
         }
 
         if (!string.IsNullOrEmpty(bookingModel.CheckOut))
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
-            bookingModel.CheckOut = Convert.ToDateTime(bookingModel.CheckOut.Trim()).ToString("dd/MM/yyyy");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            bookingModel.CheckOut = Convert.ToDateTime(bookingModel.CheckOut.Trim()).ToString("dd/MM/yyyy").ToUpper();
             HttpContext.Session.SetString("_CheckOut", bookingModel.CheckOut);
         }
 

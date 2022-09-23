@@ -25,7 +25,7 @@ public class OneHutData
         client = new MongoClient(settings);
         database = client.GetDatabase("OneHutDB");
 
-        Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+        Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
     }
 
     public BookingModel GetBookings(BookingModel bookingModel, User user)
@@ -151,14 +151,14 @@ public class OneHutData
         if (useraction.Equals("checkin"))
         {
             update = Builders<Booking>.Update
-            .Set("CheckIn", DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"))
+            .Set("CheckIn", DateTime.Now.ToString("dd/MM/yyyy hh:mm tt").ToUpper())
             .Set("Status", "CheckedIn");
         }
 
         else if (useraction.Equals("checkout"))
         {
             update = Builders<Booking>.Update
-            .Set("CheckOut", DateTime.Now.ToString("dd/MM/yyyy hh:mm tt"))
+            .Set("CheckOut", DateTime.Now.ToString("dd/MM/yyyy hh:mm tt").ToUpper())
             .Set("Status", "Stayed");
         }
 
