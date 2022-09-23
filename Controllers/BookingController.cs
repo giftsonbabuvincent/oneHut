@@ -19,6 +19,22 @@ public class BookingController : Controller
         _logger = logger;
     }
 
+    private void validateDate(string Date)
+    {
+        DateTimeStyles styles;
+        DateTime dateResult;
+
+        // Parse a date and time with no styles.
+        Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+        styles = DateTimeStyles.None;
+
+
+        if (Date.Contains("00:00 00")) { if (!DateTime.TryParseExact(Date.Substring(0, 10), "dd/MM/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
+        else { if (!DateTime.TryParse(Date, Thread.CurrentThread.CurrentCulture, styles, out dateResult)) { throw new Exception(); } }
+
+
+    }
+
     [HttpGet]
     public IActionResult Booking(string pageNo)
     {
@@ -71,21 +87,11 @@ public class BookingController : Controller
         }
         try
         {
-            DateTimeStyles styles;
-            DateTime dateResult;
+            validateDate(bookingModel.Book.CheckIn.ToUpper());
+            validateDate(bookingModel.Book.CheckOut.ToUpper());
 
-            // Parse a date and time with no styles.
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
-            styles = DateTimeStyles.None;
-
-            if (bookingModel.Book.CheckIn.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckIn.Substring(0, 10), "dd/MM/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
-            else { if (!DateTime.TryParse(bookingModel.Book.CheckIn, Thread.CurrentThread.CurrentCulture, styles, out dateResult) && !regex.IsMatch(bookingModel.Book.CheckIn)) { throw new Exception(); } }
-
-            if (bookingModel.Book.CheckOut.Contains("00:00 00")) { if (!DateTime.TryParseExact(bookingModel.Book.CheckOut.Substring(0, 10), "dd/MM/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
-            else { if (!DateTime.TryParse(bookingModel.Book.CheckOut, Thread.CurrentThread.CurrentCulture, styles, out dateResult)) { throw new Exception(); } }
-
-            bookingModel.CheckIn = bookingModel.CheckIn.ToUpper();
-            bookingModel.CheckOut = bookingModel.CheckOut.ToUpper();
+            bookingModel.Book.CheckIn = bookingModel.Book.CheckIn.ToUpper();
+            bookingModel.Book.CheckOut = bookingModel.Book.CheckOut.ToUpper();
 
             oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
         }
