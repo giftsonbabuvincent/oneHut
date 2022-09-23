@@ -19,19 +19,28 @@ public class BookingController : Controller
         _logger = logger;
     }
 
-    private void validateDate(string Date)
+    private string validateDate(string strDate)
     {
         DateTimeStyles styles;
         DateTime dateResult;
+
+        Regex regex = new Regex(@"(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$");
+
+        if (strDate.Trim().Length < 10) { throw new Exception(); }
+
+        //Verify whether date entered in dd/MM/yyyy format.
+        bool isValid = regex.IsMatch(strDate.Trim().Substring(0, 10));
+        if (!isValid) { throw new Exception(); }
 
         // Parse a date and time with no styles.
         Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
         styles = DateTimeStyles.None;
 
+        if (strDate.Contains("00:00 00")) { if (!DateTime.TryParseExact(strDate.Substring(0, 10), "dd/MM/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
+        else { if (!DateTime.TryParse(strDate, Thread.CurrentThread.CurrentCulture, styles, out dateResult)) { throw new Exception(); } }
 
-        if (Date.Contains("00:00 00")) { if (!DateTime.TryParseExact(Date.Substring(0, 10), "dd/MM/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.None, out dateResult)) { throw new Exception(); } }
-        else { if (!DateTime.TryParse(Date, Thread.CurrentThread.CurrentCulture, styles, out dateResult)) { throw new Exception(); } }
-
+        if (strDate.Length == 10) { return strDate = strDate + " 00:00 00"; }
+        return strDate;
 
     }
 
@@ -87,11 +96,11 @@ public class BookingController : Controller
         }
         try
         {
-            validateDate(bookingModel.Book.CheckIn.ToUpper());
-            validateDate(bookingModel.Book.CheckOut.ToUpper());
-
-            bookingModel.Book.CheckIn = bookingModel.Book.CheckIn.ToUpper();
-            bookingModel.Book.CheckOut = bookingModel.Book.CheckOut.ToUpper();
+            if (!String.IsNullOrEmpty(id))
+            {
+                bookingModel.Book.CheckIn = validateDate(bookingModel.Book.CheckIn.ToUpper());
+                bookingModel.Book.CheckOut = validateDate(bookingModel.Book.CheckOut.ToUpper());
+            }
 
             oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
         }
