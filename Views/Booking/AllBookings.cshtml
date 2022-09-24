@@ -5,6 +5,7 @@ function changeSelect() {
 }
 </script>
 <form action="/Booking/SearchBooking" method="post" name="FormBooking">   
+<br>
 <div style="width:100%; text-align: center;"> 
     <div style="width:100%; text-align: center;">
   
@@ -104,6 +105,16 @@ function changeSelect() {
                 <img src="~/Images/CancelDisabled.jpg" style="width:28%" title="Cancel Booking">
 
                 </div>
+            }
+            @if (@usr.Status.Equals("Stayed"))
+            {
+            <div class="width-120px">
+
+                <img src="~/Images/emailSqrare.jpg"  style="width:32%" title="Email">
+
+                <img src="~/Images/print.png" style="width:28%" title="Print">
+
+            </div>
             }
             </td>   
   
