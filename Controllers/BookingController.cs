@@ -7,15 +7,20 @@ using MongoDB.Driver;
 using oneHut.ConnectDB;
 using oneHut.Models;
 using System.Threading;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace oneHut.Controllers;
 
 public class BookingController : Controller
 {
+    private Microsoft.AspNetCore.Hosting.IHostingEnvironment Environment;
+
     private readonly ILogger<BookingController> _logger;
 
-    public BookingController(ILogger<BookingController> logger)
+    public BookingController(ILogger<BookingController> logger, Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment)
     {
+        Environment = _environment;
         _logger = logger;
     }
 
@@ -72,8 +77,10 @@ public class BookingController : Controller
     }
 
     [HttpPost]
-    public IActionResult Booking(BookingModel bookingModel)
+    public IActionResult Booking(List<IFormFile> postedFiles, BookingModel bookingModel)
     {
+
+
         if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
         {
             ViewBag.pageName = "";
@@ -102,7 +109,14 @@ public class BookingController : Controller
                 bookingModel.Book.CheckOut = validateDate(bookingModel.Book.CheckOut.ToUpper());
             }
 
-            oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            bookingModel = oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+
+            if (postedFiles.Count != 0)
+            {
+                // upload file 
+                if (string.IsNullOrEmpty(id)) { id = bookingModel.Book._id; }
+                UploadFiles(postedFiles, id);
+            }
         }
         catch (Exception e)
         {
@@ -328,6 +342,33 @@ public class BookingController : Controller
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
+    }
+
+    private void UploadFiles(List<IFormFile> postedFiles, string _id)
+    {
+        string wwwPath = this.Environment.WebRootPath;
+        string contentPath = this.Environment.ContentRootPath;
+
+        string path = Path.Combine(this.Environment.WebRootPath, "Uploads/" + HttpContext.Session.GetString("_UserID").Trim() + "/" + _id);
+
+        if (Directory.Exists(path)) { Directory.Delete(path, true); }
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        List<string> uploadedFiles = new List<string>();
+        foreach (IFormFile postedFile in postedFiles)
+        {
+            string fileName = Path.GetFileName(postedFile.FileName);
+            using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+            {
+                postedFile.CopyTo(stream);
+                uploadedFiles.Add(fileName);
+                //ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
+            }
+        }
     }
 
 }

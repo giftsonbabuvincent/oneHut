@@ -135,6 +135,16 @@ public class OneHutData
                 AdditionalInfo = bookingModel.Book.AdditionalInfo,
                 ActionDateTime = bookingModel.Book.ActionDateTime,
             });
+
+            // Get inserted _id
+            Booking collection = database.GetCollection<Booking>("Booking").Find(it => it.UserID.Equals(user.UserID)
+            && it.GuestName.Equals(bookingModel.Book.GuestName.Trim())
+            && it.Phone.Equals(bookingModel.Book.Phone.Trim())
+            && it.ActionDateTime.Equals(bookingModel.Book.ActionDateTime)
+            ).ToList().LastOrDefault();
+
+            bookingModel.Book._id = collection._id;
+
         }
         return bookingModel;
 
