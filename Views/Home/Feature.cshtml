@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Hosting;
 @{
     ViewData["Title"] = "Feature";
 }
@@ -8,6 +9,7 @@
 </head>
 <body>
 @DateTime.Now.Date
+@Environment.CurrentDirectory.ToString()
 @*
 <i class="fa fa-lock" style="font-size:20px;color:blue;"></i>
 <i class="fa fa-lock-open" style="font-size:20px;color:blue;"></i>
