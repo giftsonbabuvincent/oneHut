@@ -6,18 +6,21 @@
     <tr>
         <td class="text-left grid-header"><label>New Booking</label>
         </td>
-        <td  class="width-60"> @if (!string.IsNullOrEmpty(Model.Message))
+        <td  class="width-50"> @if (!string.IsNullOrEmpty(Model.Message))
         {
             @if (Model.Message.ToLower().Contains("success"))
                      {<div class="bar success text-align-center">@Html.Label(Model.Message)</div>}
             @if (Model.Message.ToLower().Contains("error"))
                      {<div class="bar error text-align-center">@Html.Label(Model.Message)</div>}
         }</td>
+
         <td class="width-5"><a href="/Booking/ClearBooking">
             <img src="~/Images/Clean.jpg"  class="width-60" title="Clear"></a></td>
-            <td class="width-5">
-                <button type="submit" class="style-all-unset">
-                <img src="~/Images/book1.jpg" style="width:30px" title="Save"></button></td> 
+        <td class="width-5"><a href="/Booking/ClearBooking">
+            <img src="~/Images/camera1.jpg"  class="width-100" title="Clear"></a></td>
+        <td class="width-5">
+            <button type="submit" class="style-all-unset">
+            <img src="~/Images/book1.jpg" style="width:30px" title="Save"></button></td> 
        
     </tr>
 </table>
@@ -118,7 +121,11 @@
                          </table>
                     </td>
                 </tr>
-                
+                <tr>
+                    <td colspan="2">
+                        @Html.TextAreaFor(m => m.Book.AdditionalInfo, new {@class="text-area"}) 
+                    </td>
+                </tr>
             </td>
            </table>
         </td>
