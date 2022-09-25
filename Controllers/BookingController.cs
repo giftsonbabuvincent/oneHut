@@ -116,6 +116,7 @@ public class BookingController : Controller
                 // upload file 
                 if (string.IsNullOrEmpty(id)) { id = bookingModel.Book._id; }
                 UploadFiles(postedFiles, id);
+                bookingModel.PostedFiles = GetUploadedFiles(id);
             }
         }
         catch (Exception e)
@@ -213,6 +214,7 @@ public class BookingController : Controller
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
         bookingModel.Book = bookingModel.Bookings.Find(it => it._id.Equals(id));
         ViewBag.pageName = "Booking";
+        bookingModel.PostedFiles = GetUploadedFiles(bookingModel.Book._id);
         return View("Booking", bookingModel);
     }
 
@@ -349,9 +351,9 @@ public class BookingController : Controller
         string wwwPath = this.Environment.WebRootPath;
         string contentPath = this.Environment.ContentRootPath;
 
-        string path = Path.Combine(this.Environment.WebRootPath, "Uploads/" + HttpContext.Session.GetString("_UserID").Trim() + "/" + _id);
+        string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + _id);
 
-        if (Directory.Exists(path)) { Directory.Delete(path, true); }
+        // if (Directory.Exists(path)) { Directory.Delete(path, true); }
 
         if (!Directory.Exists(path))
         {
@@ -369,6 +371,29 @@ public class BookingController : Controller
                 //ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
             }
         }
+    }
+
+    private List<string> GetUploadedFiles(string _id)
+    {
+        string wwwPath = this.Environment.WebRootPath;
+        string contentPath = this.Environment.ContentRootPath;
+
+        string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + _id);
+
+        // if (Directory.Exists(path)) { Directory.Delete(path, true); }
+
+        List<string> uploadedFiles = new List<string>();
+
+        if (Directory.Exists(path))
+        {
+            foreach (string fileName in Directory.GetFiles(path).ToList())
+            {
+                uploadedFiles.Add("/Uploads" + fileName.Split("Uploads").LastOrDefault().ToString().Replace("\\", "/"));
+            }
+        }
+
+        //uploadedFiles.Add("/Uploads/USR0001/632f16625f51c805bb23f952/HeartBox.jpg");
+        return uploadedFiles;
     }
 
 }

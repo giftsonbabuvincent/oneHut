@@ -612,6 +612,10 @@ input[type=number]::-webkit-outer-spin-button {
   padding-top: 10%;
 }
 
+.padding-left-10 {
+  padding-left: 10px;
+}
+
 .padding-top-9 {
   padding-top: 9%;
 }

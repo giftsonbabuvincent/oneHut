@@ -16,8 +16,7 @@ public class BookingModel
     public int CurrentPage {get;set;} = 1;
     public int TakeItem {get;set;} = 5;
     public List<int> Pages {get; set;}
-    public List<IFormFile> postedFiles {get; set;}
-
+    public List<string> PostedFiles {get; set;} = new List<string>();
 }
 public class Booking
 {

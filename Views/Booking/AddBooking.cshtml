@@ -1,144 +1,178 @@
 @model oneHut.Models.BookingModel
+
+
 <script type="text/javascript">
-function uploadFiles() {
+    function uploadFiles() {
         document.getElementById("postedFiles").click();
-}
+    }
 </script>
-<div style="width:100%; text-align: center;"> 
-    <div class="row">    
-<form method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Booking">
-        
 <div style="width:100%; text-align: center;">
-<table>
-    <tr>
-        <td class="text-left grid-header"><label>New Booking</label>
-        </td>
-        <td  class="width-50"> @if (!string.IsNullOrEmpty(Model.Message))
-        {
-            @if (Model.Message.ToLower().Contains("success"))
-                     {<div class="bar success text-align-center">@Html.Label(Model.Message)</div>}
-            @if (Model.Message.ToLower().Contains("error"))
-                     {<div class="bar error text-align-center">@Html.Label(Model.Message)</div>}
-        }</td>
+    <div class="row">
+        <form method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Booking">
+            <div style="width:100%; text-align: center;">
+                <table>
+                    <tr>
+                        <td class="text-left grid-header">
+                            <label>New Booking</label>
+                        </td>
+                        <td class="width-50"> @if (!string.IsNullOrEmpty(Model.Message))
+                            { 
+                                @if
+                               (Model.Message.ToLower().Contains("success"))
+                                { 
+                                    <div class="bar success text-align-center">
+                                        @Html.Label(Model.Message)</div>
+                                }
+                                @if (Model.Message.ToLower().Contains("error"))
+                                {
+                                    <div class="bar error text-align-center">@Html.Label(Model.Message)</div>
+                                }
 
-        <td class="width-5"><a href="/Booking/ClearBooking">
-            <img src="~/Images/Clean.jpg"  class="width-60" title="Clear"></a></td>
-        <td class="width-5"> <input type="file" id="postedFiles" name="postedFiles" multiple class="style-all-unset display-none"></input>
-            <img onclick="uploadFiles();"  src="~/Images/camera1.jpg"  class="width-90 cursor-pointer" title="Photo"></td>
-        <td class="width-5">
-            <button type="submit" class="style-all-unset">
-            <img src="~/Images/book1.jpg" style="width:30px" title="Save"></button></td> 
-       
-    </tr>
-</table>
+                            }
+                             </td>
+                        <td class="width-5">
+                            <a href="/Booking/ClearBooking">
+                                <img src="~/Images/Clean.jpg" class="width-60" title="Clear">
+                            </a>
+                        </td>
+                        <td class="width-5">
+                            <input type="file" id="postedFiles" name="postedFiles" multiple
+                                class="style-all-unset display-none"></input>
+                            <img onclick="uploadFiles();" src="~/Images/camera1.jpg" class="width-90 cursor-pointer"
+                                title="Photo">
+                        </td>
+                        <td class="width-5">
+                            <button type="submit" class="style-all-unset">
+                                <img src="~/Images/book1.jpg" style="width:30px" title="Save">
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width:100%; text-align: center;">
+                <table class="table table-bordered table-responsive table-hover">
+                    <tr class="grid-background">
+                        <th class="text-align-left">Guest Name</th>
+                        <th class="text-align-left">Phone</th>
+                        <th class="text-align-left">Check-In </th>
+                        <th class="text-align-left">Check-Out</th>
+                        <th class="text-align-left">Rooms</th>
+                    </tr>
+                    <tr>
+                        <td>@Html.TextBoxFor(m=>m.Book._id,
+                            new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName,
+                            new{@class="width-225px",@required = "required"} )</td>
+                        <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px", @required = "required", @type =
+                            "number", @min = "1" })</td>
+                        <td>@if (String.IsNullOrEmpty(Model.Book._id))
+                            { 
+                                @Html.TextBoxFor(m => m.Book.CheckIn, new {
+                            @type="date", @class = "datepicker width-160px",@required = "required" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px", @required = "required"})
+                            }</td>
+                        <td>@if (String.IsNullOrEmpty(Model.Book._id))
+                            { 
+                                @Html.TextBoxFor(m => m.Book.CheckOut, new {
+                            @type="date", @class = "datepicker width-160px",@required = "required" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(m => m.Book.CheckOut, new { @class = "width-160px",@required = "required"
+                            })
+                            }</td>
+                        <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px", @required = "required", @type =
+                            "number", @min = "1", @max = "99"})</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table class="width-100">
+                    <tr>
+                        <td class="text-left grid-header">
+                            <label>Additional Infomation</label>
+                        </td>
+                        <td>
+                            <div class="rate"> @Html.RadioButtonFor(model => model.Book.Rating, "5", new { @id =
+                                "star5"}) <label for="star5" title="">5 stars</label> @Html.RadioButtonFor(model =>
+                                model.Book.Rating, "4", new { @id = "star4"}) <label for="star4" title="">4
+                                    stars</label> @Html.RadioButtonFor(model => model.Book.Rating, "3", new { @id =
+                                "star3"}) <label for="star3" title="">3 stars</label> @Html.RadioButtonFor(model =>
+                                model.Book.Rating, "2", new { @id = "star2"}) <label for="star2" title="">2
+                                    stars</label> @Html.RadioButtonFor(model => model.Book.Rating, "1", new { @id =
+                                "star1"}) <label for="star1" title="">1 star</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="width-100 text-left">
+                            <table class="width-100">
+                                <td>
+                                    <tr>
+                                        <td class="width-50">
+                                            <table class="table table-bordered table-responsive table-hover">
+                                                <tr>
+                                                    <th class="text-align-left background-color-cornflowerblue">Bill
+                                                        Amount</th>
+                                                    <td> @Html.TextBox("Bill Amount",null, new{@class =
+                                                        "text-align-right"}) </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-align-left background-color-cornflowerblue">Amount
+                                                        Paid</th>
+                                                    <td> @Html.TextBox("Amount Paid",null, new{@class =
+                                                        "text-align-right"}) </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-align-left background-color-cornflowerblue">Payment
+                                                        Status</th>
+                                                    <td> @Html.TextBox("Payment Status",null, new{@class =
+                                                        "text-align-center", @readonly="readonly"}) </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td  class="padding-left-10">
+                                                        <div class="slideshow-container">
+                                                            <!-- Full-width images with number and caption text 
+                                                            <div class="mySlides">
+                                                                <div class="numbertext">2 / 5</div>
+                                                                <img src="~/Images/LetzDiscuss.png" style="width:100%">
+                                                            </div> -->
 
+                                                            @foreach (var imagelocation in Model.PostedFiles)
+                                                            {
+                                                                <div class="mySlides">
+                                                                    <div class="numbertext">2 / 5</div>
+                                                                    <img src=@imagelocation height="130">
+                                                                </div> 
+                                                            }
+
+                                                            <!-- Next and previous buttons -->
+                                                            <a class="prev text-left"
+                                                                onclick="plusSlides(-1)">&#10094;</a>
+                                                            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                                                        </div>
+                                                        <br>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"> @Html.TextAreaFor(m => m.Book.AdditionalInfo, new
+                                            {@class="text-area"}) </td>
+                                    </tr>
+                                </td>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
     </div>
-   
-    <div style="width:100%; text-align: center;">
-       <table class="table table-bordered table-responsive table-hover">  
-    <tr class="grid-background">  
-        <th class="text-align-left">Guest Name</th>  
-        <th class="text-align-left">Phone</th>  
-        <th class="text-align-left">Check-In </th>  
-        <th class="text-align-left">Check-Out</th>  
-        <th class="text-align-left">Rooms</th>  
-        
-
-    </tr>  
-  
-        <tr>  
-            
-            <td>@Html.TextBoxFor(m=>m.Book._id, new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName, new{@class="width-225px",@required  = "required"} )</td> 
-            <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px", @required  = "required", @type = "number",  @min = "1" })</td> 
-            <td>@if (String.IsNullOrEmpty(Model.Book._id))
-            {
-                @Html.TextBoxFor(m => m.Book.CheckIn, new { @type="date", @class = "datepicker width-160px",@required  = "required" })  
-            }
-            else    
-            { @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px", @required  = "required"})  }</td> 
-            <td>@if (String.IsNullOrEmpty(Model.Book._id))
-            {
-                @Html.TextBoxFor(m => m.Book.CheckOut, new { @type="date", @class = "datepicker width-160px",@required  = "required" })  
-            }
-            else    
-            { @Html.TextBoxFor(m => m.Book.CheckOut, new { @class = "width-160px",@required  = "required" })  }</td>    
-            <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px", @required  = "required", @type = "number",  @min = "1", @max = "99"})</td> 
-            
-
-        </tr>  
-</table>
-
 </div>
-<div>
-    <table class="width-100">
-    <tr>
-        <td class="text-left grid-header"><label>Additional Infomation</label></td>
-        <td><div class="rate">
-    @Html.RadioButtonFor(model => model.Book.Rating, "5", new { @id = "star5"})  
-    <label for="star5" title="">5 stars</label>
-    @Html.RadioButtonFor(model => model.Book.Rating, "4", new { @id = "star4"})  
-    <label for="star4" title="">4 stars</label>
-    @Html.RadioButtonFor(model => model.Book.Rating, "3", new { @id = "star3"})  
-    <label for="star3" title="">3 stars</label>
-    @Html.RadioButtonFor(model => model.Book.Rating, "2", new { @id = "star2"})  
-    <label for="star2" title="">2 stars</label>
-    @Html.RadioButtonFor(model => model.Book.Rating, "1", new { @id = "star1"})  
-    <label for="star1" title="">1 star</label>
-  </div></td>
-       
-    </tr>
-    <tr>
-        <td colspan="2" class="width-100 text-left">
-           @* 
-            <textarea name="addtionalInfo" class="text-area-book"></textarea><br> 
-            <textarea name="addtionalInfoHistory" class="text-area"></textarea>
-           *@
-           <table class="width-100">  
-            <td>
-                <tr>
-                    <td class="width-50">
-                        <table class="table table-bordered table-responsive table-hover"> 
-                            <tr>
-                                <th class="text-align-left background-color-cornflowerblue">Bill Amount</th>
-                                <td>
-                                     @Html.TextBox("Bill Amount",null, new{@class = "text-align-right"})
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="text-align-left background-color-cornflowerblue">Amount Paid</th>
-                                <td>
-                                    @Html.TextBox("Amount Paid",null, new{@class = "text-align-right"})
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="text-align-left background-color-cornflowerblue">Payment Status</th>
-                                <td>
-                                    @Html.TextBox("Payment Status",null, new{@class = "text-align-center", @readonly="readonly"})
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td>
-                         <table class="table table-bordered table-responsive table-hover"> 
-                            <tr>
-                                <td>
-                                    @Html.TextAreaFor(m => m.Book.AdditionalInfo, new {@class="text-area"}) 
-                                </td>
-                            </tr>
-                         </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Html.TextAreaFor(m => m.Book.AdditionalInfo, new {@class="text-area"}) 
-                    </td>
-                </tr>
-            </td>
-           </table>
-        </td>
-    </tr>
-</table>
-</div>
-</form>
-    </div> 
-      </div>
