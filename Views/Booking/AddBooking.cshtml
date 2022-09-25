@@ -16,10 +16,10 @@
                             <label>New Booking</label>
                         </td>
                         <td class="width-50"> @if (!string.IsNullOrEmpty(Model.Message))
-                            { 
+                            {
                                 @if
                                (Model.Message.ToLower().Contains("success"))
-                                { 
+                                {
                                     <div class="bar success text-align-center">
                                         @Html.Label(Model.Message)</div>
                                 }
@@ -29,7 +29,7 @@
                                 }
 
                             }
-                             </td>
+                        </td>
                         <td class="width-5">
                             <a href="/Booking/ClearBooking">
                                 <img src="~/Images/Clean.jpg" class="width-60" title="Clear">
@@ -65,7 +65,7 @@
                         <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px", @required = "required", @type =
                             "number", @min = "1" })</td>
                         <td>@if (String.IsNullOrEmpty(Model.Book._id))
-                            { 
+                            {
                                 @Html.TextBoxFor(m => m.Book.CheckIn, new {
                             @type="date", @class = "datepicker width-160px",@required = "required" })
                             }
@@ -74,7 +74,7 @@
                                 @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px", @required = "required"})
                             }</td>
                         <td>@if (String.IsNullOrEmpty(Model.Book._id))
-                            { 
+                            {
                                 @Html.TextBoxFor(m => m.Book.CheckOut, new {
                             @type="date", @class = "datepicker width-160px",@required = "required" })
                             }
@@ -136,20 +136,26 @@
                                         <td>
                                             <table>
                                                 <tr>
-                                                    <td  class="padding-left-10">
+                                                    <td class="padding-left-10">
                                                         <div class="slideshow-container">
                                                             <!-- Full-width images with number and caption text 
                                                             <div class="mySlides">
                                                                 <div class="numbertext">2 / 5</div>
                                                                 <img src="~/Images/LetzDiscuss.png" style="width:100%">
                                                             </div> -->
-
-                                                            @foreach (var imagelocation in Model.PostedFiles)
+                                                            @if (Model.PostedFiles.Count > 0)
                                                             {
-                                                                <div class="mySlides">
-                                                                    <div class="numbertext">2 / 5</div>
-                                                                    <img src=@imagelocation height="130">
-                                                                </div> 
+                                                                int i = 1;
+                                                                @foreach (var imagelocation in Model.PostedFiles)
+                                                                {
+                                                                    <div class="mySlides">
+                                                                        <div class="numbertext"> @i.ToString() /
+                                                                            @Model.PostedFiles.Count
+                                                                        </div>
+                                                                        <img src=@imagelocation height="130">
+                                                                    </div>
+                                                                    i += i;
+                                                                }
                                                             }
 
                                                             <!-- Next and previous buttons -->
