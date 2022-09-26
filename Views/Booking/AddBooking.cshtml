@@ -5,6 +5,16 @@
     function uploadFiles() {
         document.getElementById("postedFiles").click();
     }
+
+function isFileSelected(e) {
+    if (e.length > 0) {
+        document.getElementById('fileMessge').style.display = "block";
+        document.getElementById('fileMessge').innerText = "File(s) has been selected!";
+    } else {
+        document.getElementById('fileMessge').style.display = "none";
+    }
+}
+    
 </script>
 <div style="width:100%; text-align: center;">
     <div class="row">
@@ -29,6 +39,7 @@
                                 }
 
                             }
+                            <div class="bar success text-align-center display-none" id="fileMessge"></div>
                         </td>
                         <td class="width-5">
                             <a href="/Booking/ClearBooking">
@@ -36,8 +47,7 @@
                             </a>
                         </td>
                         <td class="width-5">
-                            <input type="file" id="postedFiles" name="postedFiles" multiple
-                                class="style-all-unset display-none"></input>
+                            @Html.TextBox("postedFiles",null, new{@type="file", @multiple="true",  @class ="text-align-right display-none", @onchange="isFileSelected(this.value)"})
                             <img onclick="uploadFiles();" src="~/Images/camera1.jpg" class="width-90 cursor-pointer"
                                 title="Photo">
                         </td>
