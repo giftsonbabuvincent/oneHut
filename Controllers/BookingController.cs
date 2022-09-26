@@ -109,6 +109,9 @@ public class BookingController : Controller
                 bookingModel.Book.CheckOut = validateDate(bookingModel.Book.CheckOut.ToUpper());
             }
 
+
+            // bookingModel.Book.BillAmount = 
+
             bookingModel = oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
 
             if (postedFiles.Count != 0)
@@ -363,7 +366,7 @@ public class BookingController : Controller
         List<string> uploadedFiles = new List<string>();
         foreach (IFormFile postedFile in postedFiles)
         {
-            string fileName = Path.GetFileName(postedFile.FileName);
+            string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetFileName(postedFile.FileName);
             using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
             {
                 postedFile.CopyTo(stream);

@@ -126,19 +126,18 @@ function isFileSelected(e) {
                                                 <tr>
                                                     <th class="text-align-left background-color-cornflowerblue">Bill
                                                         Amount</th>
-                                                    <td> @Html.TextBox("Bill Amount",null, new{@class =
+                                                    <td>  @Html.TextBoxFor(m => m.Book.BillAmount, new {@class =
                                                         "text-align-right"}) </td>
                                                 </tr>
                                                 <tr>
                                                     <th class="text-align-left background-color-cornflowerblue">Amount
                                                         Paid</th>
-                                                    <td> @Html.TextBox("Amount Paid",null, new{@class =
-                                                        "text-align-right"}) </td>
+                                                    <td> @Html.TextBoxFor(m => m.Book.AmountPaid,  new{@class ="text-align-right"}) </td>
                                                 </tr>
                                                 <tr>
                                                     <th class="text-align-left background-color-cornflowerblue">Payment
                                                         Status</th>
-                                                    <td> @Html.TextBox("Payment Status",null, new{@class =
+                                                    <td> @Html.TextBoxFor(m => m.Book.PaymentStatus,  new{@class =
                                                         "text-align-center", @readonly="readonly"}) </td>
                                                 </tr>
                                             </table>
@@ -148,11 +147,6 @@ function isFileSelected(e) {
                                                 <tr>
                                                     <td class="padding-left-10">
                                                         <div class="slideshow-container">
-                                                            <!-- Full-width images with number and caption text 
-                                                            <div class="mySlides">
-                                                                <div class="numbertext">2 / 5</div>
-                                                                <img src="~/Images/LetzDiscuss.png" style="width:100%">
-                                                            </div> -->
                                                             @if (Model.PostedFiles.Count > 0)
                                                             {
                                                                 int i = 1;

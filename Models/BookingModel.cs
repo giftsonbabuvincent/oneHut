@@ -33,6 +33,10 @@ public class Booking
     public string Status { get; set; } = string.Empty;
     public string Rating {get;set;} = string.Empty;
     public string AdditionalInfo {get;set;} = string.Empty;
+
+    public string BillAmount {get; set;} = string.Empty;
+    public string AmountPaid {get; set;} = string.Empty;
+    public string PaymentStatus {get; set;} = string.Empty;
     public DateTime ActionDateTime {get; set;} = DateTime.Now;
 
 }

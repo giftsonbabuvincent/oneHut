@@ -86,6 +86,9 @@ public class OneHutData
         .Take(bookingModel.TakeItem))
         {
             book.No = Convert.ToString(rowNo += 1);
+            book.BillAmount = string.IsNullOrEmpty(book.BillAmount) ? string.Empty : "₹" + book.BillAmount;
+            book.AmountPaid = string.IsNullOrEmpty(book.AmountPaid) ? string.Empty : "₹" + book.AmountPaid;
+            book.PaymentStatus = PaymentStatus(new string[] {book.BillAmount, book.AmountPaid});
             bookingModel.Bookings.Add(book);
         }
         return bookingModel;
@@ -113,6 +116,9 @@ public class OneHutData
                 .Set("Rooms", bookingModel.Book.Rooms)
                 .Set("Rating", bookingModel.Book.Rating)
                 .Set("AdditionalInfo", bookingModel.Book.AdditionalInfo)
+                .Set("BillAmount", CovertToCurrency(bookingModel.Book.BillAmount))
+                .Set("AmountPaid", CovertToCurrency(bookingModel.Book.AmountPaid))
+                .Set("PaymentStatus", PaymentStatus(new string[] {bookingModel.Book.BillAmount.Replace("₹", string.Empty), bookingModel.Book.AmountPaid.Replace("₹", string.Empty)}))
                 .Set("ActionDateTime", bookingModel.Book.ActionDateTime);
 
 
@@ -133,7 +139,10 @@ public class OneHutData
                 Status = bookingModel.Book.Status.Trim(),
                 Rating = bookingModel.Book.Rating,
                 AdditionalInfo = bookingModel.Book.AdditionalInfo,
-                ActionDateTime = bookingModel.Book.ActionDateTime,
+                BillAmount = CovertToCurrency(bookingModel.Book.BillAmount),
+                AmountPaid = CovertToCurrency(bookingModel.Book.AmountPaid),
+                PaymentStatus = bookingModel.Book.PaymentStatus,
+                ActionDateTime = bookingModel.Book.ActionDateTime
             });
 
             // Get inserted _id
@@ -180,5 +189,21 @@ public class OneHutData
         var result = database.GetCollection<Booking>("Booking").UpdateOne(filter, update, null);
 
         return new BookingModel() { Message = "Updated Successfully" };
+    }
+
+
+    private string CovertToCurrency(string Amount)
+    {
+        return string.IsNullOrEmpty(Amount.Replace("₹", string.Empty)) ? string.Empty :
+         string.Format("{0:#.00}", Convert.ToDecimal(Amount)).Trim();
+    }
+
+    private string PaymentStatus(string[] amount)
+    {
+        if (amount.FirstOrDefault().Length > 0 && string.IsNullOrEmpty(amount.LastOrDefault())) { return "Unpaid";}
+        if (amount.FirstOrDefault().Length > 0 && amount.FirstOrDefault() == amount.LastOrDefault()) { return "Paid";}
+        if (amount.FirstOrDefault().Length > 0 && amount.FirstOrDefault() != amount.LastOrDefault()) { return "Partially Paid";}
+
+            return string.Empty;
     }
 }
