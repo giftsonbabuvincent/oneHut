@@ -71,7 +71,7 @@ function isFileSelected(e) {
                     <tr>
                         <td>@Html.TextBoxFor(m=>m.Book._id,
                             new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName,
-                            new{@class="width-215px",@required = "required"} )</td>
+                            new{@class="width-200px",@required = "required"} )</td>
                         <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-120px", @required = "required" })</td>
                         <td>@if (String.IsNullOrEmpty(Model.Book._id))
                             {
