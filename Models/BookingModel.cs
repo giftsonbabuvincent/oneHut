@@ -14,7 +14,7 @@ public class BookingModel
     public string Guest {get;set;} = string.Empty;
     public int TotalPages {get;set;} = 1;
     public int CurrentPage {get;set;} = 1;
-    public int TakeItem {get;set;} = 5;
+    public int TakeItem {get;set;} = 10;
     public List<int> Pages {get; set;}
     public List<string> PostedFiles {get; set;} = new List<string>();
 }

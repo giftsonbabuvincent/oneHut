@@ -86,8 +86,8 @@ public class OneHutData
         .Take(bookingModel.TakeItem))
         {
             book.No = Convert.ToString(rowNo += 1);
-            book.BillAmount = string.IsNullOrEmpty(book.BillAmount) ? string.Empty : "₹" + book.BillAmount;
-            book.AmountPaid = string.IsNullOrEmpty(book.AmountPaid) ? string.Empty : "₹" + book.AmountPaid;
+            book.BillAmount = string.IsNullOrEmpty(book.BillAmount) ? string.Empty : "₹" + string.Format("{0:#.00}",book.BillAmount);
+            book.AmountPaid = string.IsNullOrEmpty(book.AmountPaid) ? string.Empty : "₹" + string.Format("{0:#.00}",book.AmountPaid);
             book.PaymentStatus = PaymentStatus(new string[] {book.BillAmount, book.AmountPaid});
             bookingModel.Bookings.Add(book);
         }
