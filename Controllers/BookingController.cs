@@ -87,6 +87,7 @@ public class BookingController : Controller
             return RedirectToAction("Index", "Home");
         }
         // add booking
+        bool newBooking = true;
         OneHutData oneHutData = new OneHutData();
         String id = bookingModel.Book._id;
         Regex regex = new Regex(@"\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}\s+(AM|PM)");
@@ -107,8 +108,8 @@ public class BookingController : Controller
             {
                 bookingModel.Book.CheckIn = validateDate(bookingModel.Book.CheckIn.ToUpper());
                 bookingModel.Book.CheckOut = validateDate(bookingModel.Book.CheckOut.ToUpper());
+                newBooking = false;
             }
-
 
             bookingModel.Book.BillAmount = CovertToCurrency(bookingModel.Book.BillAmount);
             bookingModel.Book.AmountPaid = CovertToCurrency(bookingModel.Book.AmountPaid);
@@ -160,7 +161,7 @@ public class BookingController : Controller
            _bookingModel,
             new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
         bookingModel.Book = new Booking();
-        if (!String.IsNullOrEmpty(id)) { bookingModel.Message = "Booking updated successfully!"; }
+        if (!newBooking) { bookingModel.Message = "Booking updated successfully!"; }
         else { bookingModel.Message = "Booking successful!"; }
         ViewBag.pageName = "Booking";
 
@@ -365,15 +366,17 @@ public class BookingController : Controller
         }
 
         List<string> uploadedFiles = new List<string>();
+        int fileCount = 1;
         foreach (IFormFile postedFile in postedFiles)
         {
-            string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + Path.GetFileName(postedFile.FileName);
+            string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + fileCount.ToString() + Path.GetFileName(postedFile.FileName);
             using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
             {
                 postedFile.CopyTo(stream);
                 uploadedFiles.Add(fileName);
                 //ViewBag.Message += string.Format("<b>{0}</b> uploaded.<br />", fileName);
             }
+            fileCount += 1;
         }
     }
 
@@ -390,7 +393,8 @@ public class BookingController : Controller
 
         if (Directory.Exists(path))
         {
-            foreach (string fileName in Directory.GetFiles(path).ToList())
+
+            foreach (string fileName in Directory.GetFiles(path).ToArray().OrderBy(it => it))
             {
                 uploadedFiles.Add("/Uploads" + fileName.Split("Uploads").LastOrDefault().ToString().Replace("\\", "/"));
             }
@@ -404,7 +408,7 @@ public class BookingController : Controller
 
     private string CovertToCurrency(string Amount)
     {
-        if(string.IsNullOrEmpty(Amount)) { return string.Empty;}
+        if (string.IsNullOrEmpty(Amount)) { return string.Empty; }
 
         return string.IsNullOrEmpty(Amount.Replace("₹", string.Empty)) ? string.Empty :
          string.Format("{0:#.00}", Convert.ToDecimal(Amount.Replace("₹", string.Empty))).Trim();

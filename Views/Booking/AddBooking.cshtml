@@ -149,6 +149,9 @@ function isFileSelected(e) {
                                                             if(Model.Book.PaymentStatus.ToLower().Contains("unpaid")){
                                                                 statusColor = "text-align-center text-color-error";
                                                             }
+                                                            if(Model.Book.PaymentStatus.ToLower().Contains("excess")){
+                                                                statusColor = "text-align-center text-color-blue";
+                                                            }
                                                         }
                                                         @Html.TextBoxFor(m => m.Book.PaymentStatus,  new{@class = statusColor
                                                             , @readonly="readonly"}) 
@@ -192,7 +195,7 @@ function isFileSelected(e) {
                                     </tr>
                                     <tr>
                                         <td colspan="2"> @Html.TextAreaFor(m => m.Book.AdditionalInfo, new
-                                            {@class="text-area"}) </td>
+                                            {@class="text-area", @placeholder="Notes"}) </td>
                                     </tr>
                                 </td>
                             </table>

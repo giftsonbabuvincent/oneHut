@@ -116,8 +116,8 @@ public class OneHutData
                 .Set("Rooms", bookingModel.Book.Rooms)
                 .Set("Rating", bookingModel.Book.Rating)
                 .Set("AdditionalInfo", bookingModel.Book.AdditionalInfo)
-                .Set("BillAmount", bookingModel.Book.BillAmount)
-                .Set("AmountPaid", bookingModel.Book.AmountPaid)
+                .Set("BillAmount", string.Format("{0:#.00}",bookingModel.Book.BillAmount))
+                .Set("AmountPaid", string.Format("{0:#.00}",bookingModel.Book.AmountPaid))
                 // .Set("PaymentStatus", PaymentStatus(new string[] {bookingModel.Book.BillAmount.Replace("₹", string.Empty), bookingModel.Book.AmountPaid.Replace("₹", string.Empty)}))
                 .Set("ActionDateTime", bookingModel.Book.ActionDateTime);
 
@@ -139,8 +139,8 @@ public class OneHutData
                 Status = bookingModel.Book.Status.Trim(),
                 Rating = bookingModel.Book.Rating,
                 AdditionalInfo = bookingModel.Book.AdditionalInfo,
-                BillAmount = bookingModel.Book.BillAmount,
-                AmountPaid = bookingModel.Book.AmountPaid,
+                BillAmount = string.Format("{0:#.00}",bookingModel.Book.BillAmount),
+                AmountPaid = string.Format("{0:#.00}",bookingModel.Book.AmountPaid),
                 // PaymentStatus = bookingModel.Book.PaymentStatus,
                 ActionDateTime = bookingModel.Book.ActionDateTime
             });
@@ -197,6 +197,7 @@ public class OneHutData
     {
         if (amount.FirstOrDefault().Length > 0 && string.IsNullOrEmpty(amount.LastOrDefault())) { return "Unpaid";}
         if (amount.FirstOrDefault().Length > 0 && amount.FirstOrDefault() == amount.LastOrDefault()) { return "Paid";}
+        if (amount.FirstOrDefault().Length > 0 && Convert.ToDouble(amount.FirstOrDefault().TrimStart('₹')) < Convert.ToDouble(amount.LastOrDefault().TrimStart('₹'))) { return "Excess Paid";}
         if (amount.FirstOrDefault().Length > 0 && amount.FirstOrDefault() != amount.LastOrDefault()) { return "Partially Paid";}
 
             return string.Empty;
