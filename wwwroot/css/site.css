@@ -633,4 +633,16 @@ input[type=number]::-webkit-outer-spin-button {
   padding: 10px;
 }
 
+.text-color-sucess {
+  color: #2b7515;
+}
+
+.text-color-error {
+  color: #ba3939;
+}
+
+.text-color-warn {
+  color: orange;
+}
+
 

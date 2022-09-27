@@ -137,8 +137,22 @@ function isFileSelected(e) {
                                                 <tr>
                                                     <th class="text-align-left background-color-cornflowerblue">Payment
                                                         Status</th>
-                                                    <td> @Html.TextBoxFor(m => m.Book.PaymentStatus,  new{@class =
-                                                        "text-align-center", @readonly="readonly"}) </td>
+                                                    <td>
+                                                        @{
+                                                            var statusColor = "text-align-center";
+                                                            if(Model.Book.PaymentStatus.ToLower().Equals("paid")){
+                                                                statusColor = "text-align-center text-color-sucess";
+                                                            }
+                                                            if(Model.Book.PaymentStatus.ToLower().Contains("partial")){
+                                                                statusColor = "text-align-center text-color-warn";
+                                                            }
+                                                            if(Model.Book.PaymentStatus.ToLower().Contains("unpaid")){
+                                                                statusColor = "text-align-center text-color-error";
+                                                            }
+                                                        }
+                                                        @Html.TextBoxFor(m => m.Book.PaymentStatus,  new{@class = statusColor
+                                                            , @readonly="readonly"}) 
+                                                    </td>
                                                 </tr>
                                             </table>
                                         </td>

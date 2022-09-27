@@ -116,9 +116,9 @@ public class OneHutData
                 .Set("Rooms", bookingModel.Book.Rooms)
                 .Set("Rating", bookingModel.Book.Rating)
                 .Set("AdditionalInfo", bookingModel.Book.AdditionalInfo)
-                .Set("BillAmount", CovertToCurrency(bookingModel.Book.BillAmount))
-                .Set("AmountPaid", CovertToCurrency(bookingModel.Book.AmountPaid))
-                .Set("PaymentStatus", PaymentStatus(new string[] {bookingModel.Book.BillAmount.Replace("₹", string.Empty), bookingModel.Book.AmountPaid.Replace("₹", string.Empty)}))
+                .Set("BillAmount", bookingModel.Book.BillAmount)
+                .Set("AmountPaid", bookingModel.Book.AmountPaid)
+                // .Set("PaymentStatus", PaymentStatus(new string[] {bookingModel.Book.BillAmount.Replace("₹", string.Empty), bookingModel.Book.AmountPaid.Replace("₹", string.Empty)}))
                 .Set("ActionDateTime", bookingModel.Book.ActionDateTime);
 
 
@@ -139,9 +139,9 @@ public class OneHutData
                 Status = bookingModel.Book.Status.Trim(),
                 Rating = bookingModel.Book.Rating,
                 AdditionalInfo = bookingModel.Book.AdditionalInfo,
-                BillAmount = CovertToCurrency(bookingModel.Book.BillAmount),
-                AmountPaid = CovertToCurrency(bookingModel.Book.AmountPaid),
-                PaymentStatus = bookingModel.Book.PaymentStatus,
+                BillAmount = bookingModel.Book.BillAmount,
+                AmountPaid = bookingModel.Book.AmountPaid,
+                // PaymentStatus = bookingModel.Book.PaymentStatus,
                 ActionDateTime = bookingModel.Book.ActionDateTime
             });
 
@@ -192,12 +192,7 @@ public class OneHutData
     }
 
 
-    private string CovertToCurrency(string Amount)
-    {
-        return string.IsNullOrEmpty(Amount.Replace("₹", string.Empty)) ? string.Empty :
-         string.Format("{0:#.00}", Convert.ToDecimal(Amount)).Trim();
-    }
-
+    
     private string PaymentStatus(string[] amount)
     {
         if (amount.FirstOrDefault().Length > 0 && string.IsNullOrEmpty(amount.LastOrDefault())) { return "Unpaid";}

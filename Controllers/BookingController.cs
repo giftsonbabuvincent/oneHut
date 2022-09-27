@@ -110,7 +110,8 @@ public class BookingController : Controller
             }
 
 
-            // bookingModel.Book.BillAmount = 
+            bookingModel.Book.BillAmount = CovertToCurrency(bookingModel.Book.BillAmount);
+            bookingModel.Book.AmountPaid = CovertToCurrency(bookingModel.Book.AmountPaid);
 
             bookingModel = oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
 
@@ -398,5 +399,19 @@ public class BookingController : Controller
         //uploadedFiles.Add("/Uploads/USR0001/632f16625f51c805bb23f952/HeartBox.jpg");
         return uploadedFiles;
     }
+
+    #region Validation
+
+    private string CovertToCurrency(string Amount)
+    {
+        if(string.IsNullOrEmpty(Amount)) { return string.Empty;}
+
+        return string.IsNullOrEmpty(Amount.Replace("₹", string.Empty)) ? string.Empty :
+         string.Format("{0:#.00}", Convert.ToDecimal(Amount.Replace("₹", string.Empty))).Trim();
+    }
+
+
+    #endregion
+
 
 }
