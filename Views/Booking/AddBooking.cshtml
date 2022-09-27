@@ -71,9 +71,8 @@ function isFileSelected(e) {
                     <tr>
                         <td>@Html.TextBoxFor(m=>m.Book._id,
                             new{@class="display-none"})@Html.TextBoxFor(m=>m.Book.GuestName,
-                            new{@class="width-225px",@required = "required"} )</td>
-                        <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-95px", @required = "required", @type =
-                            "number", @min = "1" })</td>
+                            new{@class="width-215px",@required = "required"} )</td>
+                        <td>@Html.TextBoxFor(m=>m.Book.Phone, new{@class="width-120px", @required = "required" })</td>
                         <td>@if (String.IsNullOrEmpty(Model.Book._id))
                             {
                                 @Html.TextBoxFor(m => m.Book.CheckIn, new {
@@ -81,7 +80,7 @@ function isFileSelected(e) {
                             }
                             else
                             {
-                                @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px", @required = "required"})
+                                @Html.TextBoxFor(m => m.Book.CheckIn, new { @class = "width-160px", @required = "required" })
                             }</td>
                         <td>@if (String.IsNullOrEmpty(Model.Book._id))
                             {
@@ -93,8 +92,7 @@ function isFileSelected(e) {
                                 @Html.TextBoxFor(m => m.Book.CheckOut, new { @class = "width-160px",@required = "required"
                             })
                             }</td>
-                        <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-50px", @required = "required", @type =
-                            "number", @min = "1", @max = "99"})</td>
+                        <td>@Html.TextBoxFor(m=>m.Book.Rooms,new{@class="width-70px", @required = "required" })</td>
                     </tr>
                 </table>
             </div>
