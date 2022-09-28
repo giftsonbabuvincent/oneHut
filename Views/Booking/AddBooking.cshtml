@@ -9,8 +9,9 @@
 function isFileSelected(e) {
     if (e.length > 0) {
         document.getElementById('fileMessage').style.display = "block";
-        document.getElementById('erroMessage').style.display = "none";
         document.getElementById('fileMessage').innerText = "File(s) has been selected!";
+        document.getElementById('erroMessage').style.display = "none";
+
     } else {
         document.getElementById('fileMessage').style.display = "none";
     }
