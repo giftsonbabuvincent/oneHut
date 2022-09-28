@@ -8,10 +8,11 @@
 
 function isFileSelected(e) {
     if (e.length > 0) {
-        document.getElementById('fileMessge').style.display = "block";
-        document.getElementById('fileMessge').innerText = "File(s) has been selected!";
+        document.getElementById('fileMessage').style.display = "block";
+        document.getElementById('erroMessage').style.display = "none";
+        document.getElementById('fileMessage').innerText = "File(s) has been selected!";
     } else {
-        document.getElementById('fileMessge').style.display = "none";
+        document.getElementById('fileMessage').style.display = "none";
     }
 }
     
@@ -23,23 +24,28 @@ function isFileSelected(e) {
                 <table>
                     <tr>
                         <td class="text-left grid-header">
-                            <label>New Booking</label>
+                            @if (!string.IsNullOrEmpty(Model.Book.GuestName)){
+                            <label>@Model.Book.GuestName.Split(' ').FirstOrDefault()'s Booking</label>
+                            }
+                            else {
+                                <label>New Booking</label>
+                            }
                         </td>
-                        <td class="width-50"> @if (!string.IsNullOrEmpty(Model.Message))
+                        <td> @if (!string.IsNullOrEmpty(Model.Message))
                             {
                                 @if
                                (Model.Message.ToLower().Contains("success"))
                                 {
-                                    <div class="bar success text-align-center">
+                                    <div id="erroMessage" class="bar success text-align-center">
                                         @Html.Label(Model.Message)</div>
                                 }
                                 @if (Model.Message.ToLower().Contains("error"))
                                 {
-                                    <div class="bar error text-align-center">@Html.Label(Model.Message)</div>
+                                    <div id="erroMessage" class="bar error text-align-center">@Html.Label(Model.Message)</div>
                                 }
 
                             }
-                            <div class="bar success text-align-center display-none" id="fileMessge"></div>
+                            <div class="bar success text-align-center display-none" id="fileMessage"></div>
                         </td>
                         <td class="width-5">
                             <a href="/Booking/ClearBooking">

@@ -50,7 +50,7 @@ function changeSelect() {
         <th>
             @if (Model.TotalPages > Model.TakeItem)
             {
-                <label>Page</label>@:&nbsp;@Html.DropDownListFor(m => m.CurrentPage, new SelectList(Model.Pages), new {  onchange="changeSelect()"})
+                <label>Page&nbsp;</label>@:&nbsp;@Html.DropDownListFor(m => m.CurrentPage, new SelectList(Model.Pages), new {  onchange="changeSelect()"})
                 <button type="submit" class="style-all-unset display-none" id="nextPage"></button>
             }
         </th>  

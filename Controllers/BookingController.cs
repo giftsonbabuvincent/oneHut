@@ -90,6 +90,7 @@ public class BookingController : Controller
         bool newBooking = true;
         OneHutData oneHutData = new OneHutData();
         String id = bookingModel.Book._id;
+        String guestname = bookingModel.Book.GuestName;
         Regex regex = new Regex(@"\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}\s+(AM|PM)");
 
         if (String.IsNullOrEmpty(id))
@@ -111,6 +112,7 @@ public class BookingController : Controller
                 newBooking = false;
             }
 
+            bookingModel.Book.Rooms = bookingModel.Book.Rooms.Replace(",", ", ");
             bookingModel.Book.BillAmount = CovertToCurrency(bookingModel.Book.BillAmount);
             bookingModel.Book.AmountPaid = CovertToCurrency(bookingModel.Book.AmountPaid);
 
@@ -140,8 +142,11 @@ public class BookingController : Controller
             bookingModel = oneHutData.GetBookings(
             _exbookingModel,
                 new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            
             bookingModel.Book._id = id;
+            bookingModel.Book.GuestName = guestname;
             bookingModel.Message = "Error saving data!";
+            bookingModel.PostedFiles = GetUploadedFiles(id);
             ViewBag.pageName = "Booking";
             return View(bookingModel);
 
