@@ -56,6 +56,7 @@ function changeSelect() {
         </th>  
 
     </tr>  
+   
     @foreach (var usr in Model.Bookings)  
     {  
         <tr>  
@@ -123,6 +124,12 @@ function changeSelect() {
 </table>
 
 </div>
+ @if (Model.Bookings.Count == 0)
+    {
+        <div style="color: grey;">
+            <h3>No Booking</h3>
+        </div>
+    }
     </div> 
 
 </form>
