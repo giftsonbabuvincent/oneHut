@@ -58,7 +58,7 @@ public class HomeController : Controller
         }
 
         User user = new OneHutData().GetUser(
-            new User() { Username = loginModel.userName, Password = loginModel.password });
+            new User() { Username = loginModel.userName.ToLower(), Password = loginModel.password });
 
         if (user != null)
         {
