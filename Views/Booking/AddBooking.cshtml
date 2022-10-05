@@ -44,7 +44,7 @@ function isNewBooking(){
 
 }
 <div style="width:100%; text-align: center;">
-    <div class="row text-left grid-header cursor-pointer @newBookingStyle" id="newBookingClose" onclick="isNewBooking()">
+    <div class="row text-left grid-header cursor-pointer min-width-830px @newBookingStyle" id="newBookingClose" onclick="isNewBooking()">
         <table><tr>
             <td>
 <label class="cursor-pointer">[+] New Booking
@@ -62,7 +62,8 @@ function isNewBooking(){
 
             }</div>
             </td>
-        </tr></table>
+        </tr>
+        </table>
     </div>
     <div class="row @newBookingStyleOpen" id="newBooking">
         <form method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Booking">
