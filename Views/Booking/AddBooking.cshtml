@@ -18,12 +18,15 @@ function isFileSelected(e) {
 }
 
 function isNewBooking(){
-if(document.getElementById('newBooking').style.display == "none") {
-    document.getElementById('newBooking').style.display = "block";
-    document.getElementById('newBookingClose').style.display = "none";}
-else {
-    document.getElementById('newBooking').style.display = "none";
-    document.getElementById('newBookingClose').style.display = "block";
+    if(document.getElementById('erroMessage')!=null){
+    document.getElementById('erroMessage').style.display = "none";}
+    if(document.getElementById('newBooking').style.display == "none") {
+        document.getElementById('newBooking').style.display = "block";
+        document.getElementById('newBookingClose').style.display = "none";
+    }
+    else {
+        document.getElementById('newBooking').style.display = "none";
+        document.getElementById('newBookingClose').style.display = "block";
     }
 }
     
@@ -34,14 +37,32 @@ else {
 }
 @if (!string.IsNullOrEmpty(Model.Message) || !string.IsNullOrEmpty(Model.Book._id))
 {
+    if (!Model.Message.ToLower().Contains("success")) {
     newBookingStyle = "display-none";
     newBookingStyleOpen = "display-block";
+    }
 
 }
 <div style="width:100%; text-align: center;">
     <div class="row text-left grid-header cursor-pointer @newBookingStyle" id="newBookingClose" onclick="isNewBooking()">
-        <label class="cursor-pointer">[+] New Booking
+        <table><tr>
+            <td>
+<label class="cursor-pointer">[+] New Booking
         <label class="color-grey cursor-pointer">(Click here)</label></label>
+            </td>
+            <td>
+                <div>
+    @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                @if(Model.Message.ToLower().Contains("success"))
+                {
+                    <div id="erroMessage" class="bar success text-align-center font-size-large">
+                        @Html.Label(Model.Message)</div>
+                }
+
+            }</div>
+            </td>
+        </tr></table>
     </div>
     <div class="row @newBookingStyleOpen" id="newBooking">
         <form method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Booking">
@@ -59,12 +80,7 @@ else {
                         </td>
                         <td> @if (!string.IsNullOrEmpty(Model.Message))
                             {
-                                @if
-                               (Model.Message.ToLower().Contains("success"))
-                                {
-                                    <div id="erroMessage" class="bar success text-align-center">
-                                        @Html.Label(Model.Message)</div>
-                                }
+                                
                                 @if (Model.Message.ToLower().Contains("error"))
                                 {
                                     <div id="erroMessage" class="bar error text-align-center">@Html.Label(Model.Message)</div>
