@@ -16,10 +16,34 @@ function isFileSelected(e) {
         document.getElementById('fileMessage').style.display = "none";
     }
 }
+
+function isNewBooking(){
+if(document.getElementById('newBooking').style.display == "none") {
+    document.getElementById('newBooking').style.display = "block";
+    document.getElementById('newBookingClose').style.display = "none";}
+else {
+    document.getElementById('newBooking').style.display = "none";
+    document.getElementById('newBookingClose').style.display = "block";
+    }
+}
     
 </script>
+@{
+    var newBookingStyle = "display-block";
+    var newBookingStyleOpen = "display-none";
+}
+@if (!string.IsNullOrEmpty(Model.Message) || !string.IsNullOrEmpty(Model.Book._id))
+{
+    newBookingStyle = "display-none";
+    newBookingStyleOpen = "display-block";
+
+}
 <div style="width:100%; text-align: center;">
-    <div class="row">
+    <div class="row text-left grid-header cursor-pointer @newBookingStyle" id="newBookingClose" onclick="isNewBooking()">
+        <label class="cursor-pointer">[+] New Booking
+        <label class="color-grey cursor-pointer">(Click here)</label></label>
+    </div>
+    <div class="row @newBookingStyleOpen" id="newBooking">
         <form method="post" enctype="multipart/form-data" asp-controller="Booking" asp-action="Booking">
             <div style="width:100%; text-align: center;">
                 <table>
@@ -29,7 +53,8 @@ function isFileSelected(e) {
                             <label>@Model.Book.GuestName.Split(' ').FirstOrDefault()'s Booking</label>
                             }
                             else {
-                                <label>New Booking</label>
+                                <div class="cursor-pointer" onclick="isNewBooking()">
+                                [-] New Booking</div>
                             }
                         </td>
                         <td> @if (!string.IsNullOrEmpty(Model.Message))
