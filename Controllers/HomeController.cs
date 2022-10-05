@@ -136,4 +136,17 @@ public class HomeController : Controller
         }
         return View();
     }
+
+    public IActionResult About()
+    {
+         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "Booking";
+        }
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("_UserID")))
+        {
+            ViewBag.pageName = "";
+        }
+        return View();
+    }
 }
