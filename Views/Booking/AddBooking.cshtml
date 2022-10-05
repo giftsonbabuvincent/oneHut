@@ -47,7 +47,7 @@ function isNewBooking(){
     <div class="row text-left grid-header cursor-pointer min-width-820px @newBookingStyle" id="newBookingClose" onclick="isNewBooking()">
         <table><tr>
             <td>
-<label class="cursor-pointer">[+] New Booking
+<label class="cursor-pointer"><img src="~/Images/newBookPlus.png" class="width-25px"> New Booking
         <label class="color-grey cursor-pointer">(Click here)</label></label>
             </td>
             <td>
@@ -76,7 +76,7 @@ function isNewBooking(){
                             }
                             else {
                                 <div class="cursor-pointer" onclick="isNewBooking()">
-                                [-] New Booking</div>
+                                <img src="~/Images/newBookMinus.png" class="width-25px">&nbsp;New Booking</div>
                             }
                         </td>
                         <td> @if (!string.IsNullOrEmpty(Model.Message))
