@@ -17,14 +17,14 @@ function isFileSelected(e) {
     }
 }
 
-function isNewBooking(){
-    if(document.getElementById('erroMessage')!=null){
-    document.getElementById('erroMessage').style.display = "none";}
-    if(document.getElementById('newBooking').style.display == "none") {
+function isNewBooking(e) {
+    if (document.getElementById('erroMessage') != null) {
+        document.getElementById('erroMessage').style.display = "none";
+    }
+    if (e.id == "newBookingClose") {
         document.getElementById('newBooking').style.display = "block";
         document.getElementById('newBookingClose').style.display = "none";
-    }
-    else {
+    } else {
         document.getElementById('newBooking').style.display = "none";
         document.getElementById('newBookingClose').style.display = "block";
     }
@@ -44,7 +44,7 @@ function isNewBooking(){
 
 }
 <div style="width:100%; text-align: center;">
-    <div class="row text-left grid-header cursor-pointer min-width-820px @newBookingStyle" id="newBookingClose" onclick="isNewBooking()">
+    <div class="row text-left grid-header cursor-pointer min-width-820px @newBookingStyle" id="newBookingClose" onclick="isNewBooking(this)">
         <table><tr>
             <td>
 <label class="cursor-pointer padding-left-10px"><img src="~/Images/newBookPlus.png" class="width-25px"> New Booking
@@ -75,7 +75,7 @@ function isNewBooking(){
                             <label>@Model.Book.GuestName.Split(' ').FirstOrDefault()'s Booking</label>
                             }
                             else {
-                                <div class="cursor-pointer" onclick="isNewBooking()">
+                                <div class="cursor-pointer" onclick="isNewBooking(this)">
                                 <img src="~/Images/newBookMinus.png" class="width-25px">&nbsp;New Booking</div>
                             }
                         </td>
