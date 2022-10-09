@@ -253,26 +253,25 @@ public class OneHutData
 
 
     }
-    public List<string> AzureUploadedFile(string _id, string azurePath)
+    public List<string> AzureUploadedFileAccess(string strdirectory, string azurePath)
     {
 
+        string accessToken = @"?sp=r&st=2022-10-09T16:48:06Z&se=2022-11-01T16:48:00Z&spr=https&sv=2021-06-08&sig=KOTC%2BxtsnZPGumMTe9jfkFazI5GxJzvcsHuxZ8Uz4TA%3D&sr=s";
         string connectionString = "DefaultEndpointsProtocol=https;AccountName=onehut;AccountKey=tWDrTIbkgFQQOqYsaD3HLPyYVT0EdtmSl/NKuclnnqPfaErjClWB04RSr52DlVet1rTN1gTHE76c+AStpJVrSw==;EndpointSuffix=core.windows.net";
         string shareName = "onehutfileshare";
-        
+
         ShareClient share = new ShareClient(connectionString, shareName);
         List<string> uploadedFiles = new List<string>();
 
-        // Track the remaining directories to walk, starting from the root
-        var remaining = new Queue<ShareDirectoryClient>();
-        remaining.Enqueue(share.GetRootDirectoryClient());
-        while (remaining.Count > 0)
+        // check dir exsist 
+        if (!share.GetDirectoryClient(strdirectory).Exists()) { return uploadedFiles; }
+        var directory = share.GetDirectoryClient(strdirectory);
+        var files = directory.GetFilesAndDirectories();
+
+        if (files.Count() == 0) { return uploadedFiles; }
+        foreach (var file in files)
         {
-            // Get all of the next directory's files and subdirectories
-            ShareDirectoryClient dir = remaining.Dequeue();
-            foreach (ShareFileItem item in dir.GetFilesAndDirectories())
-            {
-                uploadedFiles.Add(item.Name);
-            }
+            uploadedFiles.Add(azurePath + strdirectory + "/" + file.Name + accessToken);
         }
 
         //uploadedFiles.Add("/Uploads/USR0001/632f16625f51c805bb23f952/HeartBox.jpg");
