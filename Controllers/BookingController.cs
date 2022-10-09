@@ -362,7 +362,7 @@ public class BookingController : Controller
         string wwwPath = this.Environment.WebRootPath;
         string contentPath = this.Environment.ContentRootPath;
 
-        string path = Path.Combine("Z:\\", "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + _id);
+        string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + _id);
 
         // if (Directory.Exists(path)) { Directory.Delete(path, true); }
 
@@ -391,7 +391,7 @@ public class BookingController : Controller
         string wwwPath = this.Environment.WebRootPath;
         string contentPath = this.Environment.ContentRootPath;
 
-        string path = Path.Combine("Z:\\", "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + _id);
+        string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + _id);
 
         // if (Directory.Exists(path)) { Directory.Delete(path, true); }
 
