@@ -123,8 +123,20 @@ public class BookingController : Controller
             {
                 // upload file 
                 if (string.IsNullOrEmpty(id)) { id = bookingModel.Book._id; }
+
+                //upload files to WWW root
                 UploadFiles(postedFiles, id);
                 bookingModel.PostedFiles = GetUploadedFiles(id);
+
+                //upload file to Azure Storage
+                string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + id);
+                string strdirectory = @"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id;
+                oneHutData.AzureUploadFile(bookingModel.PostedFiles, strdirectory, path);
+
+                //Delete wwwroot files
+                // if (Directory.Exists(path)) { Directory.Delete(path, true); }
+
+
             }
         }
         catch (Exception e)
@@ -143,7 +155,7 @@ public class BookingController : Controller
             bookingModel = oneHutData.GetBookings(
             _exbookingModel,
                 new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
-            
+
             bookingModel.Book._id = id;
             bookingModel.Book.GuestName = guestname;
             bookingModel.Message = "Error saving data!";
@@ -226,6 +238,10 @@ public class BookingController : Controller
         bookingModel.Book = bookingModel.Bookings.Find(it => it._id.Equals(id));
         ViewBag.pageName = "Booking";
         bookingModel.PostedFiles = GetUploadedFiles(bookingModel.Book._id);
+
+        //Get files from Azure Storage 
+        //List<string> uploadedFiles = oneHutData.AzureUploadedFile(bookingModel.Book._id, "https://onehut.file.core.windows.net/onehutfileshare/files/");
+
         return View("Booking", bookingModel);
     }
 
@@ -423,7 +439,7 @@ public class BookingController : Controller
 
     #endregion
 
-    
+
 
 
 }

@@ -6,6 +6,10 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using oneHut.Models;
 using System.Threading;
+using Azure.Storage.Files.Shares;
+using Azure;
+using Microsoft.AspNetCore.Hosting;
+using Azure.Storage.Files.Shares.Models;
 
 namespace oneHut.ConnectDB;
 public class OneHutData
@@ -86,9 +90,9 @@ public class OneHutData
         .Take(bookingModel.TakeItem))
         {
             book.No = Convert.ToString(rowNo += 1);
-            book.BillAmount = string.IsNullOrEmpty(book.BillAmount) ? string.Empty : "₹" + string.Format("{0:#.00}",book.BillAmount);
-            book.AmountPaid = string.IsNullOrEmpty(book.AmountPaid) ? string.Empty : "₹" + string.Format("{0:#.00}",book.AmountPaid);
-            book.PaymentStatus = PaymentStatus(new string[] {book.BillAmount, book.AmountPaid});
+            book.BillAmount = string.IsNullOrEmpty(book.BillAmount) ? string.Empty : "₹" + string.Format("{0:#.00}", book.BillAmount);
+            book.AmountPaid = string.IsNullOrEmpty(book.AmountPaid) ? string.Empty : "₹" + string.Format("{0:#.00}", book.AmountPaid);
+            book.PaymentStatus = PaymentStatus(new string[] { book.BillAmount, book.AmountPaid });
             bookingModel.Bookings.Add(book);
         }
         return bookingModel;
@@ -116,8 +120,8 @@ public class OneHutData
                 .Set("Rooms", bookingModel.Book.Rooms)
                 .Set("Rating", bookingModel.Book.Rating)
                 .Set("AdditionalInfo", bookingModel.Book.AdditionalInfo)
-                .Set("BillAmount", string.Format("{0:#.00}",bookingModel.Book.BillAmount))
-                .Set("AmountPaid", string.Format("{0:#.00}",bookingModel.Book.AmountPaid))
+                .Set("BillAmount", string.Format("{0:#.00}", bookingModel.Book.BillAmount))
+                .Set("AmountPaid", string.Format("{0:#.00}", bookingModel.Book.AmountPaid))
                 // .Set("PaymentStatus", PaymentStatus(new string[] {bookingModel.Book.BillAmount.Replace("₹", string.Empty), bookingModel.Book.AmountPaid.Replace("₹", string.Empty)}))
                 .Set("ActionDateTime", bookingModel.Book.ActionDateTime);
 
@@ -139,8 +143,8 @@ public class OneHutData
                 Status = bookingModel.Book.Status.Trim(),
                 Rating = bookingModel.Book.Rating,
                 AdditionalInfo = bookingModel.Book.AdditionalInfo,
-                BillAmount = string.Format("{0:#.00}",bookingModel.Book.BillAmount),
-                AmountPaid = string.Format("{0:#.00}",bookingModel.Book.AmountPaid),
+                BillAmount = string.Format("{0:#.00}", bookingModel.Book.BillAmount),
+                AmountPaid = string.Format("{0:#.00}", bookingModel.Book.AmountPaid),
                 // PaymentStatus = bookingModel.Book.PaymentStatus,
                 ActionDateTime = bookingModel.Book.ActionDateTime
             });
@@ -192,14 +196,87 @@ public class OneHutData
     }
 
 
-    
+
     private string PaymentStatus(string[] amount)
     {
-        if (amount.FirstOrDefault().Length > 0 && string.IsNullOrEmpty(amount.LastOrDefault())) { return "Unpaid";}
-        if (amount.FirstOrDefault().Length > 0 && amount.FirstOrDefault() == amount.LastOrDefault()) { return "Paid";}
-        if (amount.FirstOrDefault().Length > 0 && Convert.ToDouble(amount.FirstOrDefault().TrimStart('₹')) < Convert.ToDouble(amount.LastOrDefault().TrimStart('₹'))) { return "Excess Paid";}
-        if (amount.FirstOrDefault().Length > 0 && amount.FirstOrDefault() != amount.LastOrDefault()) { return "Partially Paid";}
+        if (amount.FirstOrDefault().Length > 0 && string.IsNullOrEmpty(amount.LastOrDefault())) { return "Unpaid"; }
+        if (amount.FirstOrDefault().Length > 0 && amount.FirstOrDefault() == amount.LastOrDefault()) { return "Paid"; }
+        if (amount.FirstOrDefault().Length > 0 && Convert.ToDouble(amount.FirstOrDefault().TrimStart('₹')) < Convert.ToDouble(amount.LastOrDefault().TrimStart('₹'))) { return "Excess Paid"; }
+        if (amount.FirstOrDefault().Length > 0 && amount.FirstOrDefault() != amount.LastOrDefault()) { return "Partially Paid"; }
 
-            return string.Empty;
+        return string.Empty;
     }
+
+
+    public void AzureUploadFile(List<string> postedFiles, string strdirectory, string wwwroortpath)
+    {
+        var connectionString = "DefaultEndpointsProtocol=https;AccountName=onehut;AccountKey=tWDrTIbkgFQQOqYsaD3HLPyYVT0EdtmSl/NKuclnnqPfaErjClWB04RSr52DlVet1rTN1gTHE76c+AStpJVrSw==;EndpointSuffix=core.windows.net";
+        var fileShareName = "onehutfileshare";
+        var fileName = "";
+
+        // Create Directory
+        // Get a reference to a directory and create it
+        string[] arrayPath = strdirectory.Split('/');
+        string buildPath = string.Empty;
+        ShareClient share = new(connectionString, fileShareName);
+
+        ShareDirectoryClient createDirectory = null; // share.GetDirectoryClient(dirName);
+                                                     // Here's goes the nested directories builder
+        for (int i = 0; i < arrayPath.Length; i++)
+        {
+            buildPath += arrayPath[i];
+            createDirectory = share.GetDirectoryClient(buildPath);
+            createDirectory.CreateIfNotExists();
+            buildPath += '/';
+        }
+
+        List<string> uploadedFiles = new List<string>();
+        int fileCount = 1;
+        foreach (string postedFile in postedFiles)
+        {
+            fileName = postedFile.Split("/").LastOrDefault();
+
+            var directory = share.GetDirectoryClient(strdirectory);
+
+            var file = directory.GetFileClient(fileName);
+            using FileStream stream = File.OpenRead(wwwroortpath.Replace("\\", "/") + "/" + fileName);
+
+            file.Create(stream.Length);
+            file.UploadRange(
+                new HttpRange(0, stream.Length),
+                stream);
+
+
+            fileCount += 1;
+        }
+
+
+
+    }
+    public List<string> AzureUploadedFile(string _id, string azurePath)
+    {
+
+        string connectionString = "DefaultEndpointsProtocol=https;AccountName=onehut;AccountKey=tWDrTIbkgFQQOqYsaD3HLPyYVT0EdtmSl/NKuclnnqPfaErjClWB04RSr52DlVet1rTN1gTHE76c+AStpJVrSw==;EndpointSuffix=core.windows.net";
+        string shareName = "onehutfileshare";
+        
+        ShareClient share = new ShareClient(connectionString, shareName);
+        List<string> uploadedFiles = new List<string>();
+
+        // Track the remaining directories to walk, starting from the root
+        var remaining = new Queue<ShareDirectoryClient>();
+        remaining.Enqueue(share.GetRootDirectoryClient());
+        while (remaining.Count > 0)
+        {
+            // Get all of the next directory's files and subdirectories
+            ShareDirectoryClient dir = remaining.Dequeue();
+            foreach (ShareFileItem item in dir.GetFilesAndDirectories())
+            {
+                uploadedFiles.Add(item.Name);
+            }
+        }
+
+        //uploadedFiles.Add("/Uploads/USR0001/632f16625f51c805bb23f952/HeartBox.jpg");
+        return uploadedFiles;
+    }
+
 }
