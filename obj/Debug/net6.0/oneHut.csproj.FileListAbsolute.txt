@@ -41,3 +41,10 @@ C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\runtimes\linux\native\li
 C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib
 C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll
 C:\GiftsonClientWork\SourceCode\oneHut\obj\Debug\net6.0\oneHut.csproj.CopyComplete
+C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\Azure.Core.dll
+C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\Azure.Storage.Common.dll
+C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\Azure.Storage.Files.Shares.dll
+C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\System.IO.Hashing.dll
+C:\GiftsonClientWork\SourceCode\oneHut\bin\Debug\net6.0\System.Memory.Data.dll
