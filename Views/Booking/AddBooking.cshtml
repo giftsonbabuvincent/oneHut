@@ -46,8 +46,8 @@ function isNewBooking(e) {
 <div style="width:100%; text-align: center;">
     <div class="row text-left grid-header cursor-pointer min-width-820px @newBookingStyle" id="newBookingClose" onclick="isNewBooking(this)">
         <table><tr>
-            <td>
-<label class="cursor-pointer padding-left-10px"><img src="~/Images/newBookPlus.png" class="width-25px"> New Booking
+            <td class="padding-left-0px">
+<label class="cursor-pointer"><img src="~/Images/newBookPlus.png" class="width-25px"> New Booking
         <label class="color-grey cursor-pointer">(Click here)</label></label>
             </td>
             <td>
@@ -70,7 +70,7 @@ function isNewBooking(e) {
             <div style="width:100%; text-align: center;">
                 <table>
                     <tr>
-                        <td class="text-left grid-header">
+                        <td class="text-left grid-header padding-left-0px">
                             @if (!string.IsNullOrEmpty(Model.Book.GuestName)){
                             <label>@Model.Book.GuestName.Split(' ').FirstOrDefault()'s Booking</label>
                             }
@@ -148,7 +148,7 @@ function isNewBooking(e) {
             <div>
                 <table class="width-100">
                     <tr>
-                        <td class="text-left grid-header">
+                        <td class="text-left grid-header padding-left-0px">
                             <label>Additional Infomation</label>
                         </td>
                         <td>
@@ -241,7 +241,7 @@ function isNewBooking(e) {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"> @Html.TextAreaFor(m => m.Book.AdditionalInfo, new
+                                        <td colspan="2" class="padding-left-0px"> @Html.TextAreaFor(m => m.Book.AdditionalInfo, new
                                             {@class="text-area", @placeholder="Notes"}) </td>
                                     </tr>
                                 </td>
