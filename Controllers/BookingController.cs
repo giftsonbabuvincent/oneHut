@@ -113,7 +113,7 @@ public class BookingController : Controller
                 newBooking = false;
             }
 
-            bookingModel.Book.Rooms = bookingModel.Book.Rooms.Replace(",", ", ");
+            // bookingModel.Book.Rooms = bookingModel.Book.Rooms.Replace(",", ", ");
             bookingModel.Book.BillAmount = CovertToCurrency(bookingModel.Book.BillAmount);
             bookingModel.Book.AmountPaid = CovertToCurrency(bookingModel.Book.AmountPaid);
 
@@ -159,7 +159,9 @@ public class BookingController : Controller
             bookingModel.Book._id = id;
             bookingModel.Book.GuestName = guestname;
             bookingModel.Message = "Error saving data!";
-            bookingModel.PostedFiles = GetUploadedFiles(id);
+            //bookingModel.PostedFiles = GetUploadedFiles(id);
+            bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
+
             ViewBag.pageName = "Booking";
             return View(bookingModel);
 
@@ -242,7 +244,7 @@ public class BookingController : Controller
         // bookingModel.PostedFiles = GetUploadedFiles(bookingModel.Book._id);
 
         //Get files from Azure Storage 
-       bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
+        bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
 
         return View("Booking", bookingModel);
     }
