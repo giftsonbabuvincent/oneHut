@@ -133,7 +133,7 @@ public class BookingController : Controller
                 string strdirectory = @"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id;
                 oneHutData.AzureUploadFile(bookingModel.PostedFiles, strdirectory, path);
 
-                //Delete wwwroot files
+                //Delete wwwroot files - Uncomment when qzure storage enabled
                 if (Directory.Exists(path)) { Directory.Delete(path, true); }
 
 
@@ -238,8 +238,11 @@ public class BookingController : Controller
         bookingModel.Book = bookingModel.Bookings.Find(it => it._id.Equals(id));
         ViewBag.pageName = "Booking";
 
+        //wwwroot files 
+        // bookingModel.PostedFiles = GetUploadedFiles(bookingModel.Book._id);
+
         //Get files from Azure Storage 
-        bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
+       bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
 
         return View("Booking", bookingModel);
     }

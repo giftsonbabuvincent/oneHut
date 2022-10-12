@@ -210,7 +210,7 @@ public class OneHutData
 
     public void AzureUploadFile(List<string> postedFiles, string strdirectory, string wwwroortpath)
     {
-        var connectionString = "DefaultEndpointsProtocol=https;AccountName=onehut;AccountKey=tWDrTIbkgFQQOqYsaD3HLPyYVT0EdtmSl/NKuclnnqPfaErjClWB04RSr52DlVet1rTN1gTHE76c+AStpJVrSw==;EndpointSuffix=core.windows.net";
+        var connectionString = "DefaultEndpointsProtocol=https;AccountName=onehut;AccountKey=hgTpzvXCnL4LGO+DRhhzGQazyw9TrzBiH1+4effKgFbzje/Emar9eTcoM8p4Z260q1yXhZ1Zpw0N+AStprBfqw==;EndpointSuffix=core.windows.net";
         var fileShareName = "onehutfileshare";
         var fileName = "";
 
@@ -256,8 +256,8 @@ public class OneHutData
     public List<string> AzureUploadedFileAccess(string strdirectory, string azurePath)
     {
 
-        string accessToken = @"?sp=r&st=2022-10-09T16:48:06Z&se=2022-11-01T16:48:00Z&spr=https&sv=2021-06-08&sig=KOTC%2BxtsnZPGumMTe9jfkFazI5GxJzvcsHuxZ8Uz4TA%3D&sr=s";
-        string connectionString = "DefaultEndpointsProtocol=https;AccountName=onehut;AccountKey=tWDrTIbkgFQQOqYsaD3HLPyYVT0EdtmSl/NKuclnnqPfaErjClWB04RSr52DlVet1rTN1gTHE76c+AStpJVrSw==;EndpointSuffix=core.windows.net";
+        string accessToken = @"?sp=r&st=2022-10-12T11:49:43Z&se=2022-10-31T11:49:00Z&spr=https&sv=2021-06-08&sig=5ptTrydEbQz53u4Nt91AfsQP%2BzOMDti4lUHD%2Bx6pqkQ%3D&sr=s";
+        string connectionString = "DefaultEndpointsProtocol=https;AccountName=onehut;AccountKey=hgTpzvXCnL4LGO+DRhhzGQazyw9TrzBiH1+4effKgFbzje/Emar9eTcoM8p4Z260q1yXhZ1Zpw0N+AStprBfqw==;EndpointSuffix=core.windows.net";
         string shareName = "onehutfileshare";
 
         ShareClient share = new ShareClient(connectionString, shareName);
