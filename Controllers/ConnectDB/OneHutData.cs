@@ -135,6 +135,7 @@ public class OneHutData
             database.GetCollection<Booking>("Booking").InsertOne(new Booking()
             {
                 UserID = bookingModel.Book.UserID,
+                UserGroupID = bookingModel.Book.UserGroupID,
                 GuestName = bookingModel.Book.GuestName.Trim(),
                 Phone = bookingModel.Book.Phone.Trim(),
                 CheckIn = Convert.ToDateTime(bookingModel.Book.CheckIn.Trim()).ToString("dd/MM/yyyy") + " 00:00 00",

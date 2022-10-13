@@ -23,6 +23,7 @@ public class Booking
     [BsonRepresentation(BsonType.ObjectId)] 
     public string _id { get; set; } = string.Empty;
     public string UserID { get; set; } = string.Empty;
+    public string UserGroupID { get; set; } = string.Empty;
     public string No { get; set; } = string.Empty;
     public string GuestName { get; set; } = string.Empty;
 

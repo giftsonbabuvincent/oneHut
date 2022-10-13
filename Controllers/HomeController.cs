@@ -11,6 +11,7 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     public const string SessionUserID = "_UserID";
+    public const string SessionUserGroupID = "_UserGroupID";
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
@@ -65,6 +66,8 @@ public class HomeController : Controller
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUserID)))
             {
                 HttpContext.Session.SetString(SessionUserID, user.UserID.ToString());
+                HttpContext.Session.SetString("_isAzureStorage", user.isAzureStorage.ToString());
+                HttpContext.Session.SetString("_UserGroupID", user.UserGroupID.ToString());
                 HttpContext.Session.SetString("_Guest", string.Empty);
                 HttpContext.Session.SetString("_CheckIn", string.Empty);
                 HttpContext.Session.SetString("_CheckOut", string.Empty);

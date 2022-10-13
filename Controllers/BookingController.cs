@@ -102,6 +102,7 @@ public class BookingController : Controller
             HttpContext.Session.SetString("_IsToday", "false");
             HttpContext.Session.SetString("_CurrentPage", "1");
             bookingModel.Book.UserID = HttpContext.Session.GetString("_UserID");
+            bookingModel.Book.UserGroupID = HttpContext.Session.GetString("_UserGroupID");
             bookingModel.Book.Status = "Booked";
         }
         try
@@ -117,7 +118,11 @@ public class BookingController : Controller
             bookingModel.Book.BillAmount = CovertToCurrency(bookingModel.Book.BillAmount);
             bookingModel.Book.AmountPaid = CovertToCurrency(bookingModel.Book.AmountPaid);
 
-            bookingModel = oneHutData.AddBooking(bookingModel, new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            bookingModel = oneHutData.AddBooking(bookingModel, new Models.User()
+            {
+                UserID = HttpContext.Session.GetString("_UserID"),
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+            });
 
             if (postedFiles.Count != 0)
             {
@@ -128,15 +133,15 @@ public class BookingController : Controller
                 UploadFiles(postedFiles, id);
                 bookingModel.PostedFiles = GetUploadedFiles(id);
 
-                //upload file to Azure Storage
-                string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + id);
-                string strdirectory = @"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id;
-                oneHutData.AzureUploadFile(bookingModel.PostedFiles, strdirectory, path);
+                if (HttpContext.Session.GetString("_isAzureStorage").Equals("Y"))
+                {             //upload file to Azure Storage
+                    string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserGroupID").Trim() + "\\" + id);
+                    string strdirectory = @"Uploads/" + HttpContext.Session.GetString("_UserGroupID") + @"/" + id;
+                    oneHutData.AzureUploadFile(bookingModel.PostedFiles, strdirectory, path);
 
-                //Delete wwwroot files - Uncomment when qzure storage enabled
-                if (Directory.Exists(path)) { Directory.Delete(path, true); }
-
-
+                    //Delete wwwroot files - Uncomment when qzure storage enabled
+                    if (Directory.Exists(path)) { Directory.Delete(path, true); }
+                }
             }
         }
         catch (Exception e)
@@ -154,13 +159,24 @@ public class BookingController : Controller
             //Retrive Booking
             bookingModel = oneHutData.GetBookings(
             _exbookingModel,
-                new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+                new Models.User()
+                {
+                    UserID = HttpContext.Session.GetString("_UserID"),
+                    UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+                });
 
             bookingModel.Book._id = id;
             bookingModel.Book.GuestName = guestname;
             bookingModel.Message = "Error saving data!";
-            //bookingModel.PostedFiles = GetUploadedFiles(id);
-            bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
+
+            if (HttpContext.Session.GetString("_isAzureStorage").Equals("Y"))
+            {
+                bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserGroupID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
+            }
+            else
+            {
+                bookingModel.PostedFiles = GetUploadedFiles(id);
+            }
 
             ViewBag.pageName = "Booking";
             return View(bookingModel);
@@ -179,10 +195,14 @@ public class BookingController : Controller
         //Retrive Booking
         bookingModel = oneHutData.GetBookings(
            _bookingModel,
-            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            new Models.User()
+            {
+                UserID = HttpContext.Session.GetString("_UserID"),
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+            });
         bookingModel.Book = new Booking();
-        if (!newBooking) { bookingModel.Message = "Booking updated successfully!"; }
-        else { bookingModel.Message = "Booking successful!"; }
+        if (!newBooking) { bookingModel.Message = guestname.Split(' ').FirstOrDefault() + "'s booking updated successfully!"; }
+        else { bookingModel.Message = guestname.Split(' ').FirstOrDefault() + "'s booking successful!"; }
         ViewBag.pageName = "Booking";
 
         return View(bookingModel);
@@ -211,7 +231,11 @@ public class BookingController : Controller
                 CurrentPage = Convert.ToInt32(HttpContext.Session.GetString("_CurrentPage")),
                 IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))
             },
-            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            new Models.User()
+            {
+                UserID = HttpContext.Session.GetString("_UserID"),
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+            });
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
@@ -240,11 +264,19 @@ public class BookingController : Controller
         bookingModel.Book = bookingModel.Bookings.Find(it => it._id.Equals(id));
         ViewBag.pageName = "Booking";
 
-        //wwwroot files 
-        // bookingModel.PostedFiles = GetUploadedFiles(bookingModel.Book._id);
+        if (HttpContext.Session.GetString("_isAzureStorage").Equals("Y"))
+        {
+            //Get files from Azure Storage 
+            bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserGroupID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
 
-        //Get files from Azure Storage 
-        bookingModel.PostedFiles = oneHutData.AzureUploadedFileAccess(@"Uploads/" + HttpContext.Session.GetString("_UserID") + @"/" + id, "https://onehut.file.core.windows.net/onehutfileshare/");
+        }
+        else
+        {
+            //wwwroot files 
+            bookingModel.PostedFiles = GetUploadedFiles(bookingModel.Book._id);
+        }
+
+
 
         return View("Booking", bookingModel);
     }
@@ -269,7 +301,11 @@ public class BookingController : Controller
             {
                 IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))
             },
-            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            new Models.User()
+            {
+                UserID = HttpContext.Session.GetString("_UserID"),
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+            });
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
@@ -312,7 +348,11 @@ public class BookingController : Controller
         BookingModel _bookingModel = new BookingModel();
         _bookingModel = oneHutData.GetBookings(
             bookingModel,
-            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            new Models.User()
+            {
+                UserID = HttpContext.Session.GetString("_UserID"),
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+            });
         ViewBag.pageName = "Booking";
         return View("Booking", _bookingModel);
     }
@@ -348,7 +388,11 @@ public class BookingController : Controller
             {
                 IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))
             },
-            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            new Models.User()
+            {
+                UserID = HttpContext.Session.GetString("_UserID"),
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+            });
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
@@ -372,7 +416,11 @@ public class BookingController : Controller
         BookingModel _bookingModel = new BookingModel();
         bookingModel = oneHutData.GetBookings(
             bookingModel,
-            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            new Models.User()
+            {
+                UserID = HttpContext.Session.GetString("_UserID"),
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+            });
         ViewBag.pageName = "Booking";
         return View("Booking", bookingModel);
     }
@@ -382,7 +430,7 @@ public class BookingController : Controller
         string wwwPath = this.Environment.WebRootPath;
         string contentPath = this.Environment.ContentRootPath;
 
-        string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + _id);
+        string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserGroupID").Trim() + "\\" + _id);
 
         // if (Directory.Exists(path)) { Directory.Delete(path, true); }
 
@@ -411,7 +459,7 @@ public class BookingController : Controller
         string wwwPath = this.Environment.WebRootPath;
         string contentPath = this.Environment.ContentRootPath;
 
-        string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserID").Trim() + "\\" + _id);
+        string path = Path.Combine(this.Environment.WebRootPath, "Uploads\\" + HttpContext.Session.GetString("_UserGroupID").Trim() + "\\" + _id);
 
         // if (Directory.Exists(path)) { Directory.Delete(path, true); }
 
