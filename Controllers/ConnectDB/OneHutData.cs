@@ -35,7 +35,7 @@ public class OneHutData
     public BookingModel GetBookings(BookingModel bookingModel, User user)
     {
 
-        List<Booking> collection = database.GetCollection<Booking>("Booking").Find(it => it.UserID.Equals(user.UserID)).ToList();
+        List<Booking> collection = database.GetCollection<Booking>("Booking").Find(it => it.UserGroupID.Equals(user.UserGroupID)).ToList();
 
         //filter guestname & phone
         if (!string.IsNullOrEmpty(bookingModel.Guest))
@@ -114,6 +114,7 @@ public class OneHutData
 
             var update = Builders<Booking>.Update
                 .Set("GuestName", bookingModel.Book.GuestName)
+                .Set("UserID", user.UserID)
                 .Set("Phone", bookingModel.Book.Phone)
                 .Set("CheckIn", bookingModel.Book.CheckIn.Trim())
                 .Set("CheckOut", bookingModel.Book.CheckOut.Trim())

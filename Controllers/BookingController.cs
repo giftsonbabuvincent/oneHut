@@ -68,7 +68,11 @@ public class BookingController : Controller
                  CheckOut = HttpContext.Session.GetString("_CheckOut"),
                  IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))
              },
-            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") }));
+            new Models.User()
+            {
+                UserID = HttpContext.Session.GetString("_UserID"),
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID")
+            }));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -260,7 +264,9 @@ public class BookingController : Controller
                 CurrentPage = Convert.ToInt32(HttpContext.Session.GetString("_CurrentPage")),
                 IsToday = Convert.ToBoolean(HttpContext.Session.GetString("_IsToday"))
             },
-            new Models.User() { UserID = HttpContext.Session.GetString("_UserID") });
+            new Models.User() { 
+                UserID = HttpContext.Session.GetString("_UserID"), 
+                UserGroupID = HttpContext.Session.GetString("_UserGroupID"), });
         bookingModel.Book = bookingModel.Bookings.Find(it => it._id.Equals(id));
         ViewBag.pageName = "Booking";
 
