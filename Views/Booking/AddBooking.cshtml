@@ -37,7 +37,7 @@ function isNewBooking(e) {
 }
 @if (!string.IsNullOrEmpty(Model.Message) || !string.IsNullOrEmpty(Model.Book._id))
 {
-    if (!Model.Message.ToLower().Contains("success")) {
+    if (!Model.Message.ToLower().Contains("booking")) {
     newBookingStyle = "display-none";
     newBookingStyleOpen = "display-block";
     }
@@ -54,7 +54,7 @@ function isNewBooking(e) {
                 <div>
     @if (!string.IsNullOrEmpty(Model.Message))
             {
-                @if(Model.Message.ToLower().Contains("success"))
+                @if(Model.Message.ToLower().Contains("booking"))
                 {
                     <div id="erroMessage" class="bar success text-align-center font-size-large">
                         @Html.Label(Model.Message)</div>
