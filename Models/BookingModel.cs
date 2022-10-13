@@ -38,6 +38,6 @@ public class Booking
     public string BillAmount {get; set;} = string.Empty;
     public string AmountPaid {get; set;} = string.Empty;
     public string PaymentStatus {get; set;} = string.Empty;
-    public DateTime ActionDateTime {get; set;} = DateTime.Now;
+    public string ActionDateTime {get; set;} = string.Empty;
 
 }
