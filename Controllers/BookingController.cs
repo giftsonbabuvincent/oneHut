@@ -97,6 +97,7 @@ public class BookingController : Controller
         String id = bookingModel.Book._id;
         String guestname = bookingModel.Book.GuestName;
         Regex regex = new Regex(@"\d{2}/\d{2}/\d{4}\s+\d{2}:\d{2}\s+(AM|PM)");
+        Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
 
         if (String.IsNullOrEmpty(id))
         {
@@ -121,6 +122,7 @@ public class BookingController : Controller
             // bookingModel.Book.Rooms = bookingModel.Book.Rooms.Replace(",", ", ");
             bookingModel.Book.BillAmount = CovertToCurrency(bookingModel.Book.BillAmount);
             bookingModel.Book.AmountPaid = CovertToCurrency(bookingModel.Book.AmountPaid);
+            bookingModel.Book.ActionDateTime = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt").ToUpper();
 
             bookingModel = oneHutData.AddBooking(bookingModel, new Models.User()
             {
@@ -449,6 +451,7 @@ public class BookingController : Controller
         int fileCount = 1;
         foreach (IFormFile postedFile in postedFiles)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
             string fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + fileCount.ToString() + Path.GetFileName(postedFile.FileName);
             using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
             {

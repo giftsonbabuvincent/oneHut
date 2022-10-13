@@ -124,7 +124,7 @@ public class OneHutData
                 .Set("BillAmount", string.Format("{0:#.00}", bookingModel.Book.BillAmount))
                 .Set("AmountPaid", string.Format("{0:#.00}", bookingModel.Book.AmountPaid))
                 // .Set("PaymentStatus", PaymentStatus(new string[] {bookingModel.Book.BillAmount.Replace("₹", string.Empty), bookingModel.Book.AmountPaid.Replace("₹", string.Empty)}))
-                .Set("ActionDateTime", DateTime.Now.ToString("dd/MM/yyyy hh:mm tt").ToUpper());
+                .Set("ActionDateTime", bookingModel.Book.ActionDateTime);
 
 
             var result = database.GetCollection<Booking>("Booking").UpdateOne(filter, update, null);
@@ -148,7 +148,7 @@ public class OneHutData
                 BillAmount = string.Format("{0:#.00}", bookingModel.Book.BillAmount),
                 AmountPaid = string.Format("{0:#.00}", bookingModel.Book.AmountPaid),
                 // PaymentStatus = bookingModel.Book.PaymentStatus,
-                ActionDateTime = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt").ToUpper()
+                ActionDateTime = bookingModel.Book.ActionDateTime
             });
 
             // Get inserted _id
