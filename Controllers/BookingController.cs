@@ -207,8 +207,8 @@ public class BookingController : Controller
                 UserGroupID = HttpContext.Session.GetString("_UserGroupID")
             });
         bookingModel.Book = new Booking();
-        if (!newBooking) { bookingModel.Message = guestname.Split(' ').FirstOrDefault() + "'s booking updated successfully!"; }
-        else { bookingModel.Message = guestname.Split(' ').FirstOrDefault() + "'s booking successful!"; }
+        if (!newBooking) { bookingModel.Message = guestname.Split(' ').FirstOrDefault() + "'s booking updated!"; }
+        else { bookingModel.Message = guestname.Split(' ').FirstOrDefault() + "'s booking done!"; }
         ViewBag.pageName = "Booking";
 
         return View(bookingModel);
